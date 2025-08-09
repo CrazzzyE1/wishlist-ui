@@ -4,12 +4,11 @@ import Item from "./StyledItem";
 import * as React from "react";
 import Face6Icon from '@mui/icons-material/Face6';
 import IconButton from "@mui/material/IconButton";
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import RedeemIcon from '@mui/icons-material/Redeem';
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import LoupeIcon from '@mui/icons-material/Loupe';
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 
 function MainMenu() {
@@ -34,12 +33,12 @@ function MainMenu() {
                                 height: 42,
                                 borderRadius: '50%',
                                 '&:hover': {
-                                    '& .MuiSvgIcon-root': {  
+                                    '& .MuiSvgIcon-root': {
                                         color: '#000000'
                                     }
                                 },
                                 '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' 
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                 }
                             }}>
                             <Face6Icon sx={{
@@ -49,6 +48,32 @@ function MainMenu() {
                         </IconButton>
                     </Item>
                 </Grid>
+                {/*<Grid size={12}>*/}
+                {/*    <Item noshadow>*/}
+                {/*        <IconButton*/}
+                {/*            sx={{*/}
+                {/*                display: 'flex',*/}
+                {/*                justifyContent: 'center',*/}
+                {/*                alignItems: 'center',*/}
+                {/*                width: 42,*/}
+                {/*                height: 42,*/}
+                {/*                borderRadius: '50%',*/}
+                {/*                '&:hover': {*/}
+                {/*                    '& .MuiSvgIcon-root': {  */}
+                {/*                        color: '#000000'*/}
+                {/*                    }*/}
+                {/*                },*/}
+                {/*                '&:active': {*/}
+                {/*                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' */}
+                {/*                }*/}
+                {/*            }}>*/}
+                {/*            <FolderOpenIcon sx={{*/}
+                {/*                fontSize: 32,*/}
+                {/*                transition: 'color 0.5s ease'*/}
+                {/*            }}/>*/}
+                {/*        </IconButton>*/}
+                {/*    </Item>*/}
+                {/*</Grid>*/}
                 <Grid size={12}>
                     <Item noshadow>
                         <IconButton
@@ -60,64 +85,12 @@ function MainMenu() {
                                 height: 42,
                                 borderRadius: '50%',
                                 '&:hover': {
-                                    '& .MuiSvgIcon-root': {  
+                                    '& .MuiSvgIcon-root': {
                                         color: '#000000'
                                     }
                                 },
                                 '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' 
-                                }
-                            }}>
-                            <FolderOpenIcon sx={{
-                                fontSize: 32,
-                                transition: 'color 0.5s ease'
-                            }}/>
-                        </IconButton>
-                    </Item>
-                </Grid>
-                <Grid size={12}>
-                    <Item noshadow>
-                        <IconButton
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: 42,
-                                height: 42,
-                                borderRadius: '50%',
-                                '&:hover': {
-                                    '& .MuiSvgIcon-root': {  
-                                        color: '#000000'
-                                    }
-                                },
-                                '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' 
-                                }
-                            }}>
-                            <RedeemIcon sx={{
-                                fontSize: 32,
-                                transition: 'color 0.5s ease'
-                            }}/>
-                        </IconButton>
-                    </Item>
-                </Grid>
-                <Grid size={12}>
-                    <Item noshadow>
-                        <IconButton
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: 42,
-                                height: 42,
-                                borderRadius: '50%',
-                                '&:hover': {
-                                    '& .MuiSvgIcon-root': {  
-                                        color: '#000000'
-                                    }
-                                },
-                                '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' 
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                 }
                             }}>
                             <Diversity3Icon sx={{
@@ -143,7 +116,33 @@ function MainMenu() {
                                     }
                                 },
                                 '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' 
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                }
+                            }}>
+                            <BookmarkBorderIcon sx={{
+                                fontSize: 32,
+                                transition: 'color 0.5s ease'
+                            }}/>
+                        </IconButton>
+                    </Item>
+                </Grid>
+                <Grid size={12}>
+                    <Item noshadow>
+                        <IconButton
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: 42,
+                                height: 42,
+                                borderRadius: '50%',
+                                '&:hover': {
+                                    '& .MuiSvgIcon-root': {
+                                        color: '#000000'
+                                    }
+                                },
+                                '&:active': {
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                 }
                             }}>
                             <NotificationsActiveOutlinedIcon sx={{
@@ -155,7 +154,9 @@ function MainMenu() {
                 </Grid>
 
                 <Grid size={12}>
-                    <Item noshadow><hr/></Item>
+                    <Item noshadow>
+                        <hr/>
+                    </Item>
                 </Grid>
 
                 <Grid size={12}>
@@ -174,7 +175,7 @@ function MainMenu() {
                                     }
                                 },
                                 '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' 
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                 }
                             }}>
                             <PostAddIcon sx={{
@@ -195,7 +196,7 @@ function MainMenu() {
                                 height: 42,
                                 borderRadius: '50%',
                                 '&:hover': {
-                                    '& .MuiSvgIcon-root': {  
+                                    '& .MuiSvgIcon-root': {
                                         color: '#000000'
                                     }
                                 },

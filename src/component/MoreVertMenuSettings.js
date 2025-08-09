@@ -51,7 +51,7 @@ export default function MoreVertMenuSettings() {
                     paper: {
                         style: {
                             maxHeight: ITEM_HEIGHT * 4.5,
-                            width: '20ch',
+                            width: '19ch',
                         },
                     },
                     list: {
@@ -60,10 +60,10 @@ export default function MoreVertMenuSettings() {
                 }}
             >
                 <MenuItem onClick={handleClose}>
-                    <EditOutlinedIcon sx={{mr: '5px'}}/>Редактировать
+                    <EditOutlinedIcon sx={{mr: '0px'}}/>Редактировать
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
-                    <DeleteOutlinedIcon sx={{mr: '5px'}}/>Удалить
+                    <DeleteOutlinedIcon sx={{mr: '0px'}}/>Удалить
                 </MenuItem>
             </Menu>
         </div>

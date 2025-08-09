@@ -1,5 +1,4 @@
 import * as React from 'react';
-import {styled} from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,52 +8,12 @@ import Collapse from '@mui/material/Collapse';
 import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import RedeemOutlinedIcon from '@mui/icons-material/RedeemOutlined';
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import MoreVertMenuSettings from "./MoreVertMenuSettings";
-
-const ExpandMore = styled((props) => {
-    const {expand, ...other} = props;
-    return <IconButton {...other} />;
-})(({theme}) => ({
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-    variants: [
-        {
-            props: ({expand}) => !expand,
-            style: {
-                transform: 'rotate(0deg)',
-            },
-        },
-        {
-            props: ({expand}) => !!expand,
-            style: {
-                transform: 'rotate(180deg)',
-            },
-        },
-    ],
-}));
-
-function ExpandMoreButton({ description, expanded, onExpandClick }) {
-    if (!description) return null;
-
-    return (
-        <ExpandMore
-            expand={expanded}
-            onClick={onExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-        >
-            <ExpandMoreIcon/>
-        </ExpandMore>
-    );
-}
-
+import {ExpandMoreButton} from "./ExpandMoreButton";
 
 export default function GiftCard({data}) {
     const [expanded, setExpanded] = React.useState(false);
@@ -63,8 +22,18 @@ export default function GiftCard({data}) {
         setExpanded(!expanded);
     };
 
+    const getShortName = (name) => {
+        if (!name) return 'Без названия';
+
+        if (name.length > 19) {
+            return `${name.substring(0, 16)}...`;
+        }
+
+        return name;
+    };
+
     return (
-        <Card sx={{maxWidth: 243}}>
+        <Card sx={{maxWidth: 191, minWidth: 191}}>
             <CardHeader
                 avatar={
                     <Avatar
@@ -82,11 +51,11 @@ export default function GiftCard({data}) {
                 action={
                     <MoreVertMenuSettings/>
                 }
-                title={data.name}
+                title={getShortName(data.name)}
             />
             <CardMedia
                 component="img"
-                height="243"
+                height="210"
                 image="https://avatars.mds.yandex.net/get-goods_pic/13754523/hat81f158666324eef7a38fe825ef11b902/600x600"
                 alt="Paella dish"
             />

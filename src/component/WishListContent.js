@@ -111,10 +111,12 @@ function WishListContent({selectedWishlistId}) {
                 </Item>
             </Grid>
             <Grid size={1}>
-                <MoreVertMenuSettings/>
+                {selectedWishlistId !== 'default' && (
+                    <MoreVertMenuSettings/>
+                )}
             </Grid>
             <Grid size={12}>
-                <Item noshadow><WishList data={resolveItemList(wishlistData)} /></Item>
+                <Item noshadow><WishList data={resolveItemList(wishlistData)}/></Item>
             </Grid>
         </Grid>
     );
