@@ -4,7 +4,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import {Box, styled, TextField} from "@mui/material";
+import {Box, styled, TextField, Checkbox} from "@mui/material";
 import BasicDatePicker from "./BasicDatePicker";
 import Button from "@mui/material/Button";
 import dayjs from 'dayjs';
@@ -35,11 +35,21 @@ export default function PrivacyLabelRadioBox({onCreate, onCancel}) {
     const [value, setValue] = React.useState('PUBLIC');
     const [listName, setListName] = React.useState('');
     const [date, setDate] = React.useState(dayjs());
+    const [noDate, setNoDate] = React.useState(false);
     const [error, setError] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
 
     const handleDateChange = (newDate) => {
         setDate(newDate);
+    };
+
+    const handleNoDateChange = (event) => {
+        setNoDate(event.target.checked);
+        if (event.target.checked) {
+            setDate(null);
+        } else {
+            setDate(dayjs());
+        }
     };
 
     const handleChange = (event) => {
@@ -64,7 +74,7 @@ export default function PrivacyLabelRadioBox({onCreate, onCancel}) {
             if (onCreate) {
                 await onCreate({
                     name: listName,
-                    date: date,
+                    date: noDate ? null : date,
                     privacyLevel: value
                 });
             }
@@ -90,9 +100,20 @@ export default function PrivacyLabelRadioBox({onCreate, onCancel}) {
             </Box>
 
             <Box sx={{mt: 1}}>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={noDate}
+                            onChange={handleNoDateChange}
+                            color="primary"
+                        />
+                    }
+                    label="Без даты"
+                />
                 <BasicDatePicker
-                    value={date}
+                    value={noDate ? null : date}
                     onChange={handleDateChange}
+                    disabled={noDate}
                 />
             </Box>
 

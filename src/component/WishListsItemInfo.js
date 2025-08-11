@@ -65,9 +65,9 @@ function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId}) {
     if (loading) return <Typography>Загрузка...</Typography>;
     if (error) return <Typography color="error">Ошибка: {error}</Typography>;
 
-    const formatBirthDate = (dateString) => {
+    const formatDate = (dateString) => {
         const options = {day: 'numeric', month: 'long', year: 'numeric'};
-        return dateString ? new Date(dateString).toLocaleDateString('ru-RU', options) : null;
+        return dateString ? new Date(dateString).toLocaleDateString('ru-RU', options) : 'Без даты';
     };
 
     return (
@@ -103,9 +103,10 @@ function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId}) {
                                             color={isSelected ? 'black' : 'grey.700'}>
                                     {wishlist.name}
                                 </Typography>
+
                                 <Typography variant="body2"
                                             color={isSelected ? 'black' : 'text.secondary'}>
-                                    {formatBirthDate(wishlist.eventDate)}
+                                    {wishlist.id === 'default' ? null : formatDate(wishlist.eventDate)}
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
