@@ -7,9 +7,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import {green, pink, yellow} from "@mui/material/colors";
 import {httpClient} from "../http/HttpClient";
 
-function WishListsItemInfo({onWishlistSelect, refreshKey}) {
-    const [selectedCard, setSelectedCard] = React.useState(0);
-    const [selectedId, setSelectedId] = React.useState(null);
+function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId}) {
     const [wishlists, setWishlists] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -29,9 +27,13 @@ function WishListsItemInfo({onWishlistSelect, refreshKey}) {
             ];
 
             setWishlists(dataWithDefault);
-            const firstId = response.data[0]?.id || 'default';
-            setSelectedId(firstId);
-            onWishlistSelect?.(firstId);
+
+            if (selectedWishlistId) {
+                onWishlistSelect?.(selectedWishlistId);
+            } else {
+                const firstId = response.data[0]?.id || 'default';
+                onWishlistSelect?.(firstId);
+            }
         } catch (err) {
             setError(err.message);
         } finally {
@@ -39,9 +41,7 @@ function WishListsItemInfo({onWishlistSelect, refreshKey}) {
         }
     };
 
-    const handleCardClick = (id, index) => {
-        setSelectedCard(index);
-        setSelectedId(id);
+    const handleCardClick = (id) => {
         onWishlistSelect?.(id);
     };
 
@@ -77,15 +77,14 @@ function WishListsItemInfo({onWishlistSelect, refreshKey}) {
             gridTemplateColumns: 'repeat(auto-fill, minmax(min(170px, 100%), 1fr))',
             gap: 2,
         }}>
-
-            {wishlists.map((wishlist, index) => {
-                const isSelected = selectedCard === index;
+            {wishlists.map((wishlist) => {
+                const isSelected = wishlist.id === selectedWishlistId;
                 const bgColor = getPrivacyColor(wishlist.privacyLevel, isSelected ? 200 : 50);
 
                 return (
                     <Card key={wishlist.id}>
                         <CardActionArea
-                            onClick={() => handleCardClick(wishlist.id, index)}
+                            onClick={() => handleCardClick(wishlist.id)}
                             sx={{
                                 height: '100%',
                                 backgroundColor: bgColor,

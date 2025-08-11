@@ -19,7 +19,7 @@ const modalStyle = {
     p: 4,
 };
 
-export default function ListCreator({ onListCreated }) {
+export default function ListCreator({onListCreated}) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -35,7 +35,7 @@ export default function ListCreator({ onListCreated }) {
             console.log('Список создан:', response.data);
             handleClose();
             if (onListCreated) {
-                onListCreated();
+                onListCreated(response.data.id);
             }
         } catch (error) {
             console.error('Ошибка при создании списка:', error);
@@ -75,7 +75,7 @@ export default function ListCreator({ onListCreated }) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={modalStyle}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
                         Создать новый список
                     </Typography>
                     <PrivacyLabelRadioBox

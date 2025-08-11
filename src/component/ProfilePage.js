@@ -16,8 +16,9 @@ export default function ProfilePage() {
     const [isOwner, setIsOwner] = React.useState();
     const [refreshKey, setRefreshKey] = React.useState(0);
 
-    const onListCreated = () => {
+    const onListCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
+        setSelectedWishlistId(newListId);
     };
 
     return (
@@ -45,6 +46,7 @@ export default function ProfilePage() {
                                         <WishLists
                                             onWishlistSelect={setSelectedWishlistId}
                                             refreshKey={refreshKey}
+                                            selectedWishlistId={selectedWishlistId}
                                         />
                                     </Item>
                                 </Grid>

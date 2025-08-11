@@ -38,6 +38,10 @@ export default function PrivacyLabelRadioBox({onCreate, onCancel}) {
     const [error, setError] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = React.useState(false);
 
+    const handleDateChange = (newDate) => {
+        setDate(newDate);
+    };
+
     const handleChange = (event) => {
         setValue(event.target.value);
     };
@@ -86,7 +90,10 @@ export default function PrivacyLabelRadioBox({onCreate, onCancel}) {
             </Box>
 
             <Box sx={{mt: 1}}>
-                <BasicDatePicker/>
+                <BasicDatePicker
+                    value={date}
+                    onChange={handleDateChange}
+                />
             </Box>
 
             <Box sx={{mt: 2}}>

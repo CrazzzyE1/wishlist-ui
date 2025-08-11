@@ -4,7 +4,7 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import WishListsItemInfo from "./WishListsItemInfo";
 
-function WishLists({onWishlistSelect, refreshKey}) {
+function WishLists({onWishlistSelect, refreshKey, selectedWishlistId}) {
     return (
         <Grid container spacing={3}>
             <Grid size={12}>
@@ -25,6 +25,7 @@ function WishLists({onWishlistSelect, refreshKey}) {
                 <WishListsItemInfo noshadow
                                    onWishlistSelect={onWishlistSelect}
                                    refreshKey={refreshKey}
+                                   selectedWishlistId={selectedWishlistId}
                 />
             </Grid>
         </Grid>
