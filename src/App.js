@@ -24,7 +24,10 @@ function App() {
             const interval = setInterval(() => {
                 keycloak.updateToken(30)
                     .then(refreshed => {
-                        if (refreshed) console.log('Token refreshed: ' + new Date().toLocaleString());
+                        if (refreshed) {
+                            console.log('Token refreshed: ' + new Date().toLocaleString());
+                            httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
+                        }
                     })
                     .catch(() => keycloak.login());
             }, 30000);

@@ -13,6 +13,7 @@ import WishListContent from "./WishListContent";
 export default function ProfilePage() {
 
     const [selectedWishlistId, setSelectedWishlistId] = React.useState(null);
+    const [isOwner, setIsOwner] = React.useState();
 
     return (
         <React.Fragment>
@@ -29,7 +30,10 @@ export default function ProfilePage() {
                             </Grid>
                             <Grid container spacing={3} size={11}>
                                 <Grid size={12}>
-                                    <Item><AccountInfo/></Item>
+                                    <Item>
+                                        <AccountInfo
+                                            onIsOwner={setIsOwner}/>
+                                    </Item>
                                 </Grid>
                                 <Grid size={12}>
                                     <Item>
@@ -39,7 +43,7 @@ export default function ProfilePage() {
                                 </Grid>
                                 <Grid size={12}>
                                     <Item>
-                                        <WishListContent selectedWishlistId={selectedWishlistId}/>
+                                        <WishListContent selectedWishlistId={selectedWishlistId} isOwner={isOwner}/>
                                     </Item>
                                 </Grid>
                             </Grid>

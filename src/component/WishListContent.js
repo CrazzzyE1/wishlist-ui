@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import MoreVertMenuSettings from "./MoreVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
 
-function WishListContent({selectedWishlistId}) {
+function WishListContent({selectedWishlistId, isOwner}) {
     const [wishlistData, setWishlistData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -55,9 +55,9 @@ function WishListContent({selectedWishlistId}) {
 
     const resolveItemList = (wishlistData) => {
         if (selectedWishlistId === 'default') {
-            return wishlistData; // Для default это уже массив подарков
+            return wishlistData;
         }
-        return wishlistData.gifts; // Для обычного списка берем gifts
+        return wishlistData.gifts;
     };
 
     return (
@@ -111,12 +111,12 @@ function WishListContent({selectedWishlistId}) {
                 </Item>
             </Grid>
             <Grid size={1}>
-                {selectedWishlistId !== 'default' && (
+                {isOwner && selectedWishlistId !== 'default' && (
                     <MoreVertMenuSettings/>
                 )}
             </Grid>
             <Grid size={12}>
-                <Item noshadow><WishList data={resolveItemList(wishlistData)}/></Item>
+                <Item noshadow><WishList data={resolveItemList(wishlistData)} isOwner={isOwner}/></Item>
             </Grid>
         </Grid>
     );

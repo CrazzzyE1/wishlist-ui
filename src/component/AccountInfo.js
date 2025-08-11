@@ -11,7 +11,7 @@ import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
-function AccountInfo() {
+function AccountInfo({onIsOwner}) {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -21,6 +21,7 @@ function AccountInfo() {
             try {
                 const response = await httpClient.get('http://localhost:9000/api/v1/profiles/me');
                 setUserData(response.data);
+                onIsOwner?.(response.data.isOwner)
             } catch (err) {
                 setError(err.message);
                 console.error('Ошибка загрузки данных:', err);
