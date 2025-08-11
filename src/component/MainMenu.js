@@ -6,7 +6,6 @@ import Face6Icon from '@mui/icons-material/Face6';
 import IconButton from "@mui/material/IconButton";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
-import PostAddIcon from '@mui/icons-material/PostAdd';
 import LoupeIcon from '@mui/icons-material/Loupe';
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ListCreator from "./ListCreator";

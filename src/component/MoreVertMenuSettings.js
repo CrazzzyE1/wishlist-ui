@@ -5,18 +5,53 @@ import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import { httpClient } from "../http/HttpClient";
 
 const ITEM_HEIGHT = 48;
 
-export default function MoreVertMenuSettings() {
+export default function MoreVertMenuSettings({ selectedWishlistId, onListDeleted }) {
     const [anchorEl, setAnchorEl] = React.useState(null);
+    const [openConfirmDialog, setOpenConfirmDialog] = React.useState(false);
+    const [isDeleting, setIsDeleting] = React.useState(false);
+
     const open = Boolean(anchorEl);
+
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
+    };
+
+    const handleOpenConfirmDialog = () => {
+        setOpenConfirmDialog(true);
+        handleClose(); // Закрываем меню
+    };
+
+    const handleCloseConfirmDialog = () => {
+        setOpenConfirmDialog(false);
+    };
+
+    const removeList = async () => {
+        if (!selectedWishlistId) return;
+
+        setIsDeleting(true);
+        try {
+            await httpClient.delete(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`);
+            onListDeleted?.();
+        } catch (error) {
+            console.error('Ошибка при удалении списка:', error);
+        } finally {
+            setIsDeleting(false);
+            handleCloseConfirmDialog();
+        }
     };
 
     return (
@@ -42,6 +77,7 @@ export default function MoreVertMenuSettings() {
                     }}
                 />
             </IconButton>
+
             <Menu
                 id="long-menu"
                 anchorEl={anchorEl}
@@ -60,12 +96,45 @@ export default function MoreVertMenuSettings() {
                 }}
             >
                 <MenuItem onClick={handleClose}>
-                    <EditOutlinedIcon sx={{mr: '0px'}}/>Редактировать
+                    <EditOutlinedIcon sx={{mr: 1}}/>Редактировать
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                    <DeleteOutlinedIcon sx={{mr: '0px'}}/>Удалить
+                <MenuItem onClick={handleOpenConfirmDialog}>
+                    <DeleteOutlinedIcon sx={{mr: 1}}/>Удалить
                 </MenuItem>
             </Menu>
+
+            {/* Диалог подтверждения удаления */}
+            <Dialog
+                open={openConfirmDialog}
+                onClose={handleCloseConfirmDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    Подтверждение удаления
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Вы уверены, что хотите удалить этот список? Это действие нельзя отменить.
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button
+                        onClick={handleCloseConfirmDialog}
+                        disabled={isDeleting}
+                    >
+                        Отмена
+                    </Button>
+                    <Button
+                        onClick={removeList}
+                        color="error"
+                        disabled={isDeleting}
+                        autoFocus
+                    >
+                        {isDeleting ? 'Удаление...' : 'Удалить'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }

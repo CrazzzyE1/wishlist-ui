@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import MoreVertMenuSettings from "./MoreVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
 
-function WishListContent({selectedWishlistId, isOwner}) {
+function WishListContent({selectedWishlistId, isOwner, onListDeleted}) {
     const [wishlistData, setWishlistData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -112,7 +112,7 @@ function WishListContent({selectedWishlistId, isOwner}) {
             </Grid>
             <Grid size={1}>
                 {isOwner && selectedWishlistId !== 'default' && (
-                    <MoreVertMenuSettings/>
+                    <MoreVertMenuSettings selectedWishlistId={selectedWishlistId} onListDeleted={onListDeleted}/>
                 )}
             </Grid>
             <Grid size={12}>

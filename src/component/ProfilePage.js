@@ -21,6 +21,11 @@ export default function ProfilePage() {
         setSelectedWishlistId(newListId);
     };
 
+    const onListDeleted = () => {
+        setRefreshKey(prev => prev + 1);
+        setSelectedWishlistId(null);
+    };
+
     return (
         <React.Fragment>
             <CssBaseline/>
@@ -52,7 +57,7 @@ export default function ProfilePage() {
                                 </Grid>
                                 <Grid size={12}>
                                     <Item>
-                                        <WishListContent selectedWishlistId={selectedWishlistId} isOwner={isOwner}/>
+                                        <WishListContent selectedWishlistId={selectedWishlistId} isOwner={isOwner} onListDeleted={onListDeleted}/>
                                     </Item>
                                 </Grid>
                             </Grid>
