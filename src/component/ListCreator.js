@@ -31,8 +31,6 @@ export default function ListCreator({onListCreated}) {
                 eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
                 privacyLevel: listData.privacyLevel
             });
-
-            console.log('Список создан:', response.data);
             handleClose();
             if (onListCreated) {
                 onListCreated(response.data.id);

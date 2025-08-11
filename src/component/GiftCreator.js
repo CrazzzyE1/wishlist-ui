@@ -19,7 +19,7 @@ const modalStyle = {
     p: 4,
 };
 
-export default function ListCreator({onListCreated}) {
+export default function GiftCreator({onListCreated, lists}) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
@@ -31,8 +31,6 @@ export default function ListCreator({onListCreated}) {
                 eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
                 privacyLevel: listData.privacyLevel
             });
-
-            console.log('Подарок создан:', response.data);
             handleClose();
             if (onListCreated) {
                 onListCreated(response.data.id);
@@ -78,6 +76,7 @@ export default function ListCreator({onListCreated}) {
                         Создать новый подарок
                     </Typography>
                     <GiftCreateBox
+                        lists={lists}
                         onCreate={handleCreateList}
                         onCancel={handleClose}
                     />

@@ -1,22 +1,25 @@
 import * as React from 'react';
 import FormControl from '@mui/material/FormControl';
-import {Box, TextField} from "@mui/material";
+import { Box, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import SelectTextFields from "./SelectTextFields";
-import FreeSolo from "./FreeSolo";
+import ListSelector from "./ListSelector";
 import ImageUploadAndCrop from "./ImageUploadAndCrop";
 
-export default function ListCreateBox({onCreate, onCancel}) {
+export default function GiftCreateBox({ onCreate, onCancel, lists }) {
     const [listName, setListName] = React.useState('');
     const [errorName, setErrorName] = React.useState(false);
-
     const [descriptionName, setDescriptionName] = React.useState('');
     const [errorDescription, setErrorDescription] = React.useState(false);
-
     const [price, setPrice] = React.useState('');
     const [link, setLinkName] = React.useState('');
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [image, setImage] = React.useState(null);
+    const [selectedListId, setSelectedListId] = React.useState(null);
+
+    const handleSelectedListId = (id) => {
+        setSelectedListId(id);
+    };
 
     const handleDescriptionChange = (event) => {
         const value = event.target.value;
@@ -60,6 +63,10 @@ export default function ListCreateBox({onCreate, onCancel}) {
                 await onCreate({
                     name: trimmedName,
                     image: image,
+                    listId: selectedListId,
+                    description: descriptionName,
+                    price: price,
+                    link: link
                 });
             }
         } finally {
@@ -68,27 +75,30 @@ export default function ListCreateBox({onCreate, onCancel}) {
     };
 
     return (
-        <FormControl sx={{gap: 2}}>
+        <FormControl sx={{ gap: 2, width: '100%' }}>
             <ImageUploadAndCrop
                 onImageCropped={setImage}
                 aspectRatio={400 / 400}
             />
 
-            <Box sx={{mt: 0}}>
+            <Box sx={{ mt: 0 }}>
                 <TextField
-                    id="list-name"
+                    id="gift-name"
                     label="Название подарка"
                     variant="standard"
                     value={listName}
                     onChange={handleListNameChange}
                     error={errorName}
                     helperText={errorName ? "Название должно быть не короче 3 символов и не состоять только из пробелов" : ""}
-                    inputProps={{minLength: 3}}
                     fullWidth
                 />
             </Box>
-            <Box sx={{mt: 0}}>
-                <FreeSolo/>
+
+            <Box sx={{ mt: 0 }}>
+                <ListSelector
+                    data={lists}
+                    onSelect={handleSelectedListId}
+                />
             </Box>
 
             <Box sx={{
@@ -98,20 +108,19 @@ export default function ListCreateBox({onCreate, onCancel}) {
                 gap: 1
             }}>
                 <TextField
-                    id="list-name"
+                    id="gift-price"
                     label="Цена"
                     variant="standard"
                     value={price}
                     onChange={handlePriceChange}
-                    inputProps={{minLength: 3}}
-                    sx={{flex: 1}}
+                    sx={{ flex: 1 }}
                 />
-                <SelectTextFields/>
+                <SelectTextFields />
             </Box>
 
-            <Box sx={{mt: 0}}>
+            <Box sx={{ mt: 0 }}>
                 <TextField
-                    id="list-name"
+                    id="gift-link"
                     label="Ссылка"
                     variant="standard"
                     value={link}
@@ -122,27 +131,28 @@ export default function ListCreateBox({onCreate, onCancel}) {
                 />
             </Box>
 
-            <Box sx={{mt: 0}}>
+            <Box sx={{ mt: 0 }}>
                 <TextField
-                    id="list-name"
+                    id="gift-description"
                     label="Описание"
                     variant="standard"
                     value={descriptionName}
                     onChange={handleDescriptionChange}
                     error={errorDescription}
-                    helperText={errorDescription ? "Название должно быть более 900 символов" : ""}
+                    helperText={errorDescription ? "Описание должно быть не более 900 символов" : ""}
                     fullWidth
                     multiline
                     maxRows={20}
                 />
             </Box>
 
-            <Box sx={{mt: 2}}>
-                <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
+            <Box sx={{ mt: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
                     <Button
                         variant="outlined"
                         color="black"
                         onClick={onCancel}
+                        disabled={isSubmitting}
                     >
                         Отмена
                     </Button>
@@ -150,7 +160,7 @@ export default function ListCreateBox({onCreate, onCancel}) {
                         variant="contained"
                         color="success"
                         onClick={handleSubmit}
-                        disabled={isSubmitting || errorName}
+                        disabled={isSubmitting || errorName || errorDescription}
                     >
                         {isSubmitting ? 'Сохранение...' : 'Создать подарок'}
                     </Button>

@@ -15,10 +15,15 @@ export default function ProfilePage() {
     const [selectedWishlistId, setSelectedWishlistId] = React.useState(null);
     const [isOwner, setIsOwner] = React.useState();
     const [refreshKey, setRefreshKey] = React.useState(0);
+    const [lists, setLists] = React.useState();
 
     const onListCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
         setSelectedWishlistId(newListId);
+    };
+
+    const onListGetting = (lists) => {
+        setLists(lists);
     };
 
     const onListDeleted = () => {
@@ -37,7 +42,9 @@ export default function ProfilePage() {
                         </Grid>
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>
-                                <Item><MainMenu onListCreated = {onListCreated}/></Item>
+                                <Item><MainMenu
+                                    onListCreated = {onListCreated}
+                                    lists={lists}/></Item>
                             </Grid>
                             <Grid container spacing={3} size={11}>
                                 <Grid size={12}>
@@ -49,6 +56,7 @@ export default function ProfilePage() {
                                 <Grid size={12}>
                                     <Item>
                                         <WishLists
+                                            onListGetting={onListGetting}
                                             onWishlistSelect={setSelectedWishlistId}
                                             refreshKey={refreshKey}
                                             selectedWishlistId={selectedWishlistId}

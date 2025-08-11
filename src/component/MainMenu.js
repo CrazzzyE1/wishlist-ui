@@ -6,13 +6,12 @@ import Face6Icon from '@mui/icons-material/Face6';
 import IconButton from "@mui/material/IconButton";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
-import LoupeIcon from '@mui/icons-material/Loupe';
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ListCreator from "./ListCreator";
 import GiftCreator from "./GiftCreator";
 
 
-function MainMenu({onListCreated}) {
+function MainMenu({onListCreated, lists}) {
     return (
         <Box sx={{
             flexGrow: 1,
@@ -141,7 +140,10 @@ function MainMenu({onListCreated}) {
                 </Grid>
                 <Grid size={12}>
                     <Item noshadow>
-                        <GiftCreator onListCreated={onListCreated}/>
+                        <GiftCreator
+                            onListCreated={onListCreated}
+                            lists={lists}
+                        />
                     </Item>
                 </Grid>
             </Grid>

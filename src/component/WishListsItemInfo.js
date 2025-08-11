@@ -7,7 +7,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import {green, pink, yellow} from "@mui/material/colors";
 import {httpClient} from "../http/HttpClient";
 
-function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId}) {
+function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, onListGetting}) {
     const [wishlists, setWishlists] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -27,6 +27,10 @@ function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId}) {
             ];
 
             setWishlists(dataWithDefault);
+
+            if (onListGetting) {
+                onListGetting(response.data);
+            }
 
             if (selectedWishlistId) {
                 onWishlistSelect?.(selectedWishlistId);
