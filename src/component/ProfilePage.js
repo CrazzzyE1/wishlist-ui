@@ -14,6 +14,11 @@ export default function ProfilePage() {
 
     const [selectedWishlistId, setSelectedWishlistId] = React.useState(null);
     const [isOwner, setIsOwner] = React.useState();
+    const [refreshKey, setRefreshKey] = React.useState(0);
+
+    const onListCreated = () => {
+        setRefreshKey(prev => prev + 1);
+    };
 
     return (
         <React.Fragment>
@@ -26,7 +31,7 @@ export default function ProfilePage() {
                         </Grid>
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>
-                                <Item><MainMenu/></Item>
+                                <Item><MainMenu onListCreated = {onListCreated}/></Item>
                             </Grid>
                             <Grid container spacing={3} size={11}>
                                 <Grid size={12}>
@@ -38,7 +43,9 @@ export default function ProfilePage() {
                                 <Grid size={12}>
                                     <Item>
                                         <WishLists
-                                            onWishlistSelect={setSelectedWishlistId}/>
+                                            onWishlistSelect={setSelectedWishlistId}
+                                            refreshKey={refreshKey}
+                                        />
                                     </Item>
                                 </Grid>
                                 <Grid size={12}>

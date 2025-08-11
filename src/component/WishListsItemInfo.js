@@ -7,7 +7,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import {green, pink, yellow} from "@mui/material/colors";
 import {httpClient} from "../http/HttpClient";
 
-function WishListsItemInfo({onWishlistSelect}) {
+function WishListsItemInfo({onWishlistSelect, refreshKey}) {
     const [selectedCard, setSelectedCard] = React.useState(0);
     const [selectedId, setSelectedId] = React.useState(null);
     const [wishlists, setWishlists] = React.useState([]);
@@ -47,7 +47,7 @@ function WishListsItemInfo({onWishlistSelect}) {
 
     React.useEffect(() => {
         fetchWishlists();
-    }, []);
+    }, [refreshKey]);
 
     const getPrivacyColor = (privacyLevel, shade = 50) => {
         switch (privacyLevel) {
