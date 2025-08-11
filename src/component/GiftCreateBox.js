@@ -16,13 +16,14 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
     const [isSubmitting, setIsSubmitting] = React.useState(false);
     const [image, setImage] = React.useState(null);
     const [selectedListId, setSelectedListId] = React.useState(null);
+    const [currency, setCurrency] = React.useState(null);
 
     const handleSelectedListId = (id) => {
         setSelectedListId(id);
     };
 
     const handleCurrency = (currency) => {
-        console.log(currency)
+        setCurrency(currency)
     };
 
     const handleDescriptionChange = (event) => {
@@ -68,7 +69,8 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     listId: selectedListId,
                     description: descriptionName,
                     price: price,
-                    link: link
+                    link: link,
+                    currency: currency
                 });
             }
         } finally {

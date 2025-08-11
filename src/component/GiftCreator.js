@@ -4,8 +4,9 @@ import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import IconButton from "@mui/material/IconButton";
 import GiftCreateBox from "./GiftCreateBox";
-import {httpClient} from "../http/HttpClient";
+import { httpClient } from "../http/HttpClient";
 import LoupeIcon from "@mui/icons-material/Loupe";
+import { useState } from 'react';
 
 const modalStyle = {
     position: 'absolute',
@@ -13,30 +14,63 @@ const modalStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: 400,
+    maxWidth: '90vw',
     bgcolor: 'background.paper',
     border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
 
-export default function GiftCreator({onListCreated, lists}) {
+export default function GiftCreator({ onListCreated, lists }) {
     const [open, setOpen] = React.useState(false);
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(null);
 
-    const handleCreateList = async (listData) => {
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => {
+        setOpen(false);
+        setError(null);
+    };
+
+    const handleCreateGift = async (giftData) => {
+        setIsSubmitting(true);
+        setError(null);
+
         try {
-            const response = await httpClient.post('http://localhost:9000/api/v1/wishlists', {
-                name: listData.name,
-                eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
-                privacyLevel: listData.privacyLevel
+            const giftResponse = await httpClient.post('http://localhost:9000/api/v1/gifts', {
+                name: giftData.name,
+                price: {
+                    amount: giftData.price && !isNaN(giftData.price) ? giftData.price : 0,
+                    currency: giftData.currency || 'RUB'
+                },
+                wishListId: giftData.listId,
+                description: giftData.description,
+                link: giftData.link
             });
-            handleClose();
-            if (onListCreated) {
-                onListCreated(response.data.id);
+
+            const giftId = giftResponse.data.id;
+
+            if (giftData.image) {
+                const formData = new FormData();
+                formData.append('giftId', giftId);
+                formData.append('file', giftData.image);
+
+                await httpClient.post('http://localhost:9000/api/v1/pictures', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
             }
-        } catch (error) {
-            console.error('Ошибка при создании подарка:', error);
+
+            if (onListCreated) {
+                onListCreated();
+            }
+            handleClose();
+        } catch (err) {
+            console.error('Ошибка создания подарка:', err);
+            setError(err.response?.data?.message || 'Произошла ошибка при создании подарка');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -72,12 +106,17 @@ export default function GiftCreator({onListCreated, lists}) {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={modalStyle}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
                         Создать новый подарок
                     </Typography>
+                    {error && (
+                        <Typography color="error" sx={{ mb: 2 }}>
+                            {error}
+                        </Typography>
+                    )}
                     <GiftCreateBox
                         lists={lists}
-                        onCreate={handleCreateList}
+                        onCreate={handleCreateGift}
                         onCancel={handleClose}
                     />
                 </Box>
