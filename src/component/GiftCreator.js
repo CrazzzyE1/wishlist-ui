@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import IconButton from "@mui/material/IconButton";
-import PostAddIcon from "@mui/icons-material/PostAdd";
-import ListCreateBox from "./ListCreateBox";
+import GiftCreateBox from "./GiftCreateBox";
 import {httpClient} from "../http/HttpClient";
+import LoupeIcon from "@mui/icons-material/Loupe";
 
 const modalStyle = {
     position: 'absolute',
@@ -32,13 +32,13 @@ export default function ListCreator({onListCreated}) {
                 privacyLevel: listData.privacyLevel
             });
 
-            console.log('Список создан:', response.data);
+            console.log('Подарок создан:', response.data);
             handleClose();
             if (onListCreated) {
                 onListCreated(response.data.id);
             }
         } catch (error) {
-            console.error('Ошибка при создании списка:', error);
+            console.error('Ошибка при создании подарка:', error);
         }
     };
 
@@ -62,12 +62,11 @@ export default function ListCreator({onListCreated}) {
                         boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                     }
                 }}>
-                <PostAddIcon sx={{
+                <LoupeIcon sx={{
                     fontSize: 32,
                     transition: 'color 0.5s ease'
                 }}/>
             </IconButton>
-
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -76,9 +75,9 @@ export default function ListCreator({onListCreated}) {
             >
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                        Создать новый список
+                        Создать новый подарок
                     </Typography>
-                    <ListCreateBox
+                    <GiftCreateBox
                         onCreate={handleCreateList}
                         onCancel={handleClose}
                     />

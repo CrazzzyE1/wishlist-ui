@@ -31,7 +31,7 @@ const PrivateRadio = styled(Radio)(({theme}) => ({
     },
 }));
 
-export default function PrivacyLabelRadioBox({onCreate, onCancel}) {
+export default function ListCreateBox({onCreate, onCancel}) {
     const [value, setValue] = React.useState('PUBLIC');
     const [listName, setListName] = React.useState('');
     const [date, setDate] = React.useState(dayjs());

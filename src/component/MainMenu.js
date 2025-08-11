@@ -9,6 +9,7 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import LoupeIcon from '@mui/icons-material/Loupe';
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ListCreator from "./ListCreator";
+import GiftCreator from "./GiftCreator";
 
 
 function MainMenu({onListCreated}) {
@@ -140,28 +141,7 @@ function MainMenu({onListCreated}) {
                 </Grid>
                 <Grid size={12}>
                     <Item noshadow>
-                        <IconButton
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: 42,
-                                height: 42,
-                                borderRadius: '50%',
-                                '&:hover': {
-                                    '& .MuiSvgIcon-root': {
-                                        color: '#000000'
-                                    }
-                                },
-                                '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                }
-                            }}>
-                            <LoupeIcon sx={{
-                                fontSize: 32,
-                                transition: 'color 0.5s ease'
-                            }}/>
-                        </IconButton>
+                        <GiftCreator onListCreated={onListCreated}/>
                     </Item>
                 </Grid>
             </Grid>
