@@ -3,6 +3,8 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Cropper from 'react-easy-crop';
 import { readFile, createImage } from './imageUtils';
+import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
+import {Typography} from "@mui/material";
 
 export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
     const [imageSrc, setImageSrc] = React.useState(null);
@@ -40,7 +42,7 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
     };
 
     return (
-        <Box sx={{ mb: 2 }}>
+        <Box sx={{ mb: 2, textAlign: 'center' }}>
             <input
                 type="file"
                 accept="image/*"
@@ -50,13 +52,34 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
             />
 
             {!imageSrc ? (
-                <Button
-                    variant="contained"
+                <Box
                     onClick={handleUploadClick}
-                    fullWidth
+                    sx={{
+                        cursor: 'pointer',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: 200,
+                        width: '100%',
+                        bgcolor: '#f5f5f5',
+                        borderRadius: 1,
+                        '&:hover': {
+                            bgcolor: '#e0e0e0'
+                        }
+                    }}
                 >
-                    Загрузить изображение
-                </Button>
+                    <AddAPhotoOutlinedIcon
+                        sx={{
+                            fontSize: 60,
+                            color: 'action.active',
+                            mb: 1
+                        }}
+                    />
+                    <Typography variant="body2" color="text.secondary">
+                        Загрузить фото
+                    </Typography>
+                </Box>
             ) : (
                 <>
                     <Box sx={{
