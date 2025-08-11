@@ -21,6 +21,10 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
         setSelectedListId(id);
     };
 
+    const handleCurrency = (currency) => {
+        console.log(currency)
+    };
+
     const handleDescriptionChange = (event) => {
         const value = event.target.value;
         setDescriptionName(value);
@@ -117,7 +121,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     onChange={handlePriceChange}
                     sx={{ flex: 1 }}
                 />
-                <SelectTextFields />
+                <SelectTextFields onCurrency={handleCurrency}/>
             </Box>
 
             <Box sx={{ mt: 0 }}>
