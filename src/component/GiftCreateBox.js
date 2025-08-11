@@ -31,9 +31,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
         const value = event.target.value;
         setListName(value);
 
-        const trimmedValue = value.trim();
-        const isValid = trimmedValue.length >= 3;
-
+        const isValid = value.trim().length >= 3;
         setErrorName(!isValid);
     };
 
@@ -74,6 +72,10 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
         }
     };
 
+    const isSubmitDisabled = isSubmitting ||
+        listName.trim().length < 3 ||
+        errorDescription;
+
     return (
         <FormControl sx={{ gap: 2, width: '100%' }}>
             <ImageUploadAndCrop
@@ -89,7 +91,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     value={listName}
                     onChange={handleListNameChange}
                     error={errorName}
-                    helperText={errorName ? "Название должно быть не короче 3 символов и не состоять только из пробелов" : ""}
+                    helperText={errorName ? "Название должно быть не короче 3 символов" : ""}
                     fullWidth
                 />
             </Box>
@@ -160,7 +162,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                         variant="contained"
                         color="success"
                         onClick={handleSubmit}
-                        disabled={isSubmitting || errorName || errorDescription}
+                        disabled={isSubmitDisabled}
                     >
                         {isSubmitting ? 'Сохранение...' : 'Создать подарок'}
                     </Button>
