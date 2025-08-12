@@ -18,7 +18,7 @@ import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import { useNavigate } from 'react-router-dom';
 
-export function FavouriteCard({favourite, onFriendRemoved}) {
+export function FavouriteCard({favourite, onFavouriteRemoved}) {
     const [open, setOpen] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
@@ -70,7 +70,7 @@ export function FavouriteCard({favourite, onFriendRemoved}) {
             }
 
             enqueueSnackbar(`${favourite.fullName} удален из друзей`, {variant: 'success'});
-            onFriendRemoved(favourite.id);
+            onFavouriteRemoved(favourite.id);
         } catch (error) {
             enqueueSnackbar(error.message, {variant: 'error'});
             console.error('Error removing friend:', error);

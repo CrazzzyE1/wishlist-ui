@@ -78,7 +78,7 @@ export default function FavouritesList() {
                         <Grid size={12} key={favourite.id}>
                             <FavouriteCard key={favourite.id}
                                            favourite={favourite}
-                                        onFavoiriteRemoved={handleFavouriteRemoved}  />
+                                           onFavouriteRemoved={handleFavouriteRemoved}  />
                         </Grid>
                     ))}
                 </Grid>
