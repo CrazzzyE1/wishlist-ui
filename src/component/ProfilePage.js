@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useState} from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -9,14 +10,13 @@ import TopMenu from "./TopMenu";
 import Item from "./StyledItem";
 import WishLists from "./WishLists";
 import WishListContent from "./WishListContent";
-import {useState} from "react";
 
 export default function ProfilePage() {
 
-    const [selectedWishlistId, setSelectedWishlistId] = React.useState(null);
-    const [isOwner, setIsOwner] = React.useState();
-    const [refreshKey, setRefreshKey] = React.useState(0);
-    const [lists, setLists] = React.useState();
+    const [selectedWishlistId, setSelectedWishlistId] = useState(null);
+    const [isOwner, setIsOwner] = useState();
+    const [refreshKey, setRefreshKey] = useState(0);
+    const [lists, setLists] = useState();
     const [avatarUrl, setAvatarUrl] = useState(null);
 
     const onListCreated = (newListId) => {

@@ -1,4 +1,3 @@
-import Image from 'react-bootstrap/Image';
 import SearchLine from "./SearchLine";
 import AccountSettingToggle from "./AccountSettingToggle";
 import * as React from "react";
