@@ -11,7 +11,7 @@ import Item from "./StyledItem";
 import WishLists from "./WishLists";
 import WishListContent from "./WishListContent";
 
-export default function ProfilePage() {
+export default function ProfilePage({userId}) {
 
     const [selectedWishlistId, setSelectedWishlistId] = useState(null);
     const [isOwner, setIsOwner] = useState();

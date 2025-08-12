@@ -16,12 +16,14 @@ import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import {deepPurple} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
+import { useNavigate } from 'react-router-dom';
 
 export function FriendCard({friend, onFriendRemoved}) {
     const [open, setOpen] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
     const [avatarSrc, setAvatarSrc] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAvatar = async () => {
@@ -75,14 +77,24 @@ export function FriendCard({friend, onFriendRemoved}) {
         }
     };
 
+    const handleCardClick = () => {
+        navigate(`/friends/${friend.id}`);
+    };
+
     return (
         <>
-            <Card sx={{
-                width: '100%',
-                mb: 2,
-                borderRadius: 2,
-                display: 'flex'
-            }}>
+            <Card
+                sx={{
+                    minWidth: 275,
+                    mb: 2,
+                    borderRadius: 2,
+                    cursor: 'pointer',
+                    '&:hover': {
+                        boxShadow: 3,
+                    }
+                }}
+                onClick={handleCardClick}
+            >
                 <CardContent sx={{
                     width: '100%',
                     p: 3

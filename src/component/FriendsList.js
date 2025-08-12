@@ -75,7 +75,6 @@ export default function FriendsList() {
             ) : (
                 <Grid container spacing={3}>
                     {friends.map((friend) => (
-                        // <Grid item xs={12} sm={6} md={4} lg={3} key={friend.id}>
                         <Grid size={12} key={friend.id}>
                             <FriendCard key={friend.id}
                                         friend={friend}

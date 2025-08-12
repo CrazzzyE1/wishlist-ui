@@ -1,9 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import React, { useEffect, useRef, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, useParams } from 'react-router-dom';
 import keycloak from './keycloak/Keycloak';
 import ProfilePage from "./component/ProfilePage";
-import FriendsPage from "./component/FriendsPage"; // Создайте этот компонент
-import {httpClient} from './http/HttpClient';
+import FriendsPage from "./component/FriendsPage";
+import { httpClient } from './http/HttpClient';
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -12,7 +12,7 @@ function App() {
     useEffect(() => {
         if (isRun.current) return;
         isRun.current = true;
-        keycloak.init({onLoad: 'login-required'})
+        keycloak.init({ onLoad: 'login-required' })
             .then((auth) => {
                 if (auth) {
                     setAuthenticated(true);
@@ -45,11 +45,18 @@ function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<ProfilePage/>}/>
-                <Route path="/friends" element={<FriendsPage/>}/>
+                <Route path="/" element={<ProfilePage />} />
+                <Route path="/friends" element={<FriendsPage />} />
+                <Route path="/friends/:userId" element={<ProfilePageWithParams />} />
             </Routes>
         </Router>
     );
+}
+
+// Вспомогательный компонент для извлечения параметров маршрута
+function ProfilePageWithParams() {
+    const { userId } = useParams();
+    return <ProfilePage userId={userId} />;
 }
 
 export default App;
