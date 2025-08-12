@@ -11,7 +11,6 @@ import FriendsContent from "./FriendsContent";
 
 export default function FriendsPage() {
 
-    const [avatarUrl, setAvatarUrl] = React.useState(null);
     const [itemMenu, setItemMenu] = React.useState(0);
 
     return (
@@ -21,7 +20,7 @@ export default function FriendsPage() {
                 <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={3}>
                         <Grid size={12}>
-                            <Item><TopMenu avatarUrl={avatarUrl}/></Item>
+                            <Item><TopMenu/></Item>
                         </Grid>
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>

@@ -12,13 +12,13 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
-import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
+import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
 import {deepPurple} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import { useNavigate } from 'react-router-dom';
 
-export function FriendCard({friend, onFriendRemoved}) {
+export function FavouriteCard({favourite, onFriendRemoved}) {
     const [open, setOpen] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
@@ -28,7 +28,7 @@ export function FriendCard({friend, onFriendRemoved}) {
     useEffect(() => {
         const fetchAvatar = async () => {
             try {
-                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${friend.id}`, {
+                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${favourite.id}`, {
                     responseType: 'arraybuffer'
                 });
 
@@ -59,18 +59,18 @@ export function FriendCard({friend, onFriendRemoved}) {
         setOpen(false);
     };
 
-    const handleRemoveFriend = async (e) => {
+    const handleRemoveFavourite = async (e) => {
         e?.stopPropagation();
         setIsDeleting(true);
         try {
-            const response = await httpClient.delete(`http://localhost:9000/api/v1/friends/${friend.id}`);
+            const response = await httpClient.delete(`http://localhost:9000/api/v1/favourites/user/${favourite.id}`);
 
             if (!response.ok) {
                 throw new Error('Ошибка при удалении друга');
             }
 
-            enqueueSnackbar(`${friend.fullName} удален из друзей`, {variant: 'success'});
-            onFriendRemoved(friend.id);
+            enqueueSnackbar(`${favourite.fullName} удален из друзей`, {variant: 'success'});
+            onFriendRemoved(favourite.id);
         } catch (error) {
             enqueueSnackbar(error.message, {variant: 'error'});
             console.error('Error removing friend:', error);
@@ -81,7 +81,7 @@ export function FriendCard({friend, onFriendRemoved}) {
     };
 
     const handleCardClick = () => {
-        navigate(`/users/${friend.id}`);
+        navigate(`/users/${favourite.id}`);
     };
 
     return (
@@ -122,10 +122,10 @@ export function FriendCard({friend, onFriendRemoved}) {
                             minWidth: 0
                         }}>
                             <Typography noWrap variant="h6" component="div">
-                                {friend.fullName}
+                                {favourite.fullName}
                             </Typography>
                             <Typography noWrap variant="body2" color="text.secondary">
-                                {friend.email}
+                                {favourite.email}
                             </Typography>
                         </Box>
                         <IconButton
@@ -135,29 +135,29 @@ export function FriendCard({friend, onFriendRemoved}) {
                             sx={{ml: 1}}
                             disabled={isDeleting}
                         >
-                            <PersonRemoveOutlinedIcon sx={{fontSize: '36px'}}/>
+                            <TurnedInOutlinedIcon sx={{fontSize: '36px'}}/>
                         </IconButton>
                     </Box>
                     <Divider sx={{my: 2}}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Дата рождения:</strong> {new Date(friend.birthDate).toLocaleDateString()}
+                                <strong>Дата рождения:</strong> {new Date(favourite.birthDate).toLocaleDateString()}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Друзей:</strong> {friend.friendsCount}
+                                <strong>Друзей:</strong> {favourite.friendsCount}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Избранное:</strong> {friend.favouritesCount}
+                                <strong>Избранное:</strong> {favourite.favouritesCount}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Статус:</strong> {friend.privacyLevel}
+                                <strong>Статус:</strong> {favourite.privacyLevel}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -171,14 +171,14 @@ export function FriendCard({friend, onFriendRemoved}) {
                 onClick={(e) => e.stopPropagation()}
             >
                 <DialogTitle id="alert-dialog-title">
-                    {`Вы уверены, что хотите удалить ${friend.fullName} из друзей?`}
+                    {`Вы уверены, что хотите удалить ${favourite.fullName} из подписок?`}
                 </DialogTitle>
                 <DialogActions>
                     <Button onClick={handleClose} disabled={isDeleting}>
                         Отмена
                     </Button>
                     <Button
-                        onClick={handleRemoveFriend}
+                        onClick={handleRemoveFavourite}
                         color="error"
                         autoFocus
                         disabled={isDeleting}
