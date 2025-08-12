@@ -3,16 +3,16 @@ import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
-import {deepOrange, green, pink} from '@mui/material/colors';
+import {green, pink, yellow} from '@mui/material/colors';
 
 export default function ListSelector({ data = [], onSelect }) {
     const [selectedItem, setSelectedItem] = React.useState(null);
 
     const getPrivacyColor = (privacyLevel) => {
         switch (privacyLevel) {
-            case 'PUBLIC': return green[500];
-            case 'PRIVATE': return pink[500];
-            case 'FRIENDS_ONLY': return deepOrange[300];
+            case 'PUBLIC': return green[100];
+            case 'PRIVATE': return pink[100];
+            case 'FRIENDS_ONLY': return yellow[100];
             default: return 'inherit';
         }
     };
@@ -42,7 +42,16 @@ export default function ListSelector({ data = [], onSelect }) {
                         component="li"
                         key={option.id}
                         {...props}
-                        sx={{ color: getPrivacyColor(option.privacyLevel) }}
+                        sx={{
+                            backgroundColor: getPrivacyColor(option.privacyLevel),
+                            padding: '8px 16px',
+                            margin: '4px 0',
+                            borderRadius: '4px',
+                            '&:hover': {
+                                backgroundColor: getPrivacyColor(option.privacyLevel),
+                                opacity: 0.8
+                            }
+                        }}
                     >
                         {option.name} ({option.eventDate})
                     </Box>
