@@ -21,9 +21,17 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
         }
     };
 
-    const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    const onCropComplete = async (croppedArea, croppedAreaPixels) => {
         setCroppedAreaPixels(croppedAreaPixels);
+
+        try {
+            const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
+            onImageCropped(croppedImage);
+        } catch (e) {
+            console.error('Ошибка при обрезке изображения', e);
+        }
     };
+
 
     const handleUploadClick = () => {
         inputRef.current.click();
@@ -106,12 +114,12 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
                         >
                             Отмена
                         </Button>
-                        <Button
-                            variant="contained"
-                            onClick={handleCropComplete}
-                        >
-                            Применить обрезку
-                        </Button>
+                        {/*<Button*/}
+                        {/*    variant="contained"*/}
+                        {/*    onClick={handleCropComplete}*/}
+                        {/*>*/}
+                        {/*    Применить обрезку*/}
+                        {/*</Button>*/}
                     </Box>
                 </>
             )}
