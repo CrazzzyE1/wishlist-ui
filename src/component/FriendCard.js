@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
@@ -11,15 +12,40 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { deepPurple } from '@mui/material/colors';
-import { httpClient } from "../http/HttpClient";
-import { useSnackbar } from 'notistack';
+import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
+import {deepPurple} from '@mui/material/colors';
+import {httpClient} from "../http/HttpClient";
+import {useSnackbar} from 'notistack';
 
-export function FriendCard({ friend, onFriendRemoved }) {
+export function FriendCard({friend, onFriendRemoved}) {
     const [open, setOpen] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
-    const { enqueueSnackbar } = useSnackbar();
+    const {enqueueSnackbar} = useSnackbar();
+    const [avatarSrc, setAvatarSrc] = useState(null);
+
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            try {
+                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${friend.id}`, {
+                    responseType: 'arraybuffer'
+                });
+
+                const blob = new Blob([response.data], {type: response.headers['content-type']});
+                const imageUrl = URL.createObjectURL(blob);
+                setAvatarSrc(imageUrl);
+            } catch (err) {
+                console.error('Ошибка загрузки аватара:', err);
+            }
+        };
+
+        fetchAvatar();
+
+        return () => {
+            if (avatarSrc) {
+                URL.revokeObjectURL(avatarSrc);
+            }
+        };
+    }, []);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -38,10 +64,10 @@ export function FriendCard({ friend, onFriendRemoved }) {
                 throw new Error('Ошибка при удалении друга');
             }
 
-            enqueueSnackbar(`${friend.fullName} удален из друзей`, { variant: 'success' });
+            enqueueSnackbar(`${friend.fullName} удален из друзей`, {variant: 'success'});
             onFriendRemoved(friend.id);
         } catch (error) {
-            enqueueSnackbar(error.message, { variant: 'error' });
+            enqueueSnackbar(error.message, {variant: 'error'});
             console.error('Error removing friend:', error);
         } finally {
             setIsDeleting(false);
@@ -67,13 +93,14 @@ export function FriendCard({ friend, onFriendRemoved }) {
                         mb: 2,
                         width: '100%' // Ширина 100%
                     }}>
-                        <Avatar sx={{
-                            bgcolor: deepPurple[500],
-                            width: 56,
-                            height: 56,
-                            mr: 2
-                        }}>
-                            {friend.firstName.charAt(0)}{friend.familyName.charAt(0)}
+                        <Avatar
+                            src={avatarSrc}
+                            sx={{
+                                bgcolor: deepPurple[500],
+                                width: 56,
+                                height: 56,
+                                mr: 2
+                            }}>
                         </Avatar>
                         <Box sx={{
                             flexGrow: 1,
@@ -89,14 +116,14 @@ export function FriendCard({ friend, onFriendRemoved }) {
                         <IconButton
                             aria-label="delete"
                             onClick={handleClickOpen}
-                            color="error"
-                            sx={{ ml: 1 }}
+                            color="gray"
+                            sx={{ml: 1}}
                             disabled={isDeleting}
                         >
-                            <DeleteIcon />
+                            <PersonRemoveOutlinedIcon sx={{fontSize: '36px'}}/>
                         </IconButton>
                     </Box>
-                    <Divider sx={{ my: 2 }} />
+                    <Divider sx={{my: 2}}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">

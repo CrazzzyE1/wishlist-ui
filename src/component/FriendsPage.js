@@ -12,7 +12,7 @@ import FriendsContent from "./FriendsContent";
 export default function FriendsPage() {
 
     const [avatarUrl, setAvatarUrl] = React.useState(null);
-    const [itemMenu, setItemMenu] = React.useState(null);
+    const [itemMenu, setItemMenu] = React.useState(0);
 
     return (
         <React.Fragment>

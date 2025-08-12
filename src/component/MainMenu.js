@@ -98,32 +98,6 @@ function MainMenu({onListCreated, lists}) {
                                     boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                 }
                             }}>
-                            <BookmarkBorderIcon sx={{
-                                fontSize: 32,
-                                transition: 'color 0.5s ease'
-                            }}/>
-                        </IconButton>
-                    </Item>
-                </Grid>
-                <Grid size={12}>
-                    <Item noshadow>
-                        <IconButton
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: 42,
-                                height: 42,
-                                borderRadius: '50%',
-                                '&:hover': {
-                                    '& .MuiSvgIcon-root': {
-                                        color: '#000000'
-                                    }
-                                },
-                                '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                }
-                            }}>
                             <NotificationsActiveOutlinedIcon sx={{
                                 fontSize: 32,
                                 transition: 'color 0.5s ease'

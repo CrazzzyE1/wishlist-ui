@@ -33,7 +33,7 @@ function Counters({userData}) {
                         flexDirection: 'column',
                         alignItems: 'flex-start'
                     }}>
-                        <Typography variant="body1">Избранных: <b>{userData.favouritesCount}</b></Typography>
+                        <Typography variant="body1">Подписки: <b>{userData.favouritesCount}</b></Typography>
                     </Box>
                 </Grid>
             </Grid>
