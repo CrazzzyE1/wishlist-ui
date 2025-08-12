@@ -9,9 +9,12 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ListCreator from "./ListCreator";
 import GiftCreator from "./GiftCreator";
+import { useNavigate } from "react-router-dom";
 
 
 function MainMenu({onListCreated, lists}) {
+    const navigate = useNavigate();
+
     return (
         <Box sx={{
             flexGrow: 1,
@@ -25,6 +28,7 @@ function MainMenu({onListCreated, lists}) {
                 <Grid size={12}>
                     <Item noshadow>
                         <IconButton
+                            onClick={() => navigate('/')}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'center',
@@ -51,6 +55,7 @@ function MainMenu({onListCreated, lists}) {
                 <Grid size={12}>
                     <Item noshadow>
                         <IconButton
+                            onClick={() => navigate('/friends')}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'center',

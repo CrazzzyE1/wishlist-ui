@@ -1,6 +1,8 @@
 import React, {useEffect, useRef, useState} from 'react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 import keycloak from './keycloak/Keycloak';
 import ProfilePage from "./component/ProfilePage";
+import FriendsPage from "./component/FriendsPage"; // Создайте этот компонент
 import {httpClient} from './http/HttpClient';
 
 function App() {
@@ -41,7 +43,12 @@ function App() {
     httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
 
     return (
-        <ProfilePage/>
+        <Router>
+            <Routes>
+                <Route path="/" element={<ProfilePage/>}/>
+                <Route path="/friends" element={<FriendsPage/>}/>
+            </Routes>
+        </Router>
     );
 }
 
