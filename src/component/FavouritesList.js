@@ -14,9 +14,9 @@ export default function FavouritesList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const handleFavouriteRemoved = (favouriteId) => {
-        setFavourites(favourites.filter(f => f.id !== favouriteId));
-    };
+    const handleFavouriteRemoved = useCallback((favouriteId) => {
+        setFavourites(prev => prev.filter(f => f.id !== favouriteId));
+    }, []);
 
     const userId = getUserIdFromToken(keycloak.token);
 

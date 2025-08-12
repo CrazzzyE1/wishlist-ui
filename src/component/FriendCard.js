@@ -63,12 +63,7 @@ export function FriendCard({friend, onFriendRemoved}) {
         e?.stopPropagation();
         setIsDeleting(true);
         try {
-            const response = await httpClient.delete(`http://localhost:9000/api/v1/friends/${friend.id}`);
-
-            if (!response.ok) {
-                throw new Error('Ошибка при удалении друга');
-            }
-
+            await httpClient.delete(`http://localhost:9000/api/v1/friends/${friend.id}`);
             enqueueSnackbar(`${friend.fullName} удален из друзей`, {variant: 'success'});
             onFriendRemoved(friend.id);
         } catch (error) {

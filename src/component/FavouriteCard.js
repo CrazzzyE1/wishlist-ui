@@ -63,12 +63,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
         e?.stopPropagation();
         setIsDeleting(true);
         try {
-            const response = await httpClient.delete(`http://localhost:9000/api/v1/favourites/user/${favourite.id}`);
-
-            if (!response.ok) {
-                throw new Error('Ошибка при удалении друга');
-            }
-
+            await httpClient.delete(`http://localhost:9000/api/v1/favourites/user/${favourite.id}`);
             enqueueSnackbar(`${favourite.fullName} удален из друзей`, {variant: 'success'});
             onFavouriteRemoved(favourite.id);
         } catch (error) {
