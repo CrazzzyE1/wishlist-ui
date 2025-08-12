@@ -11,7 +11,7 @@ import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
-function AccountInfo({onIsOwner, events}) {
+function AccountInfo({onIsOwner, events, onAvatarLoaded}) {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -46,7 +46,7 @@ function AccountInfo({onIsOwner, events}) {
         <Box sx={{flexGrow: 1, pl: 0}}>
             <Grid container spacing={1}>
                 <Grid size={3}>
-                    <ProfileAvatar user={userData}/>
+                    <ProfileAvatar user={userData} onAvatarLoaded={onAvatarLoaded}/>
                 </Grid>
                 <Grid size={9}>
                     <Grid container spacing={2}>

@@ -11,7 +11,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import {Avatar, Divider} from "@mui/material";
 import keycloak from "../keycloak/Keycloak";
 
-export default function AccountSettingToggle() {
+export default function AccountSettingToggle({avatarUrl}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const isMenuOpen = Boolean(anchorEl);
@@ -96,7 +96,7 @@ export default function AccountSettingToggle() {
                 >
                     <Avatar
                         alt="Remy Sharp"
-                        src="https://yt3.googleusercontent.com/ytc/AIdro_kVQHrWKVLJd-KEIJ--PUf76lxreLKOX9jrNdgxTcsyheE=s900-c-k-c0x00ffffff-no-rj"
+                        src={avatarUrl}
                         sx={{width: 40, height: 40}}
                     />
                 </IconButton>

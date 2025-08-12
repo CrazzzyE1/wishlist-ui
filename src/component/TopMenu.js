@@ -7,7 +7,7 @@ import Grid from "@mui/material/Grid";
 import Item from "./StyledItem";
 import {Logo} from "./Logo";
 
-function TopMenu() {
+function TopMenu({avatarUrl}) {
     return (
         <Box sx={{flexGrow: 1, pl: 0}}>
             <Grid container spacing={1}>
@@ -22,7 +22,7 @@ function TopMenu() {
                 </Grid>
                 <Grid size={1}></Grid>
                 <Grid size={2}>
-                    <Item noshadow><AccountSettingToggle/></Item>
+                    <Item noshadow><AccountSettingToggle avatarUrl={avatarUrl}/></Item>
                 </Grid>
             </Grid>
         </Box>

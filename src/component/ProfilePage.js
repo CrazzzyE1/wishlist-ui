@@ -9,6 +9,7 @@ import TopMenu from "./TopMenu";
 import Item from "./StyledItem";
 import WishLists from "./WishLists";
 import WishListContent from "./WishListContent";
+import {useState} from "react";
 
 export default function ProfilePage() {
 
@@ -16,6 +17,7 @@ export default function ProfilePage() {
     const [isOwner, setIsOwner] = React.useState();
     const [refreshKey, setRefreshKey] = React.useState(0);
     const [lists, setLists] = React.useState();
+    const [avatarUrl, setAvatarUrl] = useState(null);
 
     const onListCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
@@ -38,7 +40,7 @@ export default function ProfilePage() {
                 <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={3}>
                         <Grid size={12}>
-                            <Item><TopMenu/></Item>
+                            <Item><TopMenu avatarUrl={avatarUrl}/></Item>
                         </Grid>
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>
@@ -51,7 +53,9 @@ export default function ProfilePage() {
                                     <Item>
                                         <AccountInfo
                                             events={lists}
-                                            onIsOwner={setIsOwner}/>
+                                            onIsOwner={setIsOwner}
+                                            onAvatarLoaded={setAvatarUrl}
+                                        />
                                     </Item>
                                 </Grid>
                                 <Grid size={12}>
