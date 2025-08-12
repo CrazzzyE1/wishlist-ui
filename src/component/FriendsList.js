@@ -32,7 +32,6 @@ export default function FriendsList() {
             setFriends(friendsDetails);
         } catch (err) {
             setError(err.message);
-            console.error('Ошибка при загрузке друзей:', err);
         } finally {
             setLoading(false);
         }
@@ -65,10 +64,6 @@ export default function FriendsList() {
 
     return (
         <Box sx={{ flexGrow: 1, p: 3 }}>
-            <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
-                Мои друзья
-            </Typography>
-
             {friends.length === 0 ? (
                 <Typography variant="body1" sx={{ mt: 2 }}>
                     У вас пока нет друзей
