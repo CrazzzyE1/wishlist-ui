@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import ProfileInfo from "./ProfileInfo";
+import ProfileAvatar from "./ProfileAvatar";
 import Counters from "./Counters";
 import {httpClient} from "../http/HttpClient";
 import Box from "@mui/material/Box";
@@ -10,7 +10,6 @@ import {Typography} from "@mui/material";
 import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import EventsInfo from "./EventsInfo";
 
 function AccountInfo({onIsOwner, events}) {
     const [userData, setUserData] = useState(null);
@@ -47,7 +46,7 @@ function AccountInfo({onIsOwner, events}) {
         <Box sx={{flexGrow: 1, pl: 0}}>
             <Grid container spacing={1}>
                 <Grid size={3}>
-                    <ProfileInfo user={userData}/>
+                    <ProfileAvatar user={userData}/>
                 </Grid>
                 <Grid size={9}>
                     <Grid container spacing={2}>
