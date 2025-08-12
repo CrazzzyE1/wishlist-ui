@@ -6,13 +6,11 @@ import Face6Icon from '@mui/icons-material/Face6';
 import IconButton from "@mui/material/IconButton";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import ListCreator from "./ListCreator";
 import GiftCreator from "./GiftCreator";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
-
-function MainMenu({onListCreated, lists}) {
+function MainMenu({onListCreated, lists, isOwner}) {
     const navigate = useNavigate();
 
     return (
@@ -112,19 +110,23 @@ function MainMenu({onListCreated, lists}) {
                     </Item>
                 </Grid>
 
-                <Grid size={12}>
-                    <Item noshadow>
-                        <ListCreator onListCreated={onListCreated}/>
-                    </Item>
-                </Grid>
-                <Grid size={12}>
-                    <Item noshadow>
-                        <GiftCreator
-                            onListCreated={onListCreated}
-                            lists={lists}
-                        />
-                    </Item>
-                </Grid>
+                {isOwner && (
+                    <>
+                        <Grid size={12}>
+                            <Item noshadow>
+                                <ListCreator onListCreated={onListCreated}/>
+                            </Item>
+                        </Grid>
+                        <Grid size={12}>
+                            <Item noshadow>
+                                <GiftCreator
+                                    onListCreated={onListCreated}
+                                    lists={lists}
+                                />
+                            </Item>
+                        </Grid>
+                    </>
+                )}
             </Grid>
         </Box>
     );

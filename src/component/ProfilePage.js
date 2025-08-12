@@ -39,13 +39,17 @@ export default function ProfilePage({userId}) {
                 <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={3}>
                         <Grid size={12}>
-                            <Item><TopMenu /></Item>
+                            <Item><TopMenu/></Item>
                         </Grid>
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>
-                                <Item><MainMenu
-                                    onListCreated={onListCreated}
-                                    lists={lists}/></Item>
+                                <Item>
+                                    <MainMenu
+                                        isOwner={isOwner}
+                                        onListCreated={onListCreated}
+                                        lists={lists}
+                                    />
+                                </Item>
                             </Grid>
                             <Grid container spacing={3} size={11}>
                                 <Grid size={12}>
