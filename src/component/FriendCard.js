@@ -81,7 +81,7 @@ export function FriendCard({friend, onFriendRemoved}) {
     };
 
     const handleCardClick = () => {
-        navigate(`/friends/${friend.id}`);
+        navigate(`/users/${friend.id}`);
     };
 
     return (

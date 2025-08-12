@@ -46,14 +46,13 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<ProfilePage />} />
-                <Route path="/friends" element={<FriendsPage />} />
-                <Route path="/friends/:userId" element={<ProfilePageWithParams />} />
+                <Route path="/users" element={<FriendsPage />} />
+                <Route path="/users/:userId" element={<ProfilePageWithParams />} />
             </Routes>
         </Router>
     );
 }
 
-// Вспомогательный компонент для извлечения параметров маршрута
 function ProfilePageWithParams() {
     const { userId } = useParams();
     return <ProfilePage userId={userId} />;
