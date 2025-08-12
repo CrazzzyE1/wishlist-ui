@@ -49,15 +49,18 @@ export function FriendCard({friend, onFriendRemoved}) {
         };
     }, []);
 
-    const handleClickOpen = () => {
+    const handleClickOpen = (e) => {
+        e.stopPropagation();
         setOpen(true);
     };
 
-    const handleClose = () => {
+    const handleClose = (e) => {
+        e?.stopPropagation();
         setOpen(false);
     };
 
-    const handleRemoveFriend = async () => {
+    const handleRemoveFriend = async (e) => {
+        e?.stopPropagation();
         setIsDeleting(true);
         try {
             const response = await httpClient.delete(`http://localhost:9000/api/v1/friends/${friend.id}`);
@@ -103,7 +106,7 @@ export function FriendCard({friend, onFriendRemoved}) {
                         display: 'flex',
                         alignItems: 'center',
                         mb: 2,
-                        width: '100%' // Ширина 100%
+                        width: '100%'
                     }}>
                         <Avatar
                             src={avatarSrc}
@@ -116,7 +119,7 @@ export function FriendCard({friend, onFriendRemoved}) {
                         </Avatar>
                         <Box sx={{
                             flexGrow: 1,
-                            minWidth: 0 // Помогает с переполнением текста
+                            minWidth: 0
                         }}>
                             <Typography noWrap variant="h6" component="div">
                                 {friend.fullName}
@@ -165,6 +168,7 @@ export function FriendCard({friend, onFriendRemoved}) {
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                onClick={(e) => e.stopPropagation()}
             >
                 <DialogTitle id="alert-dialog-title">
                     {`Вы уверены, что хотите удалить ${friend.fullName} из друзей?`}
