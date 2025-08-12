@@ -10,6 +10,7 @@ import {Typography} from "@mui/material";
 import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import EventsInfo from "./EventsInfo";
 
 function AccountInfo({onIsOwner, events}) {
     const [userData, setUserData] = useState(null);
@@ -102,6 +103,7 @@ function AccountInfo({onIsOwner, events}) {
                             </Item>
                         </Grid>
                         <Grid size={2} container justifyContent="flex-end">
+                            {userData.isOwner ? null : (
                             <Item noshadow>
                                 <IconButton
                                     sx={{
@@ -121,12 +123,16 @@ function AccountInfo({onIsOwner, events}) {
                                             boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                         }
                                     }}>
+
+
+
                                     <BookmarkBorderIcon sx={{
                                         fontSize: 40,
                                         transition: 'color 0.5s ease'
                                     }}/>
                                 </IconButton>
                             </Item>
+                            )}
                         </Grid>
                         <Grid size={4} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
                             <Box sx={{
