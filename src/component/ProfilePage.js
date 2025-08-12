@@ -17,7 +17,6 @@ export default function ProfilePage({userId}) {
     const [isOwner, setIsOwner] = useState();
     const [refreshKey, setRefreshKey] = useState(0);
     const [lists, setLists] = useState();
-    const [avatarUrl, setAvatarUrl] = useState(null);
 
     const onListCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
@@ -40,7 +39,7 @@ export default function ProfilePage({userId}) {
                 <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={3}>
                         <Grid size={12}>
-                            <Item><TopMenu avatarUrl={avatarUrl}/></Item>
+                            <Item><TopMenu /></Item>
                         </Grid>
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>
@@ -52,15 +51,16 @@ export default function ProfilePage({userId}) {
                                 <Grid size={12}>
                                     <Item>
                                         <AccountInfo
+                                            userId={userId}
                                             events={lists}
                                             onIsOwner={setIsOwner}
-                                            onAvatarLoaded={setAvatarUrl}
                                         />
                                     </Item>
                                 </Grid>
                                 <Grid size={12}>
                                     <Item>
                                         <WishLists
+                                            userId={userId}
                                             onListGetting={onListGetting}
                                             onWishlistSelect={setSelectedWishlistId}
                                             refreshKey={refreshKey}

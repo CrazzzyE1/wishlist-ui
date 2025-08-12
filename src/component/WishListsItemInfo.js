@@ -7,7 +7,7 @@ import CardActionArea from '@mui/material/CardActionArea';
 import {green, pink, yellow} from "@mui/material/colors";
 import {httpClient} from "../http/HttpClient";
 
-function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, onListGetting}) {
+function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, onListGetting, userId}) {
     const [wishlists, setWishlists] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -15,7 +15,11 @@ function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, on
     const fetchWishlists = async () => {
         try {
             setLoading(true);
-            const response = await httpClient.get('http://localhost:9000/api/v1/wishlists/me');
+            const url = userId
+                ? `http://localhost:9000/api/v1/wishlists/user/${userId}`
+                : 'http://localhost:9000/api/v1/wishlists/me';
+
+            const response = await httpClient.get(url);
             const dataWithDefault = [
                 ...response.data,
                 {

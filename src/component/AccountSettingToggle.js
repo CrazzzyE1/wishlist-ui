@@ -10,10 +10,12 @@ import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import {Avatar, Divider} from "@mui/material";
 import keycloak from "../keycloak/Keycloak";
+import {useEffect, useState} from "react";
+import {httpClient} from "../http/HttpClient";
 
-export default function AccountSettingToggle({avatarUrl}) {
+export default function AccountSettingToggle() {
+    const [avatarSrc, setAvatarSrc] = useState(null);
     const [anchorEl, setAnchorEl] = React.useState(null);
-
     const isMenuOpen = Boolean(anchorEl);
 
     const handleProfileMenuOpen = (event) => {
@@ -30,6 +32,31 @@ export default function AccountSettingToggle({avatarUrl}) {
     };
 
     const menuId = 'primary-search-account-menu';
+
+    useEffect(() => {
+        const fetchAvatar = async () => {
+            try {
+                const response = await httpClient.get('http://localhost:9000/api/v1/avatars/me?size=SMALL', {
+                    responseType: 'arraybuffer'
+                });
+
+                const blob = new Blob([response.data], {type: response.headers['content-type']});
+                const imageUrl = URL.createObjectURL(blob);
+                setAvatarSrc(imageUrl);
+            } catch (err) {
+                console.error('Ошибка загрузки аватара:', err);
+            }
+        };
+
+        fetchAvatar();
+
+        return () => {
+            if (avatarSrc) {
+                URL.revokeObjectURL(avatarSrc);
+            }
+        };
+    }, []);
+
     const renderMenu = (
         <Menu
             anchorEl={anchorEl}
@@ -52,6 +79,10 @@ export default function AccountSettingToggle({avatarUrl}) {
             <MenuItem onClick={handleLogout}><LogoutOutlinedIcon sx={{mr: '5px'}} />Выход</MenuItem>
         </Menu>
     );
+
+
+
+
 
     return (
         <Box sx={{flexGrow: 1}}>
@@ -96,7 +127,7 @@ export default function AccountSettingToggle({avatarUrl}) {
                 >
                     <Avatar
                         alt="Remy Sharp"
-                        src={avatarUrl}
+                        src={avatarSrc}
                         sx={{width: 40, height: 40}}
                     />
                 </IconButton>

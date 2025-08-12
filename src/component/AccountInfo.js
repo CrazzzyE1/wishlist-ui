@@ -11,7 +11,7 @@ import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
-function AccountInfo({onIsOwner, events, onAvatarLoaded}) {
+function AccountInfo({onIsOwner, events, userId}) {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -19,9 +19,13 @@ function AccountInfo({onIsOwner, events, onAvatarLoaded}) {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const response = await httpClient.get('http://localhost:9000/api/v1/profiles/me');
+                const url = userId
+                    ? `http://localhost:9000/api/v1/profiles/${userId}`
+                    : 'http://localhost:9000/api/v1/profiles/me';
+
+                const response = await httpClient.get(url);
                 setUserData(response.data);
-                onIsOwner?.(response.data.isOwner)
+                onIsOwner?.(response.data.isOwner);
             } catch (err) {
                 setError(err.message);
                 console.error('Ошибка загрузки данных:', err);
@@ -31,7 +35,7 @@ function AccountInfo({onIsOwner, events, onAvatarLoaded}) {
         };
 
         fetchUserData();
-    }, []);
+    }, [userId]); // Добавляем userId в зависимости useEffect
 
     if (loading) return <div>Загрузка данных...</div>;
     if (error) return <div>Ошибка: {error}</div>;
@@ -46,7 +50,7 @@ function AccountInfo({onIsOwner, events, onAvatarLoaded}) {
         <Box sx={{flexGrow: 1, pl: 0}}>
             <Grid container spacing={1}>
                 <Grid size={3}>
-                    <ProfileAvatar user={userData} onAvatarLoaded={onAvatarLoaded}/>
+                    <ProfileAvatar userId={userId} />
                 </Grid>
                 <Grid size={9}>
                     <Grid container spacing={2}>
@@ -103,34 +107,31 @@ function AccountInfo({onIsOwner, events, onAvatarLoaded}) {
                         </Grid>
                         <Grid size={2} container justifyContent="flex-end">
                             {userData.isOwner ? null : (
-                            <Item noshadow>
-                                <IconButton
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        width: 48,
-                                        height: 48,
-                                        borderRadius: '50%',
-                                        mr: 2,
-                                        '&:hover': {
-                                            '& .MuiSvgIcon-root': {
-                                                color: '#FFD700'
+                                <Item noshadow>
+                                    <IconButton
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            width: 48,
+                                            height: 48,
+                                            borderRadius: '50%',
+                                            mr: 2,
+                                            '&:hover': {
+                                                '& .MuiSvgIcon-root': {
+                                                    color: '#FFD700'
+                                                }
+                                            },
+                                            '&:active': {
+                                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                             }
-                                        },
-                                        '&:active': {
-                                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                        }
-                                    }}>
-
-
-
-                                    <BookmarkBorderIcon sx={{
-                                        fontSize: 40,
-                                        transition: 'color 0.5s ease'
-                                    }}/>
-                                </IconButton>
-                            </Item>
+                                        }}>
+                                        <BookmarkBorderIcon sx={{
+                                            fontSize: 40,
+                                            transition: 'color 0.5s ease'
+                                        }}/>
+                                    </IconButton>
+                                </Item>
                             )}
                         </Grid>
                         <Grid size={4} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
