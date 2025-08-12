@@ -14,6 +14,10 @@ export default function FriendsList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const handleFriendRemoved = (friendId) => {
+        setFriends(friends.filter(f => f.id !== friendId));
+    };
+
     const userId = getUserIdFromToken(keycloak.token);
 
     const fetchFriends = useCallback(async () => {
@@ -72,7 +76,9 @@ export default function FriendsList() {
                 <Grid container spacing={3}>
                     {friends.map((friend) => (
                         <Grid item xs={12} sm={6} md={4} lg={3} key={friend.id}>
-                            <FriendCard friend={friend} />
+                            <FriendCard key={friend.id}
+                                        friend={friend}
+                                        onFriendRemoved={handleFriendRemoved}  />
                         </Grid>
                     ))}
                 </Grid>
