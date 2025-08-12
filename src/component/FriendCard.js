@@ -51,17 +51,38 @@ export function FriendCard({ friend, onFriendRemoved }) {
 
     return (
         <>
-            <Card sx={{ minWidth: 275, mb: 2, borderRadius: 2, position: 'relative' }}>
-                <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                        <Avatar sx={{ bgcolor: deepPurple[500], width: 56, height: 56, mr: 2 }}>
+            <Card sx={{
+                width: '100%',
+                mb: 2,
+                borderRadius: 2,
+                display: 'flex'
+            }}>
+                <CardContent sx={{
+                    width: '100%',
+                    p: 3
+                }}>
+                    <Box sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        mb: 2,
+                        width: '100%' // Ширина 100%
+                    }}>
+                        <Avatar sx={{
+                            bgcolor: deepPurple[500],
+                            width: 56,
+                            height: 56,
+                            mr: 2
+                        }}>
                             {friend.firstName.charAt(0)}{friend.familyName.charAt(0)}
                         </Avatar>
-                        <Box sx={{ flexGrow: 1 }}>
-                            <Typography variant="h6" component="div">
+                        <Box sx={{
+                            flexGrow: 1,
+                            minWidth: 0 // Помогает с переполнением текста
+                        }}>
+                            <Typography noWrap variant="h6" component="div">
                                 {friend.fullName}
                             </Typography>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography noWrap variant="body2" color="text.secondary">
                                 {friend.email}
                             </Typography>
                         </Box>
@@ -75,24 +96,24 @@ export function FriendCard({ friend, onFriendRemoved }) {
                             <DeleteIcon />
                         </IconButton>
                     </Box>
-                    <Divider sx={{ my: 1 }} />
-                    <Grid container spacing={1}>
-                        <Grid item xs={6}>
+                    <Divider sx={{ my: 2 }} />
+                    <Grid container spacing={2}>
+                        <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
                                 <strong>Дата рождения:</strong> {new Date(friend.birthDate).toLocaleDateString()}
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
                                 <strong>Друзей:</strong> {friend.friendsCount}
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
                                 <strong>Избранное:</strong> {friend.favouritesCount}
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
                                 <strong>Статус:</strong> {friend.privacyLevel === 'PUBLIC' ? 'Публичный' : 'Приватный'}
                             </Typography>
