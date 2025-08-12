@@ -27,8 +27,8 @@ export default function FavouritesList() {
             const favouritesResponse = await httpClient.get(`http://localhost:9000/api/v1/favourites`);
             const favouritesData = await favouritesResponse.data;
             const favouritesDetails = await Promise.all(
-                favouritesData.favouritesIds.map(async (favoiriteId) => {
-                    const profileResponse = await httpClient.get(`http://localhost:9000/api/v1/profiles/${favoiriteId}`);
+                favouritesData.favouritesIds.map(async (favouriteId) => {
+                    const profileResponse = await httpClient.get(`http://localhost:9000/api/v1/profiles/${favouriteId}`);
                     return await profileResponse.data;
                 })
             );
