@@ -1,37 +1,18 @@
 import * as React from 'react';
-import {useState} from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {CssBaseline} from "@mui/material";
 import MainMenu from "./MainMenu";
-import AccountInfo from "./AccountInfo";
 import TopMenu from "./TopMenu";
 import Item from "./StyledItem";
-import WishLists from "./WishLists";
-import WishListContent from "./WishListContent";
+import FriendsPageMenu from "./FriendsPageMenu";
+import FriendsContent from "./FriendsContent";
 
-export default function ProfilePage() {
+export default function FriendsPage() {
 
-    const [selectedWishlistId, setSelectedWishlistId] = useState(null);
-    const [isOwner, setIsOwner] = useState();
-    const [refreshKey, setRefreshKey] = useState(0);
-    const [lists, setLists] = useState();
-    const [avatarUrl, setAvatarUrl] = useState(null);
-
-    const onListCreated = (newListId) => {
-        setRefreshKey(prev => prev + 1);
-        setSelectedWishlistId(newListId);
-    };
-
-    const onListGetting = (lists) => {
-        setLists(lists);
-    };
-
-    const onListDeleted = () => {
-        setRefreshKey(prev => prev + 1);
-        setSelectedWishlistId(null);
-    };
+    const [avatarUrl, setAvatarUrl] = React.useState(null);
+    const [itemMenu, setItemMenu] = React.useState(null);
 
     return (
         <React.Fragment>
@@ -44,15 +25,24 @@ export default function ProfilePage() {
                         </Grid>
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>
-                                <Item><MainMenu
-                                    onListCreated={onListCreated}
-                                    lists={lists}/></Item>
+                                <Item>
+                                    <MainMenu/></Item>
                             </Grid>
                             <Grid container spacing={3} size={11}>
-
-
-
-
+                                <Grid size={12}>
+                                    <Item >
+                                        <Grid size={12}>
+                                            <Item noshadow>
+                                                <FriendsPageMenu onItemMenu={setItemMenu}/>
+                                            </Item>
+                                        </Grid>
+                                        <Grid size={12}>
+                                            <Item noshadow>
+                                                <FriendsContent itemMenu={itemMenu}/>
+                                            </Item>
+                                        </Grid>
+                                    </Item>
+                                </Grid>
 
                             </Grid>
                         </Grid>

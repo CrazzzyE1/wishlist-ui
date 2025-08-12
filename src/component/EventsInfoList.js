@@ -9,8 +9,6 @@ function EventsInfoList({events = []}) {
         const currentDate = new Date();
         currentDate.setHours(0, 0, 0, 0);
 
-        console.log(events)
-
         return events
             .filter(event => event.eventDate && new Date(event.eventDate) >= currentDate)
             .filter(event => event.isOwner || event.privacyLevel !== "PRIVATE")
