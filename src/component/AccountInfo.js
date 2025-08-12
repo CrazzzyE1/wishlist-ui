@@ -11,7 +11,7 @@ import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 
-function AccountInfo({onIsOwner}) {
+function AccountInfo({onIsOwner, events}) {
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -144,7 +144,7 @@ function AccountInfo({onIsOwner}) {
                             <Counters userData={userData}/>
                         </Grid>
                         <Grid size={12} container justifyContent="flex-start">
-                            <EventsInfoList/>
+                            <EventsInfoList events={events}/>
                         </Grid>
                     </Grid>
                 </Grid>

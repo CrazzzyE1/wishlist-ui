@@ -43,13 +43,14 @@ export default function ProfilePage() {
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>
                                 <Item><MainMenu
-                                    onListCreated = {onListCreated}
+                                    onListCreated={onListCreated}
                                     lists={lists}/></Item>
                             </Grid>
                             <Grid container spacing={3} size={11}>
                                 <Grid size={12}>
                                     <Item>
                                         <AccountInfo
+                                            events={lists}
                                             onIsOwner={setIsOwner}/>
                                     </Item>
                                 </Grid>
@@ -65,7 +66,8 @@ export default function ProfilePage() {
                                 </Grid>
                                 <Grid size={12}>
                                     <Item>
-                                        <WishListContent selectedWishlistId={selectedWishlistId} isOwner={isOwner} onListDeleted={onListDeleted}/>
+                                        <WishListContent selectedWishlistId={selectedWishlistId} isOwner={isOwner}
+                                                         onListDeleted={onListDeleted}/>
                                     </Item>
                                 </Grid>
                             </Grid>
