@@ -68,7 +68,7 @@ export default function ListSelector({ data = [], onSelect }) {
                                 }
                             }}
                         >
-                            {option.name} ({option.eventDate})
+                            {option.eventDate ? `${option.name} (${option.eventDate})` : option.name}
                         </Box>
                     );
                 }}
