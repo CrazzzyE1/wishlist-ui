@@ -173,7 +173,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                 onClick={(e) => e.stopPropagation()}
             >
                 <DialogTitle id="alert-dialog-title">
-                    {`Вы уверены, что хотите отменить заявку в друзья с ${friend.fullName}?`}
+                    {`Вы уверены, что хотите удалить заявку в друзья с ${friend.fullName}?`}
                 </DialogTitle>
                 <DialogActions>
                     <Button onClick={handleClose} disabled={isDeleting}>

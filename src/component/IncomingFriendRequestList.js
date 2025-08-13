@@ -5,41 +5,50 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import {httpClient} from "../http/HttpClient";
-import keycloak from '../keycloak/Keycloak';
-import {getUserIdFromToken} from "../utils/Auth";
 import {IncomingFriendRequest} from "./IncomingFriendRequest";
 
 export default function IncomingFriendRequestList() {
-    const [incomingRequests, setOutcomingRequests] = useState([]);
+    const [outComingRequests, setOutcomingRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const handleFriendRemoved = (requestId) => {
-        setOutcomingRequests(incomingRequests.filter(f => f.id !== requestId));
+    const handleIncomingRequestRemoved = (requestId) => {
+        setOutcomingRequests(prev => prev.filter(req => req.requestId !== requestId));
     };
-
-    const userId = getUserIdFromToken(keycloak.token);
 
     const fetchOutcomingRequests = useCallback(async () => {
         try {
             setLoading(true);
             setError(null);
+
             const response = await httpClient.get(`http://localhost:9000/api/v1/friends/requests?incoming=true`);
-            const requests = await response.data;
-            const friendsDetails = await Promise.all(
+            const requests = response.data;
+
+            const requestsWithProfiles = await Promise.all(
                 requests.map(async (req) => {
-                    const profileResponse = await httpClient.get(`http://localhost:9000/api/v1/profiles/${req.sender}`);
-                    return await profileResponse.data;
+                    try {
+                        const profileResponse = await httpClient.get(`http://localhost:9000/api/v1/profiles/${req.sender}`);
+                        return {
+                            ...profileResponse.data,
+                            requestId: req.id,
+                            requestData: req
+                        };
+                    } catch (error) {
+                        console.error(`Ошибка загрузки профиля для запроса ${req.id}:`, error);
+                        return null;
+                    }
                 })
             );
 
-            setOutcomingRequests(friendsDetails);
+            setOutcomingRequests(requestsWithProfiles.filter(Boolean));
+
         } catch (err) {
             setError(err.message);
+            console.error('Ошибка загрузки исходящих запросов:', err);
         } finally {
             setLoading(false);
         }
-    }, [userId]);
+    }, []);
 
     useEffect(() => {
         fetchOutcomingRequests();
@@ -68,17 +77,19 @@ export default function IncomingFriendRequestList() {
 
     return (
         <Box sx={{flexGrow: 1, p: 3}}>
-            {incomingRequests.length === 0 ? (
+            {outComingRequests.length === 0 ? (
                 <Typography variant="body1" sx={{mt: 2}}>
-                    У вас пока нет друзей
+                    У вас пока нет исходящих заявок
                 </Typography>
             ) : (
                 <Grid container spacing={3}>
-                    {incomingRequests.map((friend) => (
-                        <Grid size={12} key={friend.id}>
-                            <IncomingFriendRequest key={friend.id}
-                                                   friend={friend}
-                                                   onFriendRemoved={handleFriendRemoved}/>
+                    {outComingRequests.map((request) => (
+                        <Grid size={12} key={request.requestId}>
+                            <IncomingFriendRequest
+                                friend={request}
+                                requestId={request.requestId}
+                                onIncomingRequestRemoved={handleIncomingRequestRemoved}
+                            />
                         </Grid>
                     ))}
                 </Grid>

@@ -12,14 +12,13 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
-import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
+import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import {deepPurple} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
-import { useNavigate } from 'react-router-dom';
-import IncomingFriendRequestList from "./IncomingFriendRequestList";
+import {useNavigate} from 'react-router-dom';
 
-export function IncomingFriendRequest({favourite, onFavouriteRemoved}) {
+export function IncomingFriendRequest({friend, onIncomingRequestRemoved, requestId}) {
     const [open, setOpen] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
@@ -29,7 +28,7 @@ export function IncomingFriendRequest({favourite, onFavouriteRemoved}) {
     useEffect(() => {
         const fetchAvatar = async () => {
             try {
-                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${favourite.id}`, {
+                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${friend.id}`, {
                     responseType: 'arraybuffer'
                 });
 
@@ -60,16 +59,23 @@ export function IncomingFriendRequest({favourite, onFavouriteRemoved}) {
         setOpen(false);
     };
 
-    const handleRemoveFavourite = async (e) => {
+    const handleRemoveRequest = async (e) => {
         e?.stopPropagation();
         setIsDeleting(true);
         try {
-            await httpClient.delete(`http://localhost:9000/api/v1/favourites/user/${favourite.id}`);
-            enqueueSnackbar(`${favourite.fullName} удален из друзей`, {variant: 'success'});
-            onFavouriteRemoved(favourite.id);
+            const response = await httpClient.delete(
+                `http://localhost:9000/api/v1/friends/requests/${requestId}?isCanceled=false`
+            );
+
+            if (response.status !== 200 && response.status !== 204) {
+                throw new Error('Не удалось отменить заявку');
+            }
+
+            enqueueSnackbar(`Заявка в друзья с ${friend.fullName} отменена`, {variant: 'success'});
+            onIncomingRequestRemoved(requestId);
         } catch (error) {
-            enqueueSnackbar(error.message, {variant: 'error'});
-            console.error('Error removing friend:', error);
+            enqueueSnackbar(error.response?.data?.message || error.message, {variant: 'error'});
+            console.error('Ошибка отмены заявки:', error);
         } finally {
             setIsDeleting(false);
             handleClose();
@@ -77,7 +83,7 @@ export function IncomingFriendRequest({favourite, onFavouriteRemoved}) {
     };
 
     const handleCardClick = () => {
-        navigate(`/users/${favourite.id}`);
+        navigate(`/users/${friend.id}`);
     };
 
     return (
@@ -118,10 +124,10 @@ export function IncomingFriendRequest({favourite, onFavouriteRemoved}) {
                             minWidth: 0
                         }}>
                             <Typography noWrap variant="h6" component="div">
-                                {favourite.fullName}
+                                {friend.fullName}
                             </Typography>
                             <Typography noWrap variant="body2" color="text.secondary">
-                                {favourite.email}
+                                {friend.email}
                             </Typography>
                         </Box>
                         <IconButton
@@ -131,29 +137,29 @@ export function IncomingFriendRequest({favourite, onFavouriteRemoved}) {
                             sx={{ml: 1}}
                             disabled={isDeleting}
                         >
-                            <TurnedInOutlinedIcon sx={{fontSize: '36px'}}/>
+                            <HighlightOffOutlinedIcon sx={{fontSize: '36px'}}/>
                         </IconButton>
                     </Box>
                     <Divider sx={{my: 2}}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Дата рождения:</strong> {new Date(favourite.birthDate).toLocaleDateString()}
+                                <strong>Дата рождения:</strong> {new Date(friend.birthDate).toLocaleDateString()}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Друзей:</strong> {favourite.friendsCount}
+                                <strong>Друзей:</strong> {friend.friendsCount}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Избранное:</strong> {favourite.favouritesCount}
+                                <strong>Избранное:</strong> {friend.favouritesCount}
                             </Typography>
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Статус:</strong> {favourite.privacyLevel}
+                                <strong>Статус:</strong> {friend.privacyLevel}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -167,19 +173,19 @@ export function IncomingFriendRequest({favourite, onFavouriteRemoved}) {
                 onClick={(e) => e.stopPropagation()}
             >
                 <DialogTitle id="alert-dialog-title">
-                    {`Вы уверены, что хотите удалить ${favourite.fullName} из подписок?`}
+                    {`Вы уверены, что хотите отказать ${friend.fullName}?`}
                 </DialogTitle>
                 <DialogActions>
                     <Button onClick={handleClose} disabled={isDeleting}>
                         Отмена
                     </Button>
                     <Button
-                        onClick={handleRemoveFavourite}
+                        onClick={handleRemoveRequest}
                         color="error"
                         autoFocus
                         disabled={isDeleting}
                     >
-                        {isDeleting ? 'Удаление...' : 'Удалить'}
+                        {isDeleting ? 'Удаление...' : 'Отказать'}
                     </Button>
                 </DialogActions>
             </Dialog>
