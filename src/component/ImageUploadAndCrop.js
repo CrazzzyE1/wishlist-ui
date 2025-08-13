@@ -114,12 +114,6 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
                         >
                             Отмена
                         </Button>
-                        {/*<Button*/}
-                        {/*    variant="contained"*/}
-                        {/*    onClick={handleCropComplete}*/}
-                        {/*>*/}
-                        {/*    Применить обрезку*/}
-                        {/*</Button>*/}
                     </Box>
                 </>
             )}
