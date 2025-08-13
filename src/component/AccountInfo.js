@@ -10,12 +10,15 @@ import {Typography} from "@mui/material";
 import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
 import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
+import {yellow} from "@mui/material/colors";
 
 function AccountInfo({onIsOwner, events, userId}) {
     const [userData, setUserData] = useState(null);
+    const [bookmark, setBookmark] = useState(null);
     const [relations, setRelations] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -69,6 +72,28 @@ function AccountInfo({onIsOwner, events, userId}) {
             fetchRelations();
         }
     }, [userId, userData]);
+
+    const handleClickBookmark = () => {
+        try {
+            setLoading(true);
+            if (bookmark) {
+                httpClient.delete(`http://localhost:9000/api/v1/favourites/user/${userId}`);
+                setBookmark(false)
+            } else {
+                const url = `http://localhost:9000/api/v1/favourites`;
+                httpClient.post(url, {
+                    friendId: userId
+                });
+                setBookmark(true)
+            }
+        } catch (err) {
+            setError(err.message);
+            console.error('Ошибка загрузки данных:', err);
+        } finally {
+            setLoading(false);
+        }
+
+    };
 
     const formatBirthDate = (dateString) => {
         if (!dateString) return 'Не указано';
@@ -163,6 +188,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                             {(!userData.isOwner && !relations?.isFriends) && (
                                 <Item noshadow>
                                     <IconButton
+                                        onClick={handleClickBookmark}
                                         sx={{
                                             display: 'flex',
                                             justifyContent: 'center',
@@ -180,10 +206,18 @@ function AccountInfo({onIsOwner, events, userId}) {
                                                 boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                             }
                                         }}>
-                                        <BookmarkBorderIcon sx={{
-                                            fontSize: 40,
-                                            transition: 'color 0.5s ease'
-                                        }}/>
+                                        {bookmark ?
+                                            <TurnedInOutlinedIcon sx={{
+                                                fontSize: 40,
+                                                color: yellow,
+                                                transition: 'color 0.5s ease'
+                                            }}/>
+                                            :
+                                            <BookmarkBorderIcon sx={{
+                                                fontSize: 40,
+                                                transition: 'color 0.5s ease'
+                                            }}/>
+                                        }
                                     </IconButton>
                                 </Item>
                             )}
