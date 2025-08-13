@@ -16,6 +16,10 @@ export default function IncomingFriendRequestList() {
         setIncomingRequests(prev => prev.filter(req => req.requestId !== requestId));
     };
 
+    const handleIncomingRequestAccepted = (requestId) => {
+        setIncomingRequests(prev => prev.filter(req => req.requestId !== requestId));
+    };
+
     const fetchIncomingRequests = useCallback(async () => {
         try {
             setLoading(true);
@@ -89,6 +93,7 @@ export default function IncomingFriendRequestList() {
                                 friend={request}
                                 requestId={request.requestId}
                                 onIncomingRequestRemoved={handleIncomingRequestRemoved}
+                                onIncomingRequestAccepted={handleIncomingRequestAccepted}
                             />
                         </Grid>
                     ))}

@@ -13,12 +13,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import {deepPurple} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
 
-export function IncomingFriendRequest({friend, onIncomingRequestRemoved, requestId}) {
+export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncomingRequestAccepted, requestId}) {
     const [open, setOpen] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
     const {enqueueSnackbar} = useSnackbar();
@@ -72,13 +73,34 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, request
             }
 
             enqueueSnackbar(`Заявка в друзья с ${friend.fullName} отменена`, {variant: 'success'});
-            onIncomingRequestRemoved(requestId);
+            onIncomingRequestAccepted(requestId);
         } catch (error) {
             enqueueSnackbar(error.response?.data?.message || error.message, {variant: 'error'});
             console.error('Ошибка отмены заявки:', error);
         } finally {
             setIsDeleting(false);
             handleClose();
+        }
+    };
+
+    const handleIncomingRequestAccepted = async (e) => {
+        e?.stopPropagation();
+        try {
+            const response = await httpClient.put(
+                `http://localhost:9000/api/v1/friends/requests/${requestId}/accept`
+            );
+
+            if (response.status !== 200 && response.status !== 204) {
+                throw new Error('Не удалось отменить заявку');
+            }
+
+            enqueueSnackbar(`Заявка в друзья с ${friend.fullName} подтверждена`, {variant: 'success'});
+            onIncomingRequestRemoved(requestId);
+        } catch (error) {
+            enqueueSnackbar(error.response?.data?.message || error.message, {variant: 'error'});
+            console.error('Ошибка подтверждения заявки:', error);
+        } finally {
+
         }
     };
 
@@ -131,10 +153,19 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, request
                             </Typography>
                         </Box>
                         <IconButton
+                            aria-label="accept"
+                            onClick={handleIncomingRequestAccepted}
+                            color="green"
+                            sx={{ml: 1}}
+                            disabled={isDeleting}
+                        >
+                            <CheckCircleOutlineOutlinedIcon sx={{fontSize: '36px', color: 'green'}}/>
+                        </IconButton>
+                        <IconButton
                             aria-label="delete"
                             onClick={handleClickOpen}
                             color="gray"
-                            sx={{ml: 1}}
+                            sx={{ml: 0}}
                             disabled={isDeleting}
                         >
                             <HighlightOffOutlinedIcon sx={{fontSize: '36px'}}/>
