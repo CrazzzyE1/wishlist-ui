@@ -73,6 +73,31 @@ function AccountInfo({onIsOwner, events, userId}) {
         }
     }, [userId, userData]);
 
+    useEffect(() => {
+        const fetchBookmark = async () => {
+            if (!userData || !userId) return;
+
+            try {
+                setLoading(true);
+                const url = `http://localhost:9000/api/v1/favourites`;
+                const response = await httpClient.get(url);
+
+                const isBookmarked = response.data.favouritesIds.includes(userId);
+                setBookmark(isBookmarked);
+
+            } catch (err) {
+                setError(err.message);
+                console.error('Ошибка загрузки данных:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (userData && !userData.isOwner && userData.privacyLevel !== 'PRIVATE') {
+            fetchBookmark();
+        }
+    }, [userId, userData]);
+
     const handleClickBookmark = () => {
         try {
             setLoading(true);
