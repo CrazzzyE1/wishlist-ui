@@ -1,21 +1,18 @@
-import {useState, useEffect, useCallback, Fragment} from 'react';
+import {Fragment, useCallback, useEffect, useState} from 'react';
 import {
-    TextField,
+    Avatar,
     Box,
+    CircularProgress,
+    Divider,
     List,
     ListItem,
     ListItemAvatar,
-    Avatar,
     ListItemText,
-    IconButton,
-    Divider,
-    CircularProgress, Typography
+    TextField,
+    Typography
 } from '@mui/material';
-import { deepPurple } from '@mui/material/colors';
-import PersonAddIcon from '@mui/icons-material/PersonAdd';
-import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { httpClient } from '../http/HttpClient';
+import {deepPurple} from '@mui/material/colors';
+import {httpClient} from '../http/HttpClient';
 import {useNavigate} from "react-router-dom";
 
 function SearchLine() {
@@ -47,28 +44,13 @@ function SearchLine() {
         debouncedSearch(searchTerm);
     }, [searchTerm, debouncedSearch]);
 
-    const handleAddFriend = async (userId) => {
-        try {
-            await httpClient.post(`/api/v1/friends/requests`, { receiverId: userId });
-        } catch (error) {
-            console.error('Add friend error:', error);
-        }
-    };
-
-    const handleAddToFavorites = async (userId) => {
-        try {
-            await httpClient.post(`/api/v1/favourites`, { userId });
-        } catch (error) {
-            console.error('Add to favorites error:', error);
-        }
-    };
-
     const handleCardClick = (userId) => {
         navigate(`/users/${userId}`);
+        setOpenResults(false);
     };
 
     return (
-        <Box sx={{ position: 'relative', width: '100%' }}>
+        <Box sx={{position: 'relative', width: '100%'}}>
             <TextField
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -79,14 +61,14 @@ function SearchLine() {
                 fullWidth
                 size="small"
                 sx={{
-                    '& .MuiInput-underline:after': { borderBottomColor: '#616161' },
-                    '& .MuiInput-underline:before': { borderBottomColor: '#E0E0E0' },
+                    '& .MuiInput-underline:after': {borderBottomColor: '#616161'},
+                    '& .MuiInput-underline:before': {borderBottomColor: '#E0E0E0'},
                     '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
                         borderBottomColor: '#9E9E9E',
                     },
-                    '& .MuiInputBase-input': { color: '#212121' },
-                    '& .MuiInputLabel-root': { color: '#616161' },
-                    '& .MuiInputLabel-root.Mui-focused': { color: '#424242' },
+                    '& .MuiInputBase-input': {color: '#212121'},
+                    '& .MuiInputLabel-root': {color: '#616161'},
+                    '& .MuiInputLabel-root.Mui-focused': {color: '#424242'},
                 }}
             />
 
@@ -103,28 +85,24 @@ function SearchLine() {
                     borderRadius: 1
                 }}>
                     {loading ? (
-                        <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-                            <CircularProgress size={24} />
+                        <Box sx={{display: 'flex', justifyContent: 'center', p: 2}}>
+                            <CircularProgress size={24}/>
                         </Box>
                     ) : results.length > 0 ? (
                         <List dense>
                             {results.map((user) => (
                                 <Fragment key={user.id}>
                                     <ListItem
-                                        secondaryAction={
-                                            <>
-                                                <IconButton
-                                                    edge="end"
-                                                    aria-label="view-profile"
-                                                    onClick={() => handleCardClick(user.id)}
-                                                >
-                                                    <AccountCircleIcon />
-                                                </IconButton>
-                                            </>
-                                        }
+                                        onClick={() => handleCardClick(user.id)}
+                                        sx={{
+                                            cursor: 'pointer',
+                                            '&:hover': {
+                                                backgroundColor: 'action.hover'
+                                            }
+                                        }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar sx={{ bgcolor: deepPurple[500] }}>
+                                            <Avatar sx={{bgcolor: deepPurple[500]}}>
                                                 {user.fullName.charAt(0)}
                                             </Avatar>
                                         </ListItemAvatar>
@@ -133,12 +111,12 @@ function SearchLine() {
                                             secondary={user.email}
                                         />
                                     </ListItem>
-                                    <Divider component="li" />
+                                    <Divider component="li"/>
                                 </Fragment>
                             ))}
                         </List>
                     ) : (
-                        <Box sx={{ p: 2, textAlign: 'center' }}>
+                        <Box sx={{p: 2, textAlign: 'center'}}>
                             <Typography variant="body2" color="text.secondary">
                                 Ничего не найдено
                             </Typography>
