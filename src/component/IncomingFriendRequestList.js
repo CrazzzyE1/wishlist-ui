@@ -8,15 +8,15 @@ import {httpClient} from "../http/HttpClient";
 import {IncomingFriendRequest} from "./IncomingFriendRequest";
 
 export default function IncomingFriendRequestList() {
-    const [outComingRequests, setOutcomingRequests] = useState([]);
+    const [incomingRequests, setIncomingRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     const handleIncomingRequestRemoved = (requestId) => {
-        setOutcomingRequests(prev => prev.filter(req => req.requestId !== requestId));
+        setIncomingRequests(prev => prev.filter(req => req.requestId !== requestId));
     };
 
-    const fetchOutcomingRequests = useCallback(async () => {
+    const fetchIncomingRequests = useCallback(async () => {
         try {
             setLoading(true);
             setError(null);
@@ -40,7 +40,7 @@ export default function IncomingFriendRequestList() {
                 })
             );
 
-            setOutcomingRequests(requestsWithProfiles.filter(Boolean));
+            setIncomingRequests(requestsWithProfiles.filter(Boolean));
 
         } catch (err) {
             setError(err.message);
@@ -51,8 +51,8 @@ export default function IncomingFriendRequestList() {
     }, []);
 
     useEffect(() => {
-        fetchOutcomingRequests();
-    }, [fetchOutcomingRequests]);
+        fetchIncomingRequests();
+    }, [fetchIncomingRequests]);
 
     if (loading) {
         return (
@@ -77,13 +77,13 @@ export default function IncomingFriendRequestList() {
 
     return (
         <Box sx={{flexGrow: 1, p: 3}}>
-            {outComingRequests.length === 0 ? (
+            {incomingRequests.length === 0 ? (
                 <Typography variant="body1" sx={{mt: 2}}>
                     У вас пока нет исходящих заявок
                 </Typography>
             ) : (
                 <Grid container spacing={3}>
-                    {outComingRequests.map((request) => (
+                    {incomingRequests.map((request) => (
                         <Grid size={12} key={request.requestId}>
                             <IncomingFriendRequest
                                 friend={request}
