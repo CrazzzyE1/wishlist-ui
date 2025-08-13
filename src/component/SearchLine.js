@@ -16,12 +16,14 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import TurnedInNotIcon from '@mui/icons-material/TurnedInNot';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { httpClient } from '../http/HttpClient';
+import {useNavigate} from "react-router-dom";
 
 function SearchLine() {
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const [openResults, setOpenResults] = useState(false);
+    const navigate = useNavigate();
     const debouncedSearch = useCallback(debounce(async (term) => {
         if (term.length >= 3) {
             try {
@@ -59,6 +61,10 @@ function SearchLine() {
         } catch (error) {
             console.error('Add to favorites error:', error);
         }
+    };
+
+    const handleCardClick = (userId) => {
+        navigate(`/users/${userId}`);
     };
 
     return (
@@ -124,7 +130,7 @@ function SearchLine() {
                                                 <IconButton
                                                     edge="end"
                                                     aria-label="view-profile"
-                                                    href={`/users/${user.id}`}
+                                                    onClick={() => handleCardClick(user.id)}
                                                 >
                                                     <AccountCircleIcon />
                                                 </IconButton>
