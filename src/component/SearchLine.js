@@ -115,20 +115,6 @@ function SearchLine() {
                                             <>
                                                 <IconButton
                                                     edge="end"
-                                                    aria-label="add-friend"
-                                                    onClick={() => handleAddFriend(user.id)}
-                                                >
-                                                    <PersonAddIcon />
-                                                </IconButton>
-                                                <IconButton
-                                                    edge="end"
-                                                    aria-label="add-favorite"
-                                                    onClick={() => handleAddToFavorites(user.id)}
-                                                >
-                                                    <TurnedInNotIcon />
-                                                </IconButton>
-                                                <IconButton
-                                                    edge="end"
                                                     aria-label="view-profile"
                                                     onClick={() => handleCardClick(user.id)}
                                                 >
