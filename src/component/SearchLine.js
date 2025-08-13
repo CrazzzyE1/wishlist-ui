@@ -8,30 +8,29 @@ function SearchLine() {
             type="search"
             variant="standard"
             fullWidth
-            size="small"  // Меньший размер
+            size="small"
             sx={{
-                // Цвета для разных состояний
+
                 '& .MuiInput-underline:after': {
-                    borderBottomColor: '#616161',  // Темно-серый при фокусе
+                    borderBottomColor: '#616161',
                 },
                 '& .MuiInput-underline:before': {
-                    borderBottomColor: '#E0E0E0',  // Светло-серый в обычном состоянии
+                    borderBottomColor: '#E0E0E0',
                 },
                 '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-                    borderBottomColor: '#9E9E9E',  // Серый при наведении
+                    borderBottomColor: '#9E9E9E',
                 },
-                // Цвет текста
+
                 '& .MuiInputBase-input': {
-                    // fontSize: '14px',
-                    // padding: '6px 0',
-                    color: '#212121',  // Темный текст
+
+                    color: '#212121',
                 },
-                // Цвет лейбла
+
                 '& .MuiInputLabel-root': {
                     color: '#616161',
                 },
                 '& .MuiInputLabel-root.Mui-focused': {
-                    color: '#424242',  // Темнее при фокусе
+                    color: '#424242',
                 },
             }}
         />
