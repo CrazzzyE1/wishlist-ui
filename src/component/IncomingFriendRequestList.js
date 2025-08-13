@@ -79,7 +79,7 @@ export default function IncomingFriendRequestList() {
         <Box sx={{flexGrow: 1, p: 3}}>
             {incomingRequests.length === 0 ? (
                 <Typography variant="body1" sx={{mt: 2}}>
-                    У вас пока нет исходящих заявок
+                    У вас пока нет входящих заявок
                 </Typography>
             ) : (
                 <Grid container spacing={3}>
