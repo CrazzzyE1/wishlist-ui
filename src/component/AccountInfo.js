@@ -10,22 +10,29 @@ import {Typography} from "@mui/material";
 import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import CircularProgress from '@mui/material/CircularProgress';
+import keycloak from '../keycloak/Keycloak';
+import {getUserIdFromToken} from "../utils/Auth";
 
 function AccountInfo({onIsOwner, events, userId}) {
     const [userData, setUserData] = useState(null);
+    const [relations, setRelations] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchUserData = async () => {
             try {
+                setLoading(true);
                 const url = userId
                     ? `http://localhost:9000/api/v1/profiles/${userId}`
                     : 'http://localhost:9000/api/v1/profiles/me';
 
                 const response = await httpClient.get(url);
                 setUserData(response.data);
-                onIsOwner?.(response.data.isOwner);
+                if (onIsOwner) {
+                    onIsOwner(response.data.isOwner);
+                }
             } catch (err) {
                 setError(err.message);
                 console.error('Ошибка загрузки данных:', err);
@@ -35,16 +42,63 @@ function AccountInfo({onIsOwner, events, userId}) {
         };
 
         fetchUserData();
-    }, [userId]); // Добавляем userId в зависимости useEffect
+    }, [userId, onIsOwner]);
 
-    if (loading) return <div>Загрузка данных...</div>;
-    if (error) return <div>Ошибка: {error}</div>;
-    if (!userData) return <div>Данные не найдены</div>;
+    useEffect(() => {
+        const fetchRelations = async () => {
+            if (!userData) return;
+
+            try {
+                setLoading(true);
+                const me = getUserIdFromToken(keycloak.token);
+                const url = `http://localhost:9000/api/v1/profiles/relations`;
+                const response = await httpClient.post(url, {
+                    me: me,
+                    friend: userId
+                });
+                setRelations(response.data);
+            } catch (err) {
+                setError(err.message);
+                console.error('Ошибка загрузки данных:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (userData && !userData.isOwner && userData.privacyLevel !== 'PRIVATE') {
+            fetchRelations();
+        }
+    }, [userId, userData]);
 
     const formatBirthDate = (dateString) => {
+        if (!dateString) return 'Не указано';
         const options = {day: 'numeric', month: 'long', year: 'numeric'};
         return new Date(dateString).toLocaleDateString('ru-RU', options);
     };
+
+    if (loading) {
+        return (
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+                <CircularProgress />
+            </Box>
+        );
+    }
+
+    if (error) {
+        return (
+            <Box sx={{ p: 2, color: 'error.main' }}>
+                Ошибка: {error}
+            </Box>
+        );
+    }
+
+    if (!userData) {
+        return (
+            <Box sx={{ p: 2 }}>
+                Данные не найдены
+            </Box>
+        );
+    }
 
     return (
         <Box sx={{flexGrow: 1, pl: 0}}>
@@ -106,7 +160,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                             </Item>
                         </Grid>
                         <Grid size={2} container justifyContent="flex-end">
-                            {userData.isOwner ? null : (
+                            {(!userData.isOwner && !relations?.isFriends) && (
                                 <Item noshadow>
                                     <IconButton
                                         sx={{
