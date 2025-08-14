@@ -14,6 +14,8 @@ import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
+import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
 import {green, red, yellow} from "@mui/material/colors";
@@ -102,14 +104,23 @@ function AccountInfo({onIsOwner, events, userId}) {
 
     };
 
-    const handleClickAddFiend = () => {
-        if (!isFriend && 'PRIVATE' !== userData.privacyLevel) {
-            httpClient.post(`http://localhost:9000/api/v1/friends/requests`, {
-                friendId: userId
-            });
-        } else {
-            httpClient.delete(`http://localhost:9000/api/v1/friends/${userId}`);
-        }
+    const handleClickAddFriend = () => {
+        httpClient.post(`http://localhost:9000/api/v1/friends/requests`, {
+            friendId: userId
+        });
+    };
+
+
+    const handleClickRemoveFriend = () => {
+        httpClient.delete(`http://localhost:9000/api/v1/friends/${userId}`);
+    };
+
+    const handleCancelFriendRequest = () => {
+
+    };
+
+    const handleAcceptFriendRequest = () => {
+
     };
 
     const formatBirthDate = (dateString) => {
@@ -140,6 +151,163 @@ function AccountInfo({onIsOwner, events, userId}) {
                 Данные не найдены
             </Box>
         );
+    }
+
+
+    const buttons = () => {
+        if (userData.isOwner) {
+            return;
+        }
+
+        if (isFriend) {
+            return (
+                <Item noshadow>
+                    <IconButton
+                        onClick={handleClickRemoveFriend}
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: 48,
+                            height: 48,
+                            borderRadius: '50%',
+                            mr: 0,
+                            '&:hover': {
+                                '& .MuiSvgIcon-root': {
+                                    color: red[500]
+                                }
+                            },
+                            '&:active': {
+                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                            }
+                        }}
+                    >
+                        <PersonRemoveOutlinedIcon
+                            sx={{
+                                fontSize: 40,
+                                transition: 'color 0.5s ease',
+                                color: 'inherit'
+                            }}
+                        />
+                    </IconButton>
+                </Item>)
+        }
+
+        if ('PRIVATE' === userData.privacyLevel) {
+            return;
+        }
+
+        if (hasOutcomeFriendsRequest) {
+            return (
+                <Item noshadow>
+                    <IconButton
+                        onClick={handleCancelFriendRequest}
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: 48,
+                            height: 48,
+                            borderRadius: '50%',
+                            mr: 0,
+                            '&:hover': {
+                                '& .MuiSvgIcon-root': {
+                                    color: red[500]
+                                }
+                            },
+                            '&:active': {
+                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                            }
+                        }}
+                    > <CancelOutlinedIcon
+                        sx={{
+                            fontSize: 40,
+                            transition: 'color 0.5s ease',
+                            color: 'inherit'
+                        }}
+                    />
+
+                    </IconButton>
+                </Item>)
+        }
+
+        if (hasIncomeFriendsRequest) {
+            return (
+                <Item noshadow>
+                    <IconButton
+                        onClick={handleAcceptFriendRequest}
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: 48,
+                            height: 48,
+                            borderRadius: '50%',
+                            mr: 0,
+                            '&:hover': {
+                                '& .MuiSvgIcon-root': {
+                                    color: green[500]
+                                }
+                            },
+                            '&:active': {
+                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                            }
+                        }}
+                    > <AddTaskOutlinedIcon
+                        sx={{
+                            fontSize: 40,
+                            transition: 'color 0.5s ease',
+                            color: 'inherit'
+                        }}
+                    />
+
+                    </IconButton>
+                </Item>)
+        }
+
+        return (
+            <Item noshadow>
+                <IconButton
+                    onClick={handleClickAddFriend}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 48,
+                        height: 48,
+                        borderRadius: '50%',
+                        mr: 0,
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: !isFriend && 'PRIVATE' !== userData.privacyLevel
+                                    ? green[500]
+                                    : red[500]
+                            }
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                        }
+                    }}
+                >
+                    {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
+                        <PersonAddAltOutlinedIcon
+                            sx={{
+                                fontSize: 40,
+                                transition: 'color 0.5s ease',
+                                color: 'inherit'
+                            }}
+                        />
+                    ) : (
+                        <PersonRemoveOutlinedIcon
+                            sx={{
+                                fontSize: 40,
+                                transition: 'color 0.5s ease',
+                                color: 'inherit'
+                            }}
+                        />
+                    )}
+                </IconButton>
+            </Item>)
     }
 
     return (
@@ -202,50 +370,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                             </Item>
                         </Grid>
                         <Grid size={3} container justifyContent="flex-end" spacing={0}>
-                            {(!userData.isOwner) && (
-                                <Item noshadow>
-                                    <IconButton
-                                        onClick={handleClickAddFiend}
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            width: 48,
-                                            height: 48,
-                                            borderRadius: '50%',
-                                            mr: 0,
-                                            '&:hover': {
-                                                '& .MuiSvgIcon-root': {
-                                                    color: !isFriend && 'PRIVATE' !== userData.privacyLevel
-                                                        ? green[500]
-                                                        : red[500]
-                                                }
-                                            },
-                                            '&:active': {
-                                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                            }
-                                        }}
-                                    >
-                                        {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
-                                            <PersonAddAltOutlinedIcon
-                                                sx={{
-                                                    fontSize: 40,
-                                                    transition: 'color 0.5s ease',
-                                                    color: 'inherit'
-                                                }}
-                                            />
-                                        ) : (
-                                            <PersonRemoveOutlinedIcon
-                                                sx={{
-                                                    fontSize: 40,
-                                                    transition: 'color 0.5s ease',
-                                                    color: 'inherit'  // Наследует цвет от родителя (IconButton)
-                                                }}
-                                            />
-                                        )}
-                                    </IconButton>
-                                </Item>
-                            )}
+                            {buttons()}
                             {(!userData.isOwner && !isFriend) && (
                                 <Item noshadow>
                                     <IconButton
