@@ -237,7 +237,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                                             mr: 0,
                                             '&:hover': {
                                                 '& .MuiSvgIcon-root': {
-                                                    color: 'green'
+                                                    color: green[500]
                                                 }
                                             },
                                             '&:active': {
@@ -247,7 +247,6 @@ function AccountInfo({onIsOwner, events, userId}) {
                                         {(!relations?.isFriends && 'PRIVATE' !== userData.privacyLevel) ?
                                             <PersonAddAltOutlinedIcon sx={{
                                                 fontSize: 40,
-                                                color: green,
                                                 transition: 'color 0.5s ease'
                                             }}/>
                                             :
@@ -282,8 +281,8 @@ function AccountInfo({onIsOwner, events, userId}) {
                                         }}>
                                         {bookmark ?
                                             <TurnedInOutlinedIcon sx={{
+                                                color: yellow[500],
                                                 fontSize: 40,
-                                                color: yellow,
                                                 transition: 'color 0.5s ease'
                                             }}/>
                                             :
