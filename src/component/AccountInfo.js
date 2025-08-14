@@ -80,7 +80,7 @@ function AccountInfo({onIsOwner, events, userId}) {
         if (userData && !userData.isOwner && userData.privacyLevel !== 'PRIVATE') {
             fetchRelations();
         }
-    }, [userId, userData]);
+    }, [userId, userData, hasOutcomeFriendsRequest, isFriend]);
 
     const handleClickBookmark = () => {
         try {
@@ -108,11 +108,13 @@ function AccountInfo({onIsOwner, events, userId}) {
         httpClient.post(`http://localhost:9000/api/v1/friends/requests`, {
             friendId: userId
         });
+        setHasOutcomeFriendsRequest(true);
     };
 
 
     const handleClickRemoveFriend = () => {
         httpClient.delete(`http://localhost:9000/api/v1/friends/${userId}`);
+        setIsFriend(false);
     };
 
     const handleCancelFriendRequest = () => {
