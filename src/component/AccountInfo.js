@@ -20,8 +20,10 @@ import {green, red, yellow} from "@mui/material/colors";
 
 function AccountInfo({onIsOwner, events, userId}) {
     const [userData, setUserData] = useState(null);
-    const [bookmark, setBookmark] = useState(null);
-    const [relations, setRelations] = useState(null);
+    const [isFriend, setIsFriend] = useState(null);
+    const [isFavourites, setIsFavourites] = useState(null);
+    const [hasIncomeFriendsRequest, setHasIncomeFriendsRequest] = useState(null);
+    const [hasOutcomeFriendsRequest, setHasOutcomeFriendsRequest] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -61,7 +63,10 @@ function AccountInfo({onIsOwner, events, userId}) {
                     me: me,
                     friend: userId
                 });
-                setRelations(response.data);
+                setIsFriend(response.data.isFriends);
+                setIsFavourites(response.data.isFavourites);
+                setHasIncomeFriendsRequest(response.data.hasIncomeFriendsRequest);
+                setHasOutcomeFriendsRequest(response.data.hasOutcomeFriendsRequest);
             } catch (err) {
                 setError(err.message);
                 console.error('Ошибка загрузки данных:', err);
@@ -75,43 +80,18 @@ function AccountInfo({onIsOwner, events, userId}) {
         }
     }, [userId, userData]);
 
-    useEffect(() => {
-        const fetchBookmark = async () => {
-            if (!userData || !userId) return;
-
-            try {
-                setLoading(true);
-                const url = `http://localhost:9000/api/v1/favourites`;
-                const response = await httpClient.get(url);
-
-                const isBookmarked = response.data.favouritesIds.includes(userId);
-                setBookmark(isBookmarked);
-
-            } catch (err) {
-                setError(err.message);
-                console.error('Ошибка загрузки данных:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (userData && !userData.isOwner && userData.privacyLevel !== 'PRIVATE') {
-            fetchBookmark();
-        }
-    }, [userId, userData]);
-
     const handleClickBookmark = () => {
         try {
             setLoading(true);
-            if (bookmark) {
+            if (isFavourites) {
                 httpClient.delete(`http://localhost:9000/api/v1/favourites/user/${userId}`);
-                setBookmark(false)
+                setIsFavourites(false)
             } else {
                 const url = `http://localhost:9000/api/v1/favourites`;
                 httpClient.post(url, {
                     friendId: userId
                 });
-                setBookmark(true)
+                setIsFavourites(true)
             }
         } catch (err) {
             setError(err.message);
@@ -123,7 +103,7 @@ function AccountInfo({onIsOwner, events, userId}) {
     };
 
     const handleClickAddFiend = () => {
-        if (!relations?.isFriends && 'PRIVATE' !== userData.privacyLevel) {
+        if (!isFriend && 'PRIVATE' !== userData.privacyLevel) {
             httpClient.post(`http://localhost:9000/api/v1/friends/requests`, {
                 friendId: userId
             });
@@ -161,7 +141,6 @@ function AccountInfo({onIsOwner, events, userId}) {
             </Box>
         );
     }
-
 
     return (
         <Box sx={{flexGrow: 1, pl: 0}}>
@@ -237,7 +216,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                                             mr: 0,
                                             '&:hover': {
                                                 '& .MuiSvgIcon-root': {
-                                                    color: !relations?.isFriends && 'PRIVATE' !== userData.privacyLevel
+                                                    color: !isFriend && 'PRIVATE' !== userData.privacyLevel
                                                         ? green[500]
                                                         : red[500]
                                                 }
@@ -247,7 +226,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                                             }
                                         }}
                                     >
-                                        {(!relations?.isFriends && 'PRIVATE' !== userData.privacyLevel) ? (
+                                        {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
                                             <PersonAddAltOutlinedIcon
                                                 sx={{
                                                     fontSize: 40,
@@ -267,7 +246,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                                     </IconButton>
                                 </Item>
                             )}
-                            {(!userData.isOwner && !relations?.isFriends) && (
+                            {(!userData.isOwner && !isFriend) && (
                                 <Item noshadow>
                                     <IconButton
                                         onClick={handleClickBookmark}
@@ -288,7 +267,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                                                 boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                             }
                                         }}>
-                                        {bookmark ?
+                                        {isFavourites ?
                                             <TurnedInOutlinedIcon sx={{
                                                 color: yellow[500],
                                                 fontSize: 40,
