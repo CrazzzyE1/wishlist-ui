@@ -121,8 +121,28 @@ function AccountInfo({onIsOwner, events, userId}) {
 
     };
 
-    const handleAcceptFriendRequest = () => {
+    const handleAcceptFriendRequest = async () => {
+        try {
+            const res = await httpClient.get(`http://localhost:9000/api/v1/friends/requests?incoming=true`);
+            const requests = res.data;
+            const request = requests.find(r => r.sender === userId);
 
+            if (!request) {
+                throw new Error('Запрос не найден');
+            }
+
+            const response = await httpClient.put(
+                `http://localhost:9000/api/v1/friends/requests/${request.id}/accept`
+            );
+
+            if (response.status !== 200 && response.status !== 204) {
+                throw new Error('Не удалось принять заявку');
+            }
+
+            setIsFriend(true);
+        } catch (error) {
+            console.error('Ошибка подтверждения заявки:', error);
+        }
     };
 
     const formatBirthDate = (dateString) => {
