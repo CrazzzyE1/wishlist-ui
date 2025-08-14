@@ -12,9 +12,11 @@ import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
 import CircularProgress from '@mui/material/CircularProgress';
+import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
+import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
-import {yellow} from "@mui/material/colors";
+import {green, yellow} from "@mui/material/colors";
 
 function AccountInfo({onIsOwner, events, userId}) {
     const [userData, setUserData] = useState(null);
@@ -120,6 +122,16 @@ function AccountInfo({onIsOwner, events, userId}) {
 
     };
 
+    const handleClickAddFiend = () => {
+        if (!relations?.isFriends && 'PRIVATE' !== userData.privacyLevel) {
+            httpClient.post(`http://localhost:9000/api/v1/friends/requests`, {
+                friendId: userId
+            });
+        } else {
+            httpClient.delete(`http://localhost:9000/api/v1/friends/${userId}`);
+        }
+    };
+
     const formatBirthDate = (dateString) => {
         if (!dateString) return 'Не указано';
         const options = {day: 'numeric', month: 'long', year: 'numeric'};
@@ -128,15 +140,15 @@ function AccountInfo({onIsOwner, events, userId}) {
 
     if (loading) {
         return (
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
-                <CircularProgress />
+            <Box sx={{display: 'flex', justifyContent: 'center', p: 4}}>
+                <CircularProgress/>
             </Box>
         );
     }
 
     if (error) {
         return (
-            <Box sx={{ p: 2, color: 'error.main' }}>
+            <Box sx={{p: 2, color: 'error.main'}}>
                 Ошибка: {error}
             </Box>
         );
@@ -144,21 +156,22 @@ function AccountInfo({onIsOwner, events, userId}) {
 
     if (!userData) {
         return (
-            <Box sx={{ p: 2 }}>
+            <Box sx={{p: 2}}>
                 Данные не найдены
             </Box>
         );
     }
 
+
     return (
         <Box sx={{flexGrow: 1, pl: 0}}>
             <Grid container spacing={1}>
                 <Grid size={3}>
-                    <ProfileAvatar userId={userId} />
+                    <ProfileAvatar userId={userId}/>
                 </Grid>
                 <Grid size={9}>
                     <Grid container spacing={2}>
-                        <Grid size={6} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
+                        <Grid size={5} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
                             <h2>{userData.fullName}</h2>
                         </Grid>
                         <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
@@ -209,7 +222,43 @@ function AccountInfo({onIsOwner, events, userId}) {
                                 </Typography>
                             </Item>
                         </Grid>
-                        <Grid size={2} container justifyContent="flex-end">
+                        <Grid size={3} container justifyContent="flex-end">
+                            {(!userData.isOwner) && (
+                                <Item noshadow>
+                                    <IconButton
+                                        onClick={handleClickAddFiend}
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            width: 48,
+                                            height: 48,
+                                            borderRadius: '50%',
+                                            mr: 0,
+                                            '&:hover': {
+                                                '& .MuiSvgIcon-root': {
+                                                    color: 'green'
+                                                }
+                                            },
+                                            '&:active': {
+                                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                            }
+                                        }}>
+                                        {(!relations?.isFriends && 'PRIVATE' !== userData.privacyLevel) ?
+                                            <PersonAddAltOutlinedIcon sx={{
+                                                fontSize: 40,
+                                                color: green,
+                                                transition: 'color 0.5s ease'
+                                            }}/>
+                                            :
+                                            <PersonRemoveOutlinedIcon sx={{
+                                                fontSize: 40,
+                                                transition: 'color 0.5s ease'
+                                            }}/>
+                                        }
+                                    </IconButton>
+                                </Item>
+                            )}
                             {(!userData.isOwner && !relations?.isFriends) && (
                                 <Item noshadow>
                                     <IconButton
@@ -221,7 +270,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                                             width: 48,
                                             height: 48,
                                             borderRadius: '50%',
-                                            mr: 2,
+                                            mr: 0,
                                             '&:hover': {
                                                 '& .MuiSvgIcon-root': {
                                                     color: '#FFD700'
