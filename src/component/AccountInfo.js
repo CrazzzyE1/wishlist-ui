@@ -222,7 +222,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                                 </Typography>
                             </Item>
                         </Grid>
-                        <Grid size={3} container justifyContent="flex-end">
+                        <Grid size={3} container justifyContent="flex-end" spacing={0}>
                             {(!userData.isOwner) && (
                                 <Item noshadow>
                                     <IconButton
