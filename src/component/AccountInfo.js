@@ -80,7 +80,7 @@ function AccountInfo({onIsOwner, events, userId}) {
         if (userData && !userData.isOwner && userData.privacyLevel !== 'PRIVATE') {
             fetchRelations();
         }
-    }, [userId, userData, hasOutcomeFriendsRequest, isFriend]);
+    }, [userId, userData, hasOutcomeFriendsRequest, isFriend, hasIncomeFriendsRequest]);
 
     const handleClickBookmark = () => {
         try {
@@ -104,21 +104,55 @@ function AccountInfo({onIsOwner, events, userId}) {
 
     };
 
-    const handleClickAddFriend = () => {
-        httpClient.post(`http://localhost:9000/api/v1/friends/requests`, {
-            friendId: userId
-        });
-        setHasOutcomeFriendsRequest(true);
+    const handleClickAddFriend = async () => {
+        try {
+            setLoading(true);
+            await httpClient.post(`http://localhost:9000/api/v1/friends/requests`, {
+                friendId: userId
+            });
+            setHasOutcomeFriendsRequest(true);
+        } catch (error) {
+            console.error('Ошибка при отправке запроса в друзья:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-
-    const handleClickRemoveFriend = () => {
-        httpClient.delete(`http://localhost:9000/api/v1/friends/${userId}`);
-        setIsFriend(false);
+    const handleClickRemoveFriend = async () => {
+        try {
+            setLoading(true);
+            await httpClient.delete(`http://localhost:9000/api/v1/friends/${userId}`);
+            setIsFriend(false);
+            setHasOutcomeFriendsRequest(false);
+        } catch (error) {
+            console.error('Ошибка при удалении друга:', error);
+        } finally {
+            setLoading(false);
+        }
     };
 
-    const handleCancelFriendRequest = () => {
+    const handleCancelFriendRequest = async () => {
+        try {
+            const res = await httpClient.get(`http://localhost:9000/api/v1/friends/requests?incoming=false`);
+            const requests = res.data;
+            const request = requests.find(r => r.receiver === userId);
 
+            if (!request) {
+                throw new Error('Запрос не найден');
+            }
+
+            const response = await httpClient.delete(
+                `http://localhost:9000/api/v1/friends/requests/${request.id}?isCanceled=true`
+            );
+
+            if (response.status !== 200 && response.status !== 204) {
+                throw new Error('Не удалось отменить заявку');
+            }
+        } catch (error) {
+            console.error('Ошибка отмены заявки:', error);
+        } finally {
+            setHasOutcomeFriendsRequest(false);
+        }
     };
 
     const handleAcceptFriendRequest = async () => {
@@ -139,7 +173,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                 throw new Error('Не удалось принять заявку');
             }
 
-            setIsFriend(true);
+            setHasIncomeFriendsRequest(false);
         } catch (error) {
             console.error('Ошибка подтверждения заявки:', error);
         }
