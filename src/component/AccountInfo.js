@@ -16,7 +16,7 @@ import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
-import {green, yellow} from "@mui/material/colors";
+import {green, red, yellow} from "@mui/material/colors";
 
 function AccountInfo({onIsOwner, events, userId}) {
     const [userData, setUserData] = useState(null);
@@ -237,24 +237,33 @@ function AccountInfo({onIsOwner, events, userId}) {
                                             mr: 0,
                                             '&:hover': {
                                                 '& .MuiSvgIcon-root': {
-                                                    color: green[500]
+                                                    color: !relations?.isFriends && 'PRIVATE' !== userData.privacyLevel
+                                                        ? green[500]
+                                                        : red[500]
                                                 }
                                             },
                                             '&:active': {
                                                 boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                             }
-                                        }}>
-                                        {(!relations?.isFriends && 'PRIVATE' !== userData.privacyLevel) ?
-                                            <PersonAddAltOutlinedIcon sx={{
-                                                fontSize: 40,
-                                                transition: 'color 0.5s ease'
-                                            }}/>
-                                            :
-                                            <PersonRemoveOutlinedIcon sx={{
-                                                fontSize: 40,
-                                                transition: 'color 0.5s ease'
-                                            }}/>
-                                        }
+                                        }}
+                                    >
+                                        {(!relations?.isFriends && 'PRIVATE' !== userData.privacyLevel) ? (
+                                            <PersonAddAltOutlinedIcon
+                                                sx={{
+                                                    fontSize: 40,
+                                                    transition: 'color 0.5s ease',
+                                                    color: 'inherit'
+                                                }}
+                                            />
+                                        ) : (
+                                            <PersonRemoveOutlinedIcon
+                                                sx={{
+                                                    fontSize: 40,
+                                                    transition: 'color 0.5s ease',
+                                                    color: 'inherit'  // Наследует цвет от родителя (IconButton)
+                                                }}
+                                            />
+                                        )}
                                     </IconButton>
                                 </Item>
                             )}
