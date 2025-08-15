@@ -80,6 +80,7 @@ function MainMenu({onListCreated, lists, isOwner}) {
                 <Grid size={12}>
                     <Item noshadow>
                         <IconButton
+                            onClick={() => navigate('/notifications')}
                             sx={{
                                 display: 'flex',
                                 justifyContent: 'center',

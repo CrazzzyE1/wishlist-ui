@@ -4,6 +4,7 @@ import keycloak from './keycloak/Keycloak';
 import ProfilePage from "./component/ProfilePage";
 import FriendsPage from "./component/FriendsPage";
 import { httpClient } from './http/HttpClient';
+import NotificationsPage from "./component/NotificationsPage";
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/" element={<ProfilePage />} />
                 <Route path="/users" element={<FriendsPage />} />
                 <Route path="/users/:userId" element={<ProfilePageWithParams />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
             </Routes>
         </Router>
     );
