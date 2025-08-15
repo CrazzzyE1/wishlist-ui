@@ -12,11 +12,15 @@ import {Avatar, Divider} from "@mui/material";
 import keycloak from "../keycloak/Keycloak";
 import {useEffect, useState} from "react";
 import {httpClient} from "../http/HttpClient";
+import {useNavigate} from "react-router-dom";
+import { useNotifications } from './NotificationsContext';
 
 export default function AccountSettingToggle() {
     const [avatarSrc, setAvatarSrc] = useState(null);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const isMenuOpen = Boolean(anchorEl);
+    const navigate = useNavigate();
+    const { unreadCount } = useNotifications();
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -80,16 +84,13 @@ export default function AccountSettingToggle() {
         </Menu>
     );
 
-
-
-
-
     return (
         <Box sx={{flexGrow: 1}}>
             <Box sx={{display: {xs: 'none', md: 'flex', justifyContent: 'flex-end', display: 'flex'}}}>
                 <IconButton
+                    onClick={() => navigate('/notifications')}
                     size="large"
-                    aria-label="show 17 new notifications"
+                    aria-label="show new notifications"
                     color="inherit"
                     sx={{
                         display: 'flex',
@@ -104,11 +105,11 @@ export default function AccountSettingToggle() {
                             }
                         },
                         '&:active': {
-                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)' 
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                         }
                     }}
                 >
-                    <Badge badgeContent={17} color="error">
+                    <Badge badgeContent={unreadCount} color="error">
                         <NotificationsActiveOutlinedIcon sx={{
                             fontSize: 40,
                             transition: 'color 0.5s ease'

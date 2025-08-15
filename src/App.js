@@ -5,6 +5,7 @@ import ProfilePage from "./component/ProfilePage";
 import FriendsPage from "./component/FriendsPage";
 import { httpClient } from './http/HttpClient';
 import NotificationsPage from "./component/NotificationsPage";
+import {NotificationsProvider} from "./component/NotificationsContext";
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -44,6 +45,7 @@ function App() {
     httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
 
     return (
+        <NotificationsProvider>
         <Router>
             <Routes>
                 <Route path="/" element={<ProfilePage />} />
@@ -52,6 +54,7 @@ function App() {
                 <Route path="/notifications" element={<NotificationsPage />} />
             </Routes>
         </Router>
+        </NotificationsProvider>
     );
 }
 

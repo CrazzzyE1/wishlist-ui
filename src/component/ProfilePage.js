@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -10,6 +10,7 @@ import TopMenu from "./TopMenu";
 import Item from "./StyledItem";
 import WishLists from "./WishLists";
 import WishListContent from "./WishListContent";
+import {useNotifications} from "./NotificationsContext";
 
 export default function ProfilePage({userId}) {
 
@@ -17,6 +18,7 @@ export default function ProfilePage({userId}) {
     const [isOwner, setIsOwner] = useState();
     const [refreshKey, setRefreshKey] = useState(0);
     const [lists, setLists] = useState();
+    const { fetchUnreadCount } = useNotifications();
 
     const onListCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
@@ -31,6 +33,10 @@ export default function ProfilePage({userId}) {
         setRefreshKey(prev => prev + 1);
         setSelectedWishlistId(null);
     };
+
+    useEffect(() => {
+        fetchUnreadCount();
+    }, [fetchUnreadCount]);
 
     return (
         <React.Fragment>

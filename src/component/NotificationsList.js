@@ -6,20 +6,31 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import {httpClient} from "../http/HttpClient";
 import {NotificationCard} from "./NotificationCard";
+import {useNotifications} from './NotificationsContext';
 
-export default function NotificationsList({ isUnread }) {
+export default function NotificationsList({isUnread}) {
     const [notifications, setNotifications] = useState([]);
     const [loading, setLoading] = useState(true);
     const [markAsReadLoading, setMarkAsReadLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const {decrementCount, incrementCount} = useNotifications();  // Исправлено имя
+
     const handleMarkAsRead = async (id) => {
         try {
             setMarkAsReadLoading(true);
             const response = await httpClient.patch(`http://localhost:9000/api/v1/notifications/${id}`);
+
             setNotifications(prev => prev.map(n =>
                 n.id === id ? {...n, isRead: response.data.isRead} : n
             ));
+
+            if (response.data.isRead) {
+                decrementCount();
+            } else {
+                incrementCount();
+            }
+
         } catch (err) {
             console.error('Error marking notification as read:', err);
         } finally {
@@ -38,7 +49,6 @@ export default function NotificationsList({ isUnread }) {
                 notifications = notifications.filter(n => !n.isRead);
             }
 
-            // Сортируем по дате (новые сначала)
             notifications.sort((a, b) => new Date(b.created) - new Date(a.created));
 
             setNotifications(notifications);
