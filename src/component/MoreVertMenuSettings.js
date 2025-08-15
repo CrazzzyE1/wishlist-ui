@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useState} from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,13 +14,54 @@ import DialogTitle from '@mui/material/DialogTitle';
 import {httpClient} from "../http/HttpClient";
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import {red} from "@mui/material/colors";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import ListEditBox from "./ListEditBox";
 
 const ITEM_HEIGHT = 48;
 
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
+
 export default function MoreVertMenuSettings({selectedWishlistId, onListDeleted}) {
-    const [anchorEl, setAnchorEl] = React.useState(null);
-    const [openConfirmDialog, setOpenConfirmDialog] = React.useState(false);
-    const [isDeleting, setIsDeleting] = React.useState(false);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
+    const [isDeleting, setIsDeleting] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+
+    const handleCloseModal = () => setOpenModal(false);
+
+    const handleEditClick = () => {
+        setAnchorEl(null);
+        setOpenModal(true);
+    };
+
+    const handleEditList = async (listData) => {
+        // try {
+        //     const response = await httpClient.post('http://localhost:9000/api/v1/wishlists', {
+        //         name: listData.name,
+        //         eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
+        //         privacyLevel: listData.privacyLevel
+        //     });
+        //     handleClose();
+        //     if (onListCreated) {
+        //         onListCreated(response.data.id);
+        //     }
+        // } catch (error) {
+        //     console.error('Ошибка при создании списка:', error);
+        // }
+    };
 
     const open = Boolean(anchorEl);
 
@@ -92,16 +133,16 @@ export default function MoreVertMenuSettings({selectedWishlistId, onListDeleted}
                             width: '19ch',
                         },
                     },
-                    list: {
-                        'aria-labelledby': 'long-button',
-                    },
                 }}
+                sx={{ zIndex: 1300 }}
             >
-                <MenuItem onClick={handleClose}>
-                    <EditOutlinedIcon sx={{mr: 1}}/>Редактировать
+                <MenuItem onClick={handleEditClick}>
+                    <EditOutlinedIcon sx={{mr: 1}}/>
+                    Редактировать
                 </MenuItem>
                 <MenuItem onClick={handleOpenConfirmDialog}>
-                    <DeleteOutlinedIcon sx={{mr: 1}}/>Удалить
+                    <DeleteOutlinedIcon sx={{mr: 1}}/>
+                    Удалить
                 </MenuItem>
             </Menu>
 
@@ -148,6 +189,23 @@ export default function MoreVertMenuSettings({selectedWishlistId, onListDeleted}
                     </Button>
                 </DialogActions>
             </Dialog>
+            <Modal
+                open={openModal}
+                onClose={handleCloseModal}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={modalStyle}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
+                        Редактировать список
+                    </Typography>
+                    <ListEditBox
+                        selectedWishlistId={selectedWishlistId}
+                        onEdit={handleEditList}
+                        onCancel={handleCloseModal}
+                    />
+                </Box>
+            </Modal>
         </div>
     );
 }
