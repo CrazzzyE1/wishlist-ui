@@ -1,5 +1,4 @@
-import * as React from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -42,25 +41,33 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [wishlistData, setWishlistData] = React.useState(null);
+    const [wishlistData, setWishlistData] = useState(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (selectedWishlistId) {
             fetchWishlistData();
         }
     }, [selectedWishlistId]);
 
     const fetchWishlistData = async () => {
-
         try {
             setLoading(true);
             const response = await httpClient.get(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`);
             const data = response.data;
             setWishlistData(data);
             setListName(data.name);
-            // setDate(data.eventDate);
-            console.log(data.eventDate)
-            console.log(data.privacyLevel)
+
+            if (data.privacyLevel) {
+                setValue(data.privacyLevel);
+            }
+
+            if (data.eventDate) {
+                setDate(dayjs(data.eventDate));
+                setNoDate(false);
+            } else {
+                setNoDate(true);
+                setDate(null);
+            }
 
             setError(null);
         } catch (err) {
