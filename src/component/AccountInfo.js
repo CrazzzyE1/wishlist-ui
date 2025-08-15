@@ -375,7 +375,26 @@ function AccountInfo({onIsOwner, events, userId}) {
                 <Grid size={9}>
                     <Grid container spacing={2}>
                         <Grid size={5} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
-                            <h2>{userData.fullName}</h2>
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    fontSize: '2rem',
+                                    color: 'text.secondary',
+                                    textAlign: 'left',
+                                    pl: '0px'
+                                }}>
+                                {userData.fullName}
+                            </Typography>
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    fontSize: '0.75rem',
+                                    color: green[500],
+                                    textAlign: 'left',
+                                    pl: '0px'
+                                }}>
+                                {userData.isOwner ? ('это Вы') : null}
+                            </Typography>
                         </Grid>
                         <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
                             <Item noshadow>
