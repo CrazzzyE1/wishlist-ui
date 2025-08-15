@@ -3,8 +3,6 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import {deepPurple} from '@mui/material/colors';
 
@@ -34,7 +32,8 @@ export const NotificationCard = ({ notification, onMarkAsRead }) => {
             sx={{
                 mb: 2,
                 borderLeft: notification.isRead ? 'none' : `4px solid ${deepPurple[500]}`,
-                opacity: notification.isRead ? 0.8 : 1
+                opacity: notification.isRead ? 0.8 : 1,
+                cursor: 'pointer'
             }}
             onClick={handleMarkAsRead}
         >

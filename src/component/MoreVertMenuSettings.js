@@ -11,11 +11,13 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { httpClient } from "../http/HttpClient";
+import {httpClient} from "../http/HttpClient";
+import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
+import {red} from "@mui/material/colors";
 
 const ITEM_HEIGHT = 48;
 
-export default function MoreVertMenuSettings({ selectedWishlistId, onListDeleted }) {
+export default function MoreVertMenuSettings({selectedWishlistId, onListDeleted}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [openConfirmDialog, setOpenConfirmDialog] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
@@ -103,7 +105,6 @@ export default function MoreVertMenuSettings({ selectedWishlistId, onListDeleted
                 </MenuItem>
             </Menu>
 
-            {/* Диалог подтверждения удаления */}
             <Dialog
                 open={openConfirmDialog}
                 onClose={handleCloseConfirmDialog}
@@ -111,11 +112,23 @@ export default function MoreVertMenuSettings({ selectedWishlistId, onListDeleted
                 aria-describedby="alert-dialog-description"
             >
                 <DialogTitle id="alert-dialog-title">
-                    Подтверждение удаления
+                    <HelpOutlineOutlinedIcon
+                        sx={{
+                            fontSize: 40,
+                            color: red[500]
+                        }}
+                    /> Подтверждение удаления
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Вы уверены, что хотите удалить этот список? Это действие нельзя отменить.
+                        Вы уверены, что хотите удалить этот список?
+                    </DialogContentText>
+                    <DialogContentText id="alert-dialog-description">
+                        Это так же приведет к удалению всех подарков из
+                        этого списка.
+                    </DialogContentText>
+                    <DialogContentText id="alert-dialog-description">
+                        Это действие нельзя отменить.
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

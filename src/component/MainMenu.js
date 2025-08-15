@@ -9,9 +9,12 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import ListCreator from "./ListCreator";
 import GiftCreator from "./GiftCreator";
 import {useNavigate} from "react-router-dom";
+import {useNotifications} from './NotificationsContext';
+import {red} from "@mui/material/colors";
 
 function MainMenu({onListCreated, lists, isOwner}) {
     const navigate = useNavigate();
+    const {unreadCount} = useNotifications();
 
     return (
         <Box sx={{
@@ -97,10 +100,20 @@ function MainMenu({onListCreated, lists, isOwner}) {
                                     boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                 }
                             }}>
-                            <NotificationsActiveOutlinedIcon sx={{
-                                fontSize: 32,
-                                transition: 'color 0.5s ease'
-                            }}/>
+                            {unreadCount > 0 ?
+                                (<NotificationsActiveOutlinedIcon sx={{
+                                    color: red[500],
+                                    fontSize: 32,
+                                    transition: 'color 0.5s ease'
+                                }}/>)
+                                :
+                                (<NotificationsActiveOutlinedIcon sx={{
+
+                                    fontSize: 32,
+                                    transition: 'color 0.5s ease'
+                                }}/>)
+                            }
+
                         </IconButton>
                     </Item>
                 </Grid>
