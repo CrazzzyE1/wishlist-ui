@@ -48,19 +48,17 @@ export default function MoreVertMenuSettings({selectedWishlistId, onListDeleted}
     };
 
     const handleEditList = async (listData) => {
-        // try {
-        //     const response = await httpClient.post('http://localhost:9000/api/v1/wishlists', {
-        //         name: listData.name,
-        //         eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
-        //         privacyLevel: listData.privacyLevel
-        //     });
-        //     handleClose();
-        //     if (onListCreated) {
-        //         onListCreated(response.data.id);
-        //     }
-        // } catch (error) {
-        //     console.error('Ошибка при создании списка:', error);
-        // }
+        try {
+            const response = await httpClient.patch(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`, {
+                id: selectedWishlistId,
+                name: listData.name,
+                eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
+                privacyLevel: listData.privacyLevel
+            });
+            handleClose();
+        } catch (error) {
+            console.error('Ошибка при создании списка:', error);
+        }
     };
 
     const open = Boolean(anchorEl);
