@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {useEffect, useState} from 'react';
 import ProfileAvatar from "./ProfileAvatar";
 import Counters from "./Counters";

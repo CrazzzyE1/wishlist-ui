@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Badge from '@mui/material/Badge';
@@ -17,7 +16,7 @@ import { useNotifications } from './NotificationsContext';
 
 export default function AccountSettingToggle() {
     const [avatarSrc, setAvatarSrc] = useState(null);
-    const [anchorEl, setAnchorEl] = React.useState(null);
+    const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
     const navigate = useNavigate();
     const { unreadCount } = useNotifications();
