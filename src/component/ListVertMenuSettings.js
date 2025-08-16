@@ -34,7 +34,7 @@ const modalStyle = {
     p: 4,
 };
 
-export default function MoreVertMenuSettings({selectedWishlistId, onListDeleted, onListEdit}) {
+export default function ListVertMenuSettings({selectedWishlistId, onListDeleted, onListEdit}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);

@@ -3,7 +3,7 @@ import Grid from "@mui/material/Grid";
 import Item from "./StyledItem";
 import * as React from "react";
 import Typography from "@mui/material/Typography";
-import MoreVertMenuSettings from "./MoreVertMenuSettings";
+import ListVertMenuSettings from "./ListVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
 
 function WishListContent({selectedWishlistId, isOwner, onListDeleted, onListEdit, editRefreshKey}) {
@@ -112,7 +112,7 @@ function WishListContent({selectedWishlistId, isOwner, onListDeleted, onListEdit
             </Grid>
             <Grid size={1}>
                 {isOwner && selectedWishlistId !== 'default' && (
-                    <MoreVertMenuSettings
+                    <ListVertMenuSettings
                         selectedWishlistId={selectedWishlistId}
                         onListDeleted={onListDeleted}
                         onListEdit={onListEdit}

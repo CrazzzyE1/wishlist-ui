@@ -18,6 +18,9 @@ import {httpClient} from "../http/HttpClient";
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import ListVertMenuSettings from "./ListVertMenuSettings";
+import * as React from "react";
+import GiftVertMenuSettings from "./GiftVertMenuSettings";
 
 const modalStyle = {
     position: 'absolute',
@@ -239,12 +242,21 @@ export default function GiftCard({data, isOwner}) {
                             />
                         </IconButton>
                     ) : null}
+
                     <ExpandMoreButton
                         description={data.description}
                         expanded={expanded}
                         onExpandClick={handleExpandClick}
                     />
+                    {isOwner  && (
+                        <GiftVertMenuSettings
+                            id={data.id}
+                            // onListDeleted={onListDeleted}
+                            // onListEdit={onListEdit}
+                        />
+                    )}
                 </CardActions>
+
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent>
                         <Typography sx={{marginBottom: 2,}}>Описание:</Typography>
