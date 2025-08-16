@@ -3,7 +3,7 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import {Typography} from "@mui/material";
 
-function Counters({userData}) {
+function Counters({userData, giftsCount}) {
 
     return (
         <Box sx={{flexGrow: 1, pl: 0}}>
@@ -14,8 +14,7 @@ function Counters({userData}) {
                         flexDirection: 'column',
                         alignItems: 'flex-start'
                     }}>
-                        {/*fixme кол-во желаний поправить*/}
-                        <Typography variant="body1">Желаний: <b>17</b> </Typography>
+                        <Typography variant="body1">Желаний: <b>{giftsCount}</b> </Typography>
                     </Box>
                 </Grid>
                 <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>

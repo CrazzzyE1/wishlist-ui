@@ -20,14 +20,34 @@ import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
 import {green, red, yellow} from "@mui/material/colors";
 
-function AccountInfo({onIsOwner, events, userId}) {
+function AccountInfo({onIsOwner, events, userId, refreshCounterKey}) {
     const [userData, setUserData] = useState(null);
+    const [giftsCount, setGiftsCount] = useState(0);
     const [isFriend, setIsFriend] = useState(null);
     const [isFavourites, setIsFavourites] = useState(null);
     const [hasIncomeFriendsRequest, setHasIncomeFriendsRequest] = useState(null);
     const [hasOutcomeFriendsRequest, setHasOutcomeFriendsRequest] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchGiftCount = async () => {
+            try {
+                setLoading(true);
+                const id = userId ? userId : getUserIdFromToken(keycloak.token);
+                const url = `http://localhost:9000/api/v1/gifts/user/${id}/count`;
+                const response = await httpClient.get(url);
+                setGiftsCount(response.data.giftsCount);
+            } catch (err) {
+                setError(err.message);
+                console.error('Ошибка загрузки данных:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchGiftCount();
+    }, [refreshCounterKey]);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -496,7 +516,7 @@ function AccountInfo({onIsOwner, events, userId}) {
                             </Box>
                         </Grid>
                         <Grid size={8} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
-                            <Counters userData={userData}/>
+                            <Counters userData={userData} giftsCount={giftsCount}/>
                         </Grid>
                         <Grid size={12} container justifyContent="flex-start">
                             <EventsInfoList events={events}/>

@@ -12,7 +12,7 @@ import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
 import {red} from "@mui/material/colors";
 
-function MainMenu({onListCreated, lists, isOwner}) {
+function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
     const navigate = useNavigate();
     const {unreadCount} = useNotifications();
 
@@ -134,7 +134,7 @@ function MainMenu({onListCreated, lists, isOwner}) {
                         <Grid size={12}>
                             <Item noshadow>
                                 <GiftCreator
-                                    onListCreated={onListCreated}
+                                    onGiftCreated={onGiftCreated}
                                     lists={lists}
                                 />
                             </Item>

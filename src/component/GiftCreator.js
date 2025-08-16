@@ -21,7 +21,7 @@ const modalStyle = {
     p: 4,
 };
 
-export default function GiftCreator({ onListCreated, lists }) {
+export default function GiftCreator({ onGiftCreated, lists }) {
     const [open, setOpen] = React.useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
@@ -62,8 +62,8 @@ export default function GiftCreator({ onListCreated, lists }) {
                 });
             }
 
-            if (onListCreated) {
-                onListCreated();
+            if (onGiftCreated) {
+                onGiftCreated();
             }
             handleClose();
         } catch (err) {

@@ -17,9 +17,16 @@ export default function ProfilePage({userId}) {
     const [selectedWishlistId, setSelectedWishlistId] = useState(null);
     const [isOwner, setIsOwner] = useState();
     const [refreshKey, setRefreshKey] = useState(0);
+    const [refreshCounterKey, setRefreshCounterKey] = useState(0);
     const [editRefreshKey, setEditRefreshKey] = useState(0);
     const [lists, setLists] = useState();
-    const { fetchUnreadCount } = useNotifications();
+    const {fetchUnreadCount} = useNotifications();
+
+    const onGiftCreated = (newListId) => {
+        setRefreshKey(prev => prev + 1);
+        setRefreshCounterKey(prev => prev + 1);
+        setSelectedWishlistId(newListId);
+    };
 
     const onListCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
@@ -60,6 +67,7 @@ export default function ProfilePage({userId}) {
                                     <MainMenu
                                         isOwner={isOwner}
                                         onListCreated={onListCreated}
+                                        onGiftCreated={onGiftCreated}
                                         lists={lists}
                                     />
                                 </Item>
@@ -68,6 +76,7 @@ export default function ProfilePage({userId}) {
                                 <Grid size={12}>
                                     <Item>
                                         <AccountInfo
+                                            refreshCounterKey={refreshCounterKey}
                                             userId={userId}
                                             events={lists}
                                             onIsOwner={setIsOwner}
