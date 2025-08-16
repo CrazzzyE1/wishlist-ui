@@ -39,6 +39,7 @@ export default function ProfilePage({userId}) {
 
     const onListDeleted = () => {
         setRefreshKey(prev => prev + 1);
+        setRefreshCounterKey(prev => prev + 1);
         setSelectedWishlistId(null);
     };
 
