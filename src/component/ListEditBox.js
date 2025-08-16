@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -39,6 +39,7 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
     const [date, setDate] = useState(dayjs());
     const [noDate, setNoDate] = useState(false);
     const [error, setError] = useState(false);
+    const [errorLoading, setErrorLoading] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [wishlistData, setWishlistData] = useState(null);
@@ -69,16 +70,16 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
                 setDate(null);
             }
 
-            setError(null);
+            setErrorLoading(null);
         } catch (err) {
-            setError(err.message);
+            setErrorLoading(err.message);
         } finally {
             setLoading(false);
         }
     };
 
     if (loading) return <Typography>Загрузка...</Typography>;
-    if (error) return <Typography color="error">Ошибка: {error}<    /Typography>;
+    if (errorLoading) return <Typography color="error">Ошибка: {errorLoading}<    /Typography>;
     if (!wishlistData) return <Typography>Выберите список</Typography>;
 
     const handleDateChange = (newDate) => {

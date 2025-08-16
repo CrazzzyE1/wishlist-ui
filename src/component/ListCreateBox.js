@@ -1,10 +1,10 @@
-import * as React from 'react';
+import {useState} from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import {Box, styled, TextField, Checkbox} from "@mui/material";
+import {Box, Checkbox, styled, TextField} from "@mui/material";
 import BasicDatePicker from "./BasicDatePicker";
 import Button from "@mui/material/Button";
 import dayjs from 'dayjs';
@@ -32,12 +32,12 @@ const PrivateRadio = styled(Radio)(({theme}) => ({
 }));
 
 export default function ListCreateBox({onCreate, onCancel}) {
-    const [value, setValue] = React.useState('PUBLIC');
-    const [listName, setListName] = React.useState('');
-    const [date, setDate] = React.useState(dayjs());
-    const [noDate, setNoDate] = React.useState(false);
-    const [error, setError] = React.useState(false);
-    const [isSubmitting, setIsSubmitting] = React.useState(false);
+    const [value, setValue] = useState('PUBLIC');
+    const [listName, setListName] = useState('');
+    const [date, setDate] = useState(dayjs());
+    const [noDate, setNoDate] = useState(false);
+    const [error, setError] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleDateChange = (newDate) => {
         setDate(newDate);

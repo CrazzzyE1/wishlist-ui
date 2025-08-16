@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {useState} from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -17,7 +18,6 @@ import {red} from "@mui/material/colors";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import * as React from "react";
 import ListEditBox from "./ListEditBox";
 
 const ITEM_HEIGHT = 48;
@@ -49,8 +49,7 @@ export default function MoreVertMenuSettings({selectedWishlistId, onListDeleted}
 
     const handleEditList = async (listData) => {
         try {
-            const response = await httpClient.patch(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`, {
-                id: selectedWishlistId,
+            await httpClient.patch(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`, {
                 name: listData.name,
                 eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
                 privacyLevel: listData.privacyLevel
@@ -132,7 +131,7 @@ export default function MoreVertMenuSettings({selectedWishlistId, onListDeleted}
                         },
                     },
                 }}
-                sx={{ zIndex: 1300 }}
+                sx={{zIndex: 1300}}
             >
                 <MenuItem onClick={handleEditClick}>
                     <EditOutlinedIcon sx={{mr: 1}}/>
