@@ -43,6 +43,11 @@ export default function ProfilePage({userId}) {
         setSelectedWishlistId(null);
     };
 
+    const onGiftDeleted = () => {
+        setEditRefreshKey(prev => prev + 1);
+        setRefreshCounterKey(prev => prev + 1);
+    };
+
     const onListEdit = (newListId) => {
         setRefreshKey(prev => prev + 1);
         setEditRefreshKey(prev => prev + 1);
@@ -101,6 +106,7 @@ export default function ProfilePage({userId}) {
                                                          isOwner={isOwner}
                                                          editRefreshKey={editRefreshKey}
                                                          onListDeleted={onListDeleted}
+                                                         onGiftDeleted={onGiftDeleted}
                                                          onListEdit={onListEdit}
                                         />
                                     </Item>

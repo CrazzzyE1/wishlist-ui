@@ -34,7 +34,7 @@ const modalStyle = {
     p: 4,
 };
 
-export default function GiftVertMenuSettings({selectedWishlistId, onListDeleted, onListEdit}) {
+export default function GiftVertMenuSettings({id, onGiftDeleted, onListEdit}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
@@ -49,7 +49,7 @@ export default function GiftVertMenuSettings({selectedWishlistId, onListDeleted,
 
     const handleEditList = async (listData) => {
         try {
-            const response = await httpClient.patch(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`, {
+            const response = await httpClient.patch(`http://localhost:9000/api/v1/gifts/${id}`, {
                 name: listData.name,
                 eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
                 privacyLevel: listData.privacyLevel
@@ -84,14 +84,13 @@ export default function GiftVertMenuSettings({selectedWishlistId, onListDeleted,
     };
 
     const removeList = async () => {
-        if (!selectedWishlistId) return;
-
+        if (!id) return;
         setIsDeleting(true);
         try {
-            await httpClient.delete(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`);
-            onListDeleted?.();
+            await httpClient.delete(`http://localhost:9000/api/v1/gifts/${id}`);
+            onGiftDeleted?.();
         } catch (error) {
-            console.error('Ошибка при удалении списка:', error);
+            console.error('Ошибка при удалении подарка:', error);
         } finally {
             setIsDeleting(false);
             handleCloseConfirmDialog();
@@ -163,11 +162,7 @@ export default function GiftVertMenuSettings({selectedWishlistId, onListDeleted,
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Вы уверены, что хотите удалить этот список?
-                    </DialogContentText>
-                    <DialogContentText id="alert-dialog-description">
-                        Это так же приведет к удалению всех подарков из
-                        этого списка.
+                        Вы уверены, что хотите удалить этот подарок?
                     </DialogContentText>
                     <DialogContentText id="alert-dialog-description">
                         Это действие нельзя отменить.
@@ -200,11 +195,11 @@ export default function GiftVertMenuSettings({selectedWishlistId, onListDeleted,
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
                         Редактировать список
                     </Typography>
-                    <ListEditBox
-                        selectedWishlistId={selectedWishlistId}
-                        onEdit={handleEditList}
-                        onCancel={handleCloseModal}
-                    />
+                    {/*<ListEditBox*/}
+                    {/*    selectedWishlistId={id}*/}
+                    {/*    onEdit={handleEditList}*/}
+                    {/*    onCancel={handleCloseModal}*/}
+                    {/*/>*/}
                 </Box>
             </Modal>
         </div>

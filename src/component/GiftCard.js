@@ -1,4 +1,5 @@
-import {Fragment, useState, useEffect} from 'react';
+import * as React from 'react';
+import {Fragment, useEffect, useState} from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardMedia from '@mui/material/CardMedia';
@@ -18,8 +19,6 @@ import {httpClient} from "../http/HttpClient";
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import ListVertMenuSettings from "./ListVertMenuSettings";
-import * as React from "react";
 import GiftVertMenuSettings from "./GiftVertMenuSettings";
 
 const modalStyle = {
@@ -34,7 +33,7 @@ const modalStyle = {
     borderRadius: 2,
 };
 
-export default function GiftCard({data, isOwner}) {
+export default function GiftCard({data, isOwner, onGiftDeleted}) {
     const [expanded, setExpanded] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [largeImageUrl, setLargeImageUrl] = useState(null);
@@ -251,13 +250,16 @@ export default function GiftCard({data, isOwner}) {
                     {isOwner  && (
                         <GiftVertMenuSettings
                             id={data.id}
-                            // onListDeleted={onListDeleted}
+                            onGiftDeleted={onGiftDeleted}
                             // onListEdit={onListEdit}
                         />
                     )}
                 </CardActions>
 
-                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                <Collapse
+                    in={expanded}
+                    timeout="auto"
+                    unmountOnExit>
                     <CardContent>
                         <Typography sx={{marginBottom: 2,}}>Описание:</Typography>
                         <Typography sx={{marginBottom: 2, textAlign: 'left'}}>
