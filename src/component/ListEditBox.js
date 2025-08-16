@@ -195,11 +195,11 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
                     </Button>
                     <Button
                         variant="contained"
-                        color="warning"
+                        color="success"
                         onClick={handleSubmit}
                         disabled={isSubmitting || listName.length < 3}
                     >
-                        {isSubmitting ? 'Сохранение...' : 'Редактировать список'}
+                        {isSubmitting ? 'Сохранение...' : 'Сохранить изменения'}
                     </Button>
                 </Box>
             </Box>

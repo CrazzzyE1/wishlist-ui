@@ -17,6 +17,7 @@ export default function ProfilePage({userId}) {
     const [selectedWishlistId, setSelectedWishlistId] = useState(null);
     const [isOwner, setIsOwner] = useState();
     const [refreshKey, setRefreshKey] = useState(0);
+    const [editRefreshKey, setEditRefreshKey] = useState(0);
     const [lists, setLists] = useState();
     const { fetchUnreadCount } = useNotifications();
 
@@ -32,6 +33,12 @@ export default function ProfilePage({userId}) {
     const onListDeleted = () => {
         setRefreshKey(prev => prev + 1);
         setSelectedWishlistId(null);
+    };
+
+    const onListEdit = (newListId) => {
+        setRefreshKey(prev => prev + 1);
+        setEditRefreshKey(prev => prev + 1);
+        setSelectedWishlistId(newListId);
     };
 
     useEffect(() => {
@@ -80,8 +87,12 @@ export default function ProfilePage({userId}) {
                                 </Grid>
                                 <Grid size={12}>
                                     <Item>
-                                        <WishListContent selectedWishlistId={selectedWishlistId} isOwner={isOwner}
-                                                         onListDeleted={onListDeleted}/>
+                                        <WishListContent selectedWishlistId={selectedWishlistId}
+                                                         isOwner={isOwner}
+                                                         editRefreshKey={editRefreshKey}
+                                                         onListDeleted={onListDeleted}
+                                                         onListEdit={onListEdit}
+                                        />
                                     </Item>
                                 </Grid>
                             </Grid>

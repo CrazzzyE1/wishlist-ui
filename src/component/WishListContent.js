@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import MoreVertMenuSettings from "./MoreVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
 
-function WishListContent({selectedWishlistId, isOwner, onListDeleted}) {
+function WishListContent({selectedWishlistId, isOwner, onListDeleted, onListEdit, editRefreshKey}) {
     const [wishlistData, setWishlistData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -15,7 +15,7 @@ function WishListContent({selectedWishlistId, isOwner, onListDeleted}) {
         if (selectedWishlistId) {
             fetchWishlistData();
         }
-    }, [selectedWishlistId]);
+    }, [selectedWishlistId, editRefreshKey]);
 
     const fetchWishlistData = async () => {
         let response;
@@ -112,7 +112,11 @@ function WishListContent({selectedWishlistId, isOwner, onListDeleted}) {
             </Grid>
             <Grid size={1}>
                 {isOwner && selectedWishlistId !== 'default' && (
-                    <MoreVertMenuSettings selectedWishlistId={selectedWishlistId} onListDeleted={onListDeleted}/>
+                    <MoreVertMenuSettings
+                        selectedWishlistId={selectedWishlistId}
+                        onListDeleted={onListDeleted}
+                        onListEdit={onListEdit}
+                    />
                 )}
             </Grid>
             <Grid size={12}>
