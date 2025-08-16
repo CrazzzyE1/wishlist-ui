@@ -29,7 +29,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
     const handleDescriptionChange = (event) => {
         const value = event.target.value;
         setDescriptionName(value);
-        setErrorDescription(value.length > 900);
+        setErrorDescription(value.length > 500);
     };
 
     const handleListNameChange = (event) => {
@@ -135,7 +135,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     onChange={handleLinkNameChange}
                     fullWidth
                     multiline
-                    maxRows={5}
+                    maxRows={2}
                 />
             </Box>
 
@@ -147,10 +147,10 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     value={descriptionName}
                     onChange={handleDescriptionChange}
                     error={errorDescription}
-                    helperText={errorDescription ? "Описание должно быть не более 900 символов" : ""}
+                    helperText={errorDescription ? "Описание должно быть не более 500 символов" : ""}
                     fullWidth
                     multiline
-                    maxRows={20}
+                    maxRows={5}
                 />
             </Box>
 
