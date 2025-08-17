@@ -38,6 +38,7 @@ export default function ListSelector({ data = [], onSelect, selectedListId }) {
                 clearOnBlur
                 clearOnEscape
                 disableClearable={false}
+                freeSolo={false}
                 options={data}
                 getOptionLabel={(option) =>
                     typeof option === 'string'
@@ -84,10 +85,6 @@ export default function ListSelector({ data = [], onSelect, selectedListId }) {
                     <TextField
                         {...params}
                         label="Выберите список для подарка"
-                        InputProps={{
-                            ...params.InputProps,
-                            type: 'search',
-                        }}
                     />
                 )}
             />
