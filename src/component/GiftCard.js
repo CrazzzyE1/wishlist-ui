@@ -114,14 +114,15 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 sx={{
                                     fontSize: "1.2rem",
                                     textAlign: "left",
-                                    lineHeight: 1.4,
-                                    whiteSpace: "nowrap",
+                                    lineHeight: 1.3,
+                                    display: "-webkit-box",
+                                    WebkitLineClamp: 2,
+                                    WebkitBoxOrient: "vertical",
                                     overflow: "hidden",
-                                    textOverflow: "ellipsis"
+                                    textOverflow: "ellipsis",
                                 }}
-                                noWrap
                             >
-                                {getShortName(data.name)}
+                                {data.name}
                             </Typography>
                         </Tooltip>
                     }
