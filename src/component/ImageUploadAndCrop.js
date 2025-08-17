@@ -5,13 +5,13 @@ import Cropper from 'react-easy-crop';
 import { readFile, createImage } from './imageUtils';
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import {Typography} from "@mui/material";
+import {useState, useRef} from "react";
 
 export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
-    const [imageSrc, setImageSrc] = React.useState(null);
-    const [crop, setCrop] = React.useState({ x: 0, y: 0 });
-    const [zoom, setZoom] = React.useState(1);
-    const [croppedAreaPixels, setCroppedAreaPixels] = React.useState(null);
-    const inputRef = React.useRef();
+    const [imageSrc, setImageSrc] = useState(null);
+    const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [zoom, setZoom] = useState(1);
+    const inputRef = useRef();
 
     const handleFileChange = async (e) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -22,8 +22,6 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
     };
 
     const onCropComplete = async (croppedArea, croppedAreaPixels) => {
-        setCroppedAreaPixels(croppedAreaPixels);
-
         try {
             const croppedImage = await getCroppedImg(imageSrc, croppedAreaPixels);
             onImageCropped(croppedImage);
@@ -35,18 +33,6 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
 
     const handleUploadClick = () => {
         inputRef.current.click();
-    };
-
-    const handleCropComplete = async () => {
-        try {
-            const croppedImage = await getCroppedImg(
-                imageSrc,
-                croppedAreaPixels
-            );
-            onImageCropped(croppedImage);
-        } catch (e) {
-            console.error('Ошибка при обрезке изображения', e);
-        }
     };
 
     return (

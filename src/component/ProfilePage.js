@@ -48,6 +48,10 @@ export default function ProfilePage({userId}) {
         setRefreshCounterKey(prev => prev + 1);
     };
 
+    const onGiftEdit = () => {
+        setEditRefreshKey(prev => prev + 1);
+    };
+
     const onListEdit = (newListId) => {
         setRefreshKey(prev => prev + 1);
         setEditRefreshKey(prev => prev + 1);
@@ -107,7 +111,9 @@ export default function ProfilePage({userId}) {
                                                          editRefreshKey={editRefreshKey}
                                                          onListDeleted={onListDeleted}
                                                          onGiftDeleted={onGiftDeleted}
+                                                         onGiftEdit={onGiftEdit}
                                                          onListEdit={onListEdit}
+                                                         lists={lists}
                                         />
                                     </Item>
                                 </Grid>

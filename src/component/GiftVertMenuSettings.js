@@ -1,4 +1,3 @@
-import * as React from 'react';
 import {useState} from 'react';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
@@ -18,7 +17,7 @@ import {red} from "@mui/material/colors";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import ListEditBox from "./ListEditBox";
+import GiftEditBox from "./GiftEditBox";
 
 const ITEM_HEIGHT = 48;
 
@@ -34,11 +33,13 @@ const modalStyle = {
     p: 4,
 };
 
-export default function GiftVertMenuSettings({id, onGiftDeleted, onListEdit}) {
+export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit, gift, lists}) {
     const [anchorEl, setAnchorEl] = useState(null);
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleCloseModal = () => setOpenModal(false);
 
@@ -47,20 +48,43 @@ export default function GiftVertMenuSettings({id, onGiftDeleted, onListEdit}) {
         setOpenModal(true);
     };
 
-    const handleEditList = async (listData) => {
+    const handleEditGift = async (giftData) => {
+        setError(null);
         try {
-            const response = await httpClient.patch(`http://localhost:9000/api/v1/gifts/${id}`, {
-                name: listData.name,
-                eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
-                privacyLevel: listData.privacyLevel
+            const giftResponse = await httpClient.patch(`http://localhost:9000/api/v1/gifts/${giftData.id}`, {
+                name: giftData.name,
+                price: {
+                    amount: giftData.price && !isNaN(giftData.price) ? giftData.price : 0,
+                    currency: giftData.currency || 'RUB'
+                },
+                wishListId: giftData.listId,
+                description: giftData.description,
+                link: giftData.link
             });
-            handleClose();
-            handleCloseModal();
-            if (onListEdit) {
-                onListEdit(response.data.id);
+
+            const savedId = giftResponse.data.id;
+
+            if (giftData.image) {
+                const formData = new FormData();
+                formData.append('giftId', savedId);
+                formData.append('file', giftData.image);
+
+                await httpClient.post('http://localhost:9000/api/v1/pictures', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
             }
-        } catch (error) {
-            console.error('Ошибка при создании списка:', error);
+
+            if (onGiftEdit) {
+                onGiftEdit();
+            }
+            handleClose();
+        } catch (err) {
+            console.error('Ошибка создания подарка:', err);
+            setError(err.response?.data?.message || 'Произошла ошибка при редактировании подарка');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -84,10 +108,10 @@ export default function GiftVertMenuSettings({id, onGiftDeleted, onListEdit}) {
     };
 
     const removeList = async () => {
-        if (!id) return;
+        if (!giftId) return;
         setIsDeleting(true);
         try {
-            await httpClient.delete(`http://localhost:9000/api/v1/gifts/${id}`);
+            await httpClient.delete(`http://localhost:9000/api/v1/gifts/${giftId}`);
             onGiftDeleted?.();
         } catch (error) {
             console.error('Ошибка при удалении подарка:', error);
@@ -193,13 +217,14 @@ export default function GiftVertMenuSettings({id, onGiftDeleted, onListEdit}) {
             >
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                        Редактировать список
+                        Редактировать подарок
                     </Typography>
-                    {/*<ListEditBox*/}
-                    {/*    selectedWishlistId={id}*/}
-                    {/*    onEdit={handleEditList}*/}
-                    {/*    onCancel={handleCloseModal}*/}
-                    {/*/>*/}
+                    <GiftEditBox
+                        gift={gift}
+                        lists={lists}
+                        onEdit={handleEditGift}
+                        onCancel={handleCloseModal}
+                    />
                 </Box>
             </Modal>
         </div>

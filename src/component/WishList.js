@@ -1,6 +1,6 @@
 import GiftCard from "./GiftCard";
 
-function WishList({data, isOwner, onGiftDeleted}) {
+function WishList({data, isOwner, onGiftDeleted, onGiftEdit, lists}) {
 
     if (!data) return <div>В этом списке нет подарков</div>;
     if (!Array.isArray(data)) return <div>Данные не являются массивом</div>;
@@ -16,9 +16,11 @@ function WishList({data, isOwner, onGiftDeleted}) {
             {data.map((item, index) => (
                 <GiftCard
                     onGiftDeleted={onGiftDeleted}
+                    onGiftEdit={onGiftEdit}
                     isOwner={isOwner}
                     key={item.id || index}
                     data={item}
+                    lists={lists}
                 />
             ))}
         </div>

@@ -1,12 +1,21 @@
-import * as React from 'react';
+import { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
-import {green, pink, yellow} from '@mui/material/colors';
+import { green, pink, yellow } from '@mui/material/colors';
 
-export default function ListSelector({ data = [], onSelect }) {
-    const [selectedItem, setSelectedItem] = React.useState(null);
+export default function ListSelector({ data = [], onSelect, selectedListId }) {
+    const [selectedItem, setSelectedItem] = useState(null);
+
+    useEffect(() => {
+        if (selectedListId) {
+            const foundItem = data.find(item => item.id === selectedListId);
+            setSelectedItem(foundItem || null);
+        } else {
+            setSelectedItem(null);
+        }
+    }, [selectedListId, data]);
 
     const getPrivacyColor = (privacyLevel, shade = 100) => {
         switch (privacyLevel) {
@@ -19,8 +28,8 @@ export default function ListSelector({ data = [], onSelect }) {
 
     const handleChange = (event, newValue) => {
         setSelectedItem(newValue);
-        if (onSelect && newValue) {
-            onSelect(newValue.id);
+        if (onSelect) {
+            onSelect(typeof newValue === 'object' ? newValue.id : null);
         }
     };
 
@@ -29,6 +38,7 @@ export default function ListSelector({ data = [], onSelect }) {
             <Autocomplete
                 id="list-selector"
                 freeSolo
+                disableClearable
                 disabled={data.length === 0}
                 options={data}
                 getOptionLabel={(option) =>
@@ -76,6 +86,10 @@ export default function ListSelector({ data = [], onSelect }) {
                     <TextField
                         {...params}
                         label="Выберите список для подарка"
+                        InputProps={{
+                            ...params.InputProps,
+                            type: 'search',
+                        }}
                     />
                 )}
             />

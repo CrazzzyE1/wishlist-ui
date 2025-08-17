@@ -33,7 +33,7 @@ const modalStyle = {
     borderRadius: 2,
 };
 
-export default function GiftCard({data, isOwner, onGiftDeleted}) {
+export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, lists}) {
     const [expanded, setExpanded] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [largeImageUrl, setLargeImageUrl] = useState(null);
@@ -249,9 +249,11 @@ export default function GiftCard({data, isOwner, onGiftDeleted}) {
                     />
                     {isOwner  && (
                         <GiftVertMenuSettings
-                            id={data.id}
+                            giftId={data.id}
+                            gift={data}
+                            lists={lists}
                             onGiftDeleted={onGiftDeleted}
-                            // onListEdit={onListEdit}
+                            onGiftEdit={onGiftEdit}
                         />
                     )}
                 </CardActions>

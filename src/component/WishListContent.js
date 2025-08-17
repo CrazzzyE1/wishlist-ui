@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import ListVertMenuSettings from "./ListVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
 
-function WishListContent({selectedWishlistId, isOwner, onListDeleted, onListEdit, editRefreshKey, onGiftDeleted}) {
+function WishListContent({selectedWishlistId, isOwner, onListDeleted, onGiftEdit, onListEdit, editRefreshKey, onGiftDeleted, lists}) {
     const [wishlistData, setWishlistData] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -124,6 +124,8 @@ function WishListContent({selectedWishlistId, isOwner, onListDeleted, onListEdit
                     data={resolveItemList(wishlistData)}
                     isOwner={isOwner}
                     onGiftDeleted={onGiftDeleted}
+                    onGiftEdit={onGiftEdit}
+                    lists={lists}
                 /></Item>
             </Grid>
         </Grid>

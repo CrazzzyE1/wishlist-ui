@@ -1,6 +1,6 @@
-import * as React from 'react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import { useState, useEffect } from "react";
 
 const currencies = [
     {
@@ -17,15 +17,19 @@ const currencies = [
     }
 ];
 
-export default function SelectTextFields({ onCurrency }) {
-    const [selectedCurrency, setSelectedCurrency] = React.useState('RUB');
+export default function CurrencySelect({ onCurrency, currency }) {
+    const [selectedCurrency, setSelectedCurrency] = useState(currency || 'RUB');
+
+    useEffect(() => {
+        if (currency) {
+            setSelectedCurrency(currency);
+        }
+    }, [currency]);
 
     const handleCurrencyChange = (event) => {
         const value = event.target.value;
         setSelectedCurrency(value);
-        if (onCurrency) {
-            onCurrency(value);
-        }
+        onCurrency?.(value);
     };
 
     return (

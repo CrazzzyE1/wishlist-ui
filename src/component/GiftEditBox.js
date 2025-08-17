@@ -1,4 +1,4 @@
-import * as React from 'react';
+import {useEffect, useState} from 'react';
 import FormControl from '@mui/material/FormControl';
 import { Box, TextField } from "@mui/material";
 import Button from "@mui/material/Button";
@@ -6,17 +6,26 @@ import SelectTextFields from "./CurrencySelect";
 import ListSelector from "./ListSelector";
 import ImageUploadAndCrop from "./ImageUploadAndCrop";
 
-export default function GiftCreateBox({ onCreate, onCancel, lists }) {
-    const [listName, setListName] = React.useState('');
-    const [errorName, setErrorName] = React.useState(false);
-    const [descriptionName, setDescriptionName] = React.useState('');
-    const [errorDescription, setErrorDescription] = React.useState(false);
-    const [price, setPrice] = React.useState('');
-    const [link, setLinkName] = React.useState('');
-    const [isSubmitting, setIsSubmitting] = React.useState(false);
-    const [image, setImage] = React.useState(null);
-    const [selectedListId, setSelectedListId] = React.useState(null);
-    const [currency, setCurrency] = React.useState(null);
+export default function GiftEditBox({ gift, onEdit, onCancel, lists }) {
+    const [giftName, setGiftName] = useState('');
+    const [errorName, setErrorName] = useState(false);
+    const [description, setDescription] = useState('');
+    const [errorDescription, setErrorDescription] = useState(false);
+    const [price, setPrice] = useState('');
+    const [link, setLink] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [image, setImage] = useState(null);
+    const [selectedListId, setSelectedListId] = useState(null);
+    const [currency, setCurrency] = useState(null);
+
+    useEffect(() => {
+        setGiftName(gift.name)
+        setPrice(gift.price.amount)
+        setCurrency(gift.price.currency)
+        setLink(gift.link)
+        setDescription(gift.description)
+        setSelectedListId(gift.wishListId)
+    }, [gift.id]);
 
     const handleSelectedListId = (id) => {
         setSelectedListId(id);
@@ -28,13 +37,13 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
 
     const handleDescriptionChange = (event) => {
         const value = event.target.value;
-        setDescriptionName(value);
+        setDescription(value);
         setErrorDescription(value.length > 500);
     };
 
     const handleListNameChange = (event) => {
         const value = event.target.value;
-        setListName(value);
+        setGiftName(value);
 
         const isValid = value.trim().length >= 3;
         setErrorName(!isValid);
@@ -42,7 +51,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
 
     const handleLinkNameChange = (event) => {
         const value = event.target.value.trim();
-        setLinkName(value);
+        setLink(value);
     };
 
     const handlePriceChange = (event) => {
@@ -52,7 +61,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
     };
 
     const handleSubmit = async () => {
-        const trimmedName = listName.trim();
+        const trimmedName = giftName.trim();
 
         if (trimmedName.length < 3) {
             setErrorName(true);
@@ -62,12 +71,13 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
         setIsSubmitting(true);
 
         try {
-            if (onCreate) {
-                await onCreate({
+            if (onEdit) {
+                await onEdit({
+                    id: gift.id,
                     name: trimmedName,
                     image: image,
                     listId: selectedListId,
-                    description: descriptionName,
+                    description: description,
                     price: price,
                     link: link,
                     currency: currency
@@ -79,7 +89,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
     };
 
     const isSubmitDisabled = isSubmitting ||
-        listName.trim().length < 3 ||
+        giftName.trim().length < 3 ||
         errorDescription;
 
     return (
@@ -94,7 +104,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     id="gift-name"
                     label="Название подарка"
                     variant="standard"
-                    value={listName}
+                    value={giftName}
                     onChange={handleListNameChange}
                     error={errorName}
                     helperText={errorName ? "Название должно быть не короче 3 символов" : ""}
@@ -105,6 +115,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
             <Box sx={{ mt: 0 }}>
                 <ListSelector
                     data={lists}
+                    selectedListId={selectedListId}
                     onSelect={handleSelectedListId}
                 />
             </Box>
@@ -123,7 +134,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     onChange={handlePriceChange}
                     sx={{ flex: 1 }}
                 />
-                <SelectTextFields onCurrency={handleCurrency}/>
+                <SelectTextFields onCurrency={handleCurrency} currency={gift.price.currency}/>
             </Box>
 
             <Box sx={{ mt: 0 }}>
@@ -144,7 +155,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     id="gift-description"
                     label="Описание"
                     variant="standard"
-                    value={descriptionName}
+                    value={description}
                     onChange={handleDescriptionChange}
                     error={errorDescription}
                     helperText={errorDescription ? "Описание должно быть не более 500 символов" : ""}
@@ -170,7 +181,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                         onClick={handleSubmit}
                         disabled={isSubmitDisabled}
                     >
-                        {isSubmitting ? 'Сохранение...' : 'Создать подарок'}
+                        {isSubmitting ? 'Сохранение...' : 'Сохранить изменения'}
                     </Button>
                 </Box>
             </Box>
