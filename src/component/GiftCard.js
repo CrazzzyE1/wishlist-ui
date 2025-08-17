@@ -102,17 +102,31 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
 
     return (
         <>
-            <Card sx={{maxWidth: 191, minWidth: 191}}>
+            <Card
+                sx={{
+                    maxWidth: 191,
+                    minWidth: 191,
+                    borderRadius: 4,
+                    boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
+                    overflow: "hidden",
+                    transition: "transform 0.2s ease, box-shadow 0.3s ease",
+                    "&:hover": {
+                        transform: "translateY(-4px)",
+                        boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+                    },
+                }}
+            >
                 <CardHeader
                     sx={{
-                        padding: "10px",
+                        p: 1.5,
                     }}
                     title={
                         <Tooltip title={data.name} placement="top-start" arrow>
                             <Typography
-                                variant="h6"
+                                variant="subtitle1"
                                 sx={{
-                                    fontSize: "1.2rem",
+                                    fontWeight: 600,
+                                    fontSize: "1rem",
                                     textAlign: "left",
                                     lineHeight: 1.3,
                                     display: "-webkit-box",
@@ -120,6 +134,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     WebkitBoxOrient: "vertical",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
+                                    color: "text.primary",
                                 }}
                             >
                                 {data.name}
@@ -128,150 +143,153 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     }
                 />
 
-
-                <div
-                    style={{position: 'relative'}}
-                >
+                <Box sx={{ position: "relative" }}>
                     <CardMedia
                         component="img"
                         height="210"
                         image={imageUrl}
                         alt="Gift image"
                         onClick={handleOpenModal}
-                        style={{cursor: 'pointer'}}
+                        sx={{
+                            cursor: "pointer",
+                            objectFit: "cover",
+                            transition: "0.3s ease",
+                            "&:hover": {
+                                filter: "brightness(0.9)",
+                            },
+                        }}
                     />
-                </div>
-                <CardContent>
+                </Box>
+
+                <CardContent sx={{ p: 1.5 }}>
                     {data.price.amount ? (
-                        <Tooltip title={`${data.price.amount} ${data.price.currency}`} placement="top-start" arrow>
-                            <Typography variant="body1" sx={{color: 'text.secondary', textAlign: 'left', pl: '10px'}}>
-                                Цена: {data.price.amount} {data.price.currency}
+                        <Tooltip
+                            title={`${data.price.amount} ${data.price.currency}`}
+                            placement="top-start"
+                            arrow
+                        >
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    color: "text.secondary",
+                                    textAlign: "left",
+                                    fontWeight: 500,
+                                }}
+                            >
+                                💰 {data.price.amount} {data.price.currency}
                             </Typography>
                         </Tooltip>
                     ) : (
-                        <Tooltip title='Цена не указана' placement="top-start" arrow>
-                            <Typography variant="body1" sx={{color: 'text.secondary', textAlign: 'left', pl: '10px'}}>
-                                Цена не указана
+                        <Tooltip title="Цена не указана" placement="top-start" arrow>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    color: "text.disabled",
+                                    textAlign: "left",
+                                    fontStyle: "italic",
+                                }}
+                            >
+                                💰 Цена не указана
                             </Typography>
                         </Tooltip>
                     )}
-
                 </CardContent>
-                <CardActions disableSpacing>
-                    <IconButton
-                        aria-label="like"
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 42,
-                            height: 42,
-                            borderRadius: '50%',
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: '#000000'
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                            }
-                        }}>
-                        <FavoriteBorderOutlinedIcon
-                            sx={{
-                                transition: 'color 0.5s ease'
-                            }}
-                        />
-                    </IconButton>
-                    <IconButton
-                        aria-label="link"
-                        onClick={() => {
-                            if (data.link) {
-                                window.open(data.link, '_blank', 'noopener,noreferrer');
-                            }
-                        }}
-                        disabled={!data.link}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 42,
-                            height: 42,
-                            borderRadius: '50%',
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: data.link ? '#000000' : 'rgba(0,0,0,0.26)'
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: data.link ? '0px 0px 10px rgba(0,0,0,0.2)' : 'none'
-                            },
-                            '&.Mui-disabled': {
-                                opacity: 0.5
-                            }
-                        }}
-                    >
-                        <InsertLinkOutlinedIcon
-                            sx={{
-                                transition: 'color 0.5s ease',
-                                color: data.link ? 'inherit' : 'rgba(0,0,0,0.26)'
-                            }}
-                        />
-                    </IconButton>
-                    {!isOwner ? (
-                        <IconButton
-                            aria-label="clone"
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: 42,
-                                height: 42,
-                                borderRadius: '50%',
-                                '&:hover': {
-                                    '& .MuiSvgIcon-root': {
-                                        color: '#000000'
-                                    }
-                                },
-                                '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                }
-                            }}>
-                            <AddToPhotosOutlinedIcon
-                                sx={{
-                                    transition: 'color 0.5s ease'
-                                }}
-                            />
-                        </IconButton>
-                    ) : null}
 
-                    <ExpandMoreButton
-                        description={data.description}
-                        expanded={expanded}
-                        onExpandClick={handleExpandClick}
-                    />
-                    {isOwner  && (
-                        <GiftVertMenuSettings
-                            giftId={data.id}
-                            gift={data}
-                            lists={lists}
-                            onGiftDeleted={onGiftDeleted}
-                            onGiftEdit={onGiftEdit}
+                <CardActions
+                    disableSpacing
+                    sx={{
+                        px: 1.5,
+                        pb: 1.5,
+                        display: "flex",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <Box>
+                        <IconButton
+                            aria-label="like"
+                            sx={{
+                                width: 38,
+                                height: 38,
+                                "&:hover .MuiSvgIcon-root": {
+                                    color: "error.main",
+                                },
+                            }}
+                        >
+                            <FavoriteBorderOutlinedIcon />
+                        </IconButton>
+
+                        <IconButton
+                            aria-label="link"
+                            onClick={() => {
+                                if (data.link) {
+                                    window.open(data.link, "_blank", "noopener,noreferrer");
+                                }
+                            }}
+                            disabled={!data.link}
+                            sx={{
+                                width: 38,
+                                height: 38,
+                                "&:hover .MuiSvgIcon-root": {
+                                    color: data.link ? "primary.main" : "inherit",
+                                },
+                            }}
+                        >
+                            <InsertLinkOutlinedIcon />
+                        </IconButton>
+
+                        {!isOwner && (
+                            <IconButton
+                                aria-label="clone"
+                                sx={{
+                                    width: 38,
+                                    height: 38,
+                                    "&:hover .MuiSvgIcon-root": {
+                                        color: "success.main",
+                                    },
+                                }}
+                            >
+                                <AddToPhotosOutlinedIcon />
+                            </IconButton>
+                        )}
+                    </Box>
+
+                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                        <ExpandMoreButton
+                            description={data.description}
+                            expanded={expanded}
+                            onExpandClick={handleExpandClick}
                         />
-                    )}
+                        {isOwner && (
+                            <GiftVertMenuSettings
+                                giftId={data.id}
+                                gift={data}
+                                lists={lists}
+                                onGiftDeleted={onGiftDeleted}
+                                onGiftEdit={onGiftEdit}
+                            />
+                        )}
+                    </Box>
                 </CardActions>
 
-                <Collapse
-                    in={expanded}
-                    timeout="auto"
-                    unmountOnExit>
-                    <CardContent>
-                        <Typography sx={{marginBottom: 2,}}>Описание:</Typography>
-                        <Typography sx={{marginBottom: 2, textAlign: 'left'}}>
+                <Collapse in={expanded} timeout="auto" unmountOnExit>
+                    <CardContent sx={{ px: 2, pb: 2 }}>
+                        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600 }}>
+                            Описание
+                        </Typography>
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                color: "text.secondary",
+                                textAlign: "left",
+                                whiteSpace: "pre-line",
+                            }}
+                        >
                             {data.description}
                         </Typography>
                     </CardContent>
                 </Collapse>
             </Card>
+
 
             <Modal
                 open={openModal}
