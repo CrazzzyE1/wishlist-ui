@@ -7,7 +7,7 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import FaceRetouchingNaturalOutlinedIcon from '@mui/icons-material/FaceRetouchingNaturalOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import {Avatar, Divider} from "@mui/material";
+import {Avatar, Divider, Modal, Typography, TextField, Button, Stack} from "@mui/material";
 import keycloak from "../keycloak/Keycloak";
 import {useEffect, useState} from "react";
 import {httpClient} from "../http/HttpClient";
@@ -17,6 +17,12 @@ import {useNotifications} from './NotificationsContext';
 export default function AccountSettingToggle() {
     const [avatarSrc, setAvatarSrc] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
+    const [profileModalOpen, setProfileModalOpen] = useState(false);
+    const [profileData, setProfileData] = useState({
+        firstName: '',
+        lastName: '',
+        email: ''
+    });
     const isMenuOpen = Boolean(anchorEl);
     const navigate = useNavigate();
     const {unreadCount} = useNotifications();
@@ -32,6 +38,30 @@ export default function AccountSettingToggle() {
     const handleLogout = () => {
         handleMenuClose();
         keycloak.logout();
+    };
+
+    const handleProfileClick = () => {
+        handleMenuClose();
+        setProfileModalOpen(true);
+        // Здесь можно добавить загрузку текущих данных профиля
+    };
+
+    const handleProfileModalClose = () => {
+        setProfileModalOpen(false);
+    };
+
+    const handleProfileChange = (e) => {
+        const {name, value} = e.target;
+        setProfileData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleProfileSave = () => {
+        // Здесь можно добавить логику сохранения профиля
+        console.log('Profile data to save:', profileData);
+        handleProfileModalClose();
     };
 
     const menuId = 'primary-search-account-menu';
@@ -76,9 +106,7 @@ export default function AccountSettingToggle() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem
-                onClick={handleMenuClose}
-            >
+            <MenuItem onClick={handleProfileClick}>
                 <FaceRetouchingNaturalOutlinedIcon sx={{mr: '5px'}}/> Профиль
             </MenuItem>
             <MenuItem
@@ -142,6 +170,64 @@ export default function AccountSettingToggle() {
                 </IconButton>
             </Box>
             {renderMenu}
+
+            {/* Модальное окно профиля */}
+            <Modal
+                open={profileModalOpen}
+                onClose={handleProfileModalClose}
+                aria-labelledby="profile-modal-title"
+                aria-describedby="profile-modal-description"
+            >
+                <Box sx={{
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    bgcolor: 'background.paper',
+                    boxShadow: 24,
+                    p: 4,
+                    borderRadius: 2
+                }}>
+                    <Typography id="profile-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
+                        Настройки профиля
+                    </Typography>
+
+                    <Stack spacing={2}>
+                        <TextField
+                            label="Имя"
+                            name="firstName"
+                            value={profileData.firstName}
+                            onChange={handleProfileChange}
+                            fullWidth
+                        />
+                        <TextField
+                            label="Фамилия"
+                            name="lastName"
+                            value={profileData.lastName}
+                            onChange={handleProfileChange}
+                            fullWidth
+                        />
+                        <TextField
+                            label="Email"
+                            name="email"
+                            value={profileData.email}
+                            onChange={handleProfileChange}
+                            fullWidth
+                            disabled
+                        />
+
+                        <Box sx={{display: 'flex', justifyContent: 'flex-end', mt: 2}}>
+                            <Button onClick={handleProfileModalClose} sx={{mr: 2}}>
+                                Отмена
+                            </Button>
+                            <Button variant="contained" onClick={handleProfileSave}>
+                                Сохранить
+                            </Button>
+                        </Box>
+                    </Stack>
+                </Box>
+            </Modal>
         </Box>
     );
 }
