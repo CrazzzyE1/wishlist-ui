@@ -12,14 +12,14 @@ import keycloak from "../keycloak/Keycloak";
 import {useEffect, useState} from "react";
 import {httpClient} from "../http/HttpClient";
 import {useNavigate} from "react-router-dom";
-import { useNotifications } from './NotificationsContext';
+import {useNotifications} from './NotificationsContext';
 
 export default function AccountSettingToggle() {
     const [avatarSrc, setAvatarSrc] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const isMenuOpen = Boolean(anchorEl);
     const navigate = useNavigate();
-    const { unreadCount } = useNotifications();
+    const {unreadCount} = useNotifications();
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -76,10 +76,19 @@ export default function AccountSettingToggle() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}><FaceRetouchingNaturalOutlinedIcon sx={{mr: '5px'}} />Профиль</MenuItem>
-            <MenuItem onClick={handleMenuClose}><TuneOutlinedIcon sx={{mr: '5px'}} />Настройки</MenuItem>
+            <MenuItem
+                onClick={handleMenuClose}
+            >
+                <FaceRetouchingNaturalOutlinedIcon sx={{mr: '5px'}}/> Профиль
+            </MenuItem>
+            <MenuItem
+                onClick={handleMenuClose}
+                disabled={true}
+            >
+                <TuneOutlinedIcon sx={{mr: '5px'}}/>Настройки
+            </MenuItem>
             <Divider variant="middle" component="li"/>
-            <MenuItem onClick={handleLogout}><LogoutOutlinedIcon sx={{mr: '5px'}} />Выход</MenuItem>
+            <MenuItem onClick={handleLogout}><LogoutOutlinedIcon sx={{mr: '5px'}}/>Выход</MenuItem>
         </Menu>
     );
 
