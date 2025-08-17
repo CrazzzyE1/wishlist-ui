@@ -4,10 +4,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
-import {green, pink, yellow} from "@mui/material/colors";
-import {httpClient} from "../http/HttpClient";
+import { green, pink, yellow } from "@mui/material/colors";
+import { httpClient } from "../http/HttpClient";
 
-function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, onListGetting, userId}) {
+function WishListsItemInfo({ onWishlistSelect, refreshKey, selectedWishlistId, onListGetting, userId }) {
     const [wishlists, setWishlists] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -74,48 +74,80 @@ function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, on
     if (error) return <Typography color="error">Ошибка: {error}</Typography>;
 
     const formatDate = (dateString) => {
-        const options = {day: 'numeric', month: 'long', year: 'numeric'};
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
         return dateString ? new Date(dateString).toLocaleDateString('ru-RU', options) : 'Без даты';
     };
 
     return (
-        <Box sx={{
-            width: '100%',
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(min(170px, 100%), 1fr))',
-            gap: 2,
-        }}>
+        <Box
+            sx={{
+                width: '100%',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(min(170px, 100%), 1fr))',
+                gap: 2,
+            }}
+        >
             {wishlists.map((wishlist) => {
                 const isSelected = wishlist.id === selectedWishlistId;
                 const bgColor = getPrivacyColor(wishlist.privacyLevel, isSelected ? 200 : 50);
 
                 return (
-                    <Card key={wishlist.id}>
+                    <Card
+                        key={wishlist.id}
+                        sx={{
+                            borderRadius: 3,
+                            boxShadow: "0 2px 6px rgba(0,0,0,0.08)",
+                            transition: "transform 0.2s ease, box-shadow 0.3s ease",
+                            "&:hover": {
+                                transform: "translateY(-3px)",
+                                boxShadow: "0 6px 16px rgba(0,0,0,0.15)",
+                            },
+                        }}
+                    >
                         <CardActionArea
                             onClick={() => handleCardClick(wishlist.id)}
                             sx={{
                                 height: '100%',
                                 backgroundColor: bgColor,
-                                '&:hover': {
+                                transition: 'background-color 0.3s ease',
+                                "&:hover": {
                                     backgroundColor: isSelected
                                         ? getPrivacyColor(wishlist.privacyLevel, 100)
                                         : getPrivacyColor(wishlist.privacyLevel, 200),
                                 },
-                                '&.MuiCardActionArea-root': {
-                                    transition: 'background-color 0.3s ease',
-                                }
                             }}
                         >
-                            <CardContent sx={{height: '100%', pt: 0}}>
-                                <Typography variant="h6" component="div"
-                                            color={isSelected ? 'black' : 'grey.700'}>
+                            <CardContent sx={{ p: 2 }}>
+                                <Typography
+                                    variant="h6"
+                                    component="div"
+                                    sx={{
+                                        fontWeight: 600,
+                                        fontSize: "1rem",
+                                        lineHeight: 1.3,
+                                        display: "-webkit-box",
+                                        WebkitLineClamp: 2,
+                                        WebkitBoxOrient: "vertical",
+                                        overflow: "hidden",
+                                        textOverflow: "ellipsis",
+                                        color: isSelected ? "black" : "grey.800",
+                                    }}
+                                >
                                     {wishlist.name}
                                 </Typography>
 
-                                <Typography variant="body2"
-                                            color={isSelected ? 'black' : 'text.secondary'}>
-                                    {wishlist.id === 'default' ? null : formatDate(wishlist.eventDate)}
-                                </Typography>
+                                {wishlist.id !== "default" && (
+                                    <Typography
+                                        variant="body2"
+                                        sx={{
+                                            mt: 1,
+                                            color: isSelected ? "black" : "text.secondary",
+                                            fontStyle: wishlist.eventDate ? "normal" : "italic",
+                                        }}
+                                    >
+                                        {formatDate(wishlist.eventDate)}
+                                    </Typography>
+                                )}
                             </CardContent>
                         </CardActionArea>
                     </Card>
