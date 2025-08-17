@@ -154,6 +154,7 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
                     label="Без даты"
                 />
                 <BasicDatePicker
+                    label="Дата события"
                     value={noDate ? null : date}
                     onChange={handleDateChange}
                     disabled={noDate}

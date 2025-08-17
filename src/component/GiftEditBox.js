@@ -115,6 +115,7 @@ export default function GiftEditBox({ gift, onEdit, onCancel, lists }) {
 
             <Box sx={{ mt: 0 }}>
                 <ListSelector
+                    label="Выберите список для подарка"
                     data={lists}
                     selectedListId={selectedListId}
                     onSelect={handleSelectedListId}

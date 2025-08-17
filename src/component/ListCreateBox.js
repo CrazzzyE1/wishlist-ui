@@ -111,6 +111,7 @@ export default function ListCreateBox({onCreate, onCancel}) {
                     label="Без даты"
                 />
                 <BasicDatePicker
+                    label="Дата события"
                     value={noDate ? null : date}
                     onChange={handleDateChange}
                     disabled={noDate}

@@ -4,11 +4,11 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import 'dayjs/locale/ru';
 
-export default function ControlledDatePicker({ value, onChange, disabled }) {
+export default function ControlledDatePicker({ value, onChange, disabled, label }) {
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
             <DatePicker
-                label="Дата события"
+                label={label}
                 value={value}
                 onChange={onChange}
                 format="DD MMMM YYYY"

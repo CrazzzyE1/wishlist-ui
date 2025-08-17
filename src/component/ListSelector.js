@@ -5,7 +5,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
 import {green, pink, yellow} from '@mui/material/colors';
 
-export default function ListSelector({data = [], onSelect, selectedListId}) {
+export default function ListSelector({data = [], onSelect, selectedListId, label}) {
     const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
@@ -88,7 +88,7 @@ export default function ListSelector({data = [], onSelect, selectedListId}) {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        label="Выберите список для подарка"
+                        label={label}
                     />
                 )}
             />

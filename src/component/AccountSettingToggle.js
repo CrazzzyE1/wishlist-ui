@@ -13,11 +13,28 @@ import {useEffect, useState} from "react";
 import {httpClient} from "../http/HttpClient";
 import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
+import * as React from "react";
+import ProfileEditBox from "./ProfileEditBox";
+
+
+const modalStyle = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    maxWidth: '90vw',
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+};
 
 export default function AccountSettingToggle() {
     const [avatarSrc, setAvatarSrc] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [profileModalOpen, setProfileModalOpen] = useState(false);
+    const [error, setError] = useState(null);
     const [profileData, setProfileData] = useState({
         firstName: '',
         lastName: '',
@@ -50,7 +67,7 @@ export default function AccountSettingToggle() {
         setProfileModalOpen(false);
     };
 
-    const handleProfileChange = (e) => {
+    const handleEditProfile = (e) => {
         const {name, value} = e.target;
         setProfileData(prev => ({
             ...prev,
@@ -171,61 +188,26 @@ export default function AccountSettingToggle() {
             </Box>
             {renderMenu}
 
-            {/* Модальное окно профиля */}
             <Modal
                 open={profileModalOpen}
                 onClose={handleProfileModalClose}
                 aria-labelledby="profile-modal-title"
                 aria-describedby="profile-modal-description"
             >
-                <Box sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 400,
-                    bgcolor: 'background.paper',
-                    boxShadow: 24,
-                    p: 4,
-                    borderRadius: 2
-                }}>
-                    <Typography id="profile-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                        Настройки профиля
+                <Box sx={modalStyle}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+                        Редактировать профиль
                     </Typography>
-
-                    <Stack spacing={2}>
-                        <TextField
-                            label="Имя"
-                            name="firstName"
-                            value={profileData.firstName}
-                            onChange={handleProfileChange}
-                            fullWidth
-                        />
-                        <TextField
-                            label="Фамилия"
-                            name="lastName"
-                            value={profileData.lastName}
-                            onChange={handleProfileChange}
-                            fullWidth
-                        />
-                        <TextField
-                            label="Email"
-                            name="email"
-                            value={profileData.email}
-                            onChange={handleProfileChange}
-                            fullWidth
-                            disabled
-                        />
-
-                        <Box sx={{display: 'flex', justifyContent: 'flex-end', mt: 2}}>
-                            <Button onClick={handleProfileModalClose} sx={{mr: 2}}>
-                                Отмена
-                            </Button>
-                            <Button variant="contained" onClick={handleProfileSave}>
-                                Сохранить
-                            </Button>
-                        </Box>
-                    </Stack>
+                    {error && (
+                        <Typography color="error" sx={{ mb: 2 }}>
+                            {error}
+                        </Typography>
+                    )}
+                    <ProfileEditBox
+                        // lists={lists}
+                        onEdit={handleEditProfile}
+                        onCancel={handleProfileModalClose}
+                    />
                 </Box>
             </Modal>
         </Box>

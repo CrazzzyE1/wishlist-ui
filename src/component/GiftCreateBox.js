@@ -104,6 +104,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
 
             <Box sx={{ mt: 0 }}>
                 <ListSelector
+                    label="Выберите список для подарка"
                     data={lists}
                     onSelect={handleSelectedListId}
                 />
