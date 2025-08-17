@@ -163,7 +163,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     fontWeight: 500,
                                 }}
                             >
-                                💰 {data.price.amount} {data.price.currency}
+                                Цена: {data.price.amount} {data.price.currency}
                             </Typography>
                         </Tooltip>
                     ) : (
@@ -176,13 +176,12 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     fontStyle: "italic",
                                 }}
                             >
-                                💰 Цена не указана
+                                Цена не указана
                             </Typography>
                         </Tooltip>
                     )}
                 </CardContent>
 
-                {/* Действия */}
                 <CardActions
                     disableSpacing
                     sx={{
