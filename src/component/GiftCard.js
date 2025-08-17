@@ -6,10 +6,8 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Collapse from '@mui/material/Collapse';
-import Avatar from '@mui/material/Avatar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import RedeemOutlinedIcon from '@mui/icons-material/RedeemOutlined';
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
@@ -90,16 +88,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         setOpenModal(false);
     };
 
-    const getShortName = (name) => {
-        if (!name) return 'Без названия';
-
-        if (name.length > 15) {
-            return `${name.substring(0, 15)}...`;
-        }
-
-        return name;
-    };
-
     return (
         <>
             <Card
@@ -116,7 +104,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     },
                 }}
             >
-                {/* Картинка сверху */}
+
                 <Box sx={{ position: "relative" }}>
                     <CardMedia
                         component="img"
@@ -135,7 +123,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     />
                 </Box>
 
-                {/* Заголовок */}
                 <CardHeader
                     sx={{ p: 1.5 }}
                     title={
@@ -161,7 +148,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     }
                 />
 
-                {/* Цена */}
                 <CardContent sx={{ p: 1.5, pt: 0 }}>
                     {data.price.amount ? (
                         <Tooltip
@@ -273,7 +259,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     </Box>
                 </CardActions>
 
-                {/* Описание */}
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent sx={{ px: 2, pb: 2 }}>
                         <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600 }}>
@@ -293,79 +278,133 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                 </Collapse>
             </Card>
 
-
-
             <Modal
                 open={openModal}
                 onClose={handleCloseModal}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={modalStyle}>
-                    <Box sx={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2}}>
-                        <Typography variant="h6" component="h2">
+                <Box
+                    sx={{
+                        ...modalStyle,
+                        borderRadius: 3,
+                        boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
+                        p: 3,
+                        maxWidth: 400,
+                        width: "90%",
+                        bgcolor: "background.paper",
+                    }}
+                >
+                    {/* Заголовок */}
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignItems: "center",
+                            mb: 2,
+                        }}
+                    >
+                        <Typography
+                            id="modal-modal-title"
+                            variant="h6"
+                            component="h2"
+                            sx={{ fontWeight: 600 }}
+                        >
                             {data.name}
                         </Typography>
                     </Box>
-                    <Box sx={{position: 'relative'}}>
+
+                    {/* Картинка */}
+                    <Box sx={{ position: "relative", mb: 2 }}>
                         <CardMedia
                             component="img"
-                            height="300"
+                            height="350"
                             image={largeImageUrl || imageUrl}
                             alt="Gift image"
-                            sx={{mb: 2, borderRadius: 1}}
+                            sx={{
+                                borderRadius: 2,
+                                objectFit: "cover",
+                                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                            }}
                         />
                     </Box>
-                    {data.price.amount ? (
-                        <Typography variant="body1" sx={{mb: 1}}>
-                            <strong>Цена:</strong> {data.price.amount} {data.price.currency}
-                        </Typography>
-                    ) : (
-                        <Typography variant="body1" sx={{mb: 1}}>
-                            <strong>Цена:</strong> не указана
-                        </Typography>
-                    )}
+
+                    {/* Цена */}
+                    <Typography variant="body1" sx={{ mb: 1 }}>
+                        <strong>Цена:</strong>{" "}
+                        {data.price.amount
+                            ? `${data.price.amount} ${data.price.currency}`
+                            : "не указана"}
+                    </Typography>
+
+                    {/* Ссылка */}
                     {data.link && (
-                        <Typography variant="body1" sx={{mb: 1}}>
+                        <Box sx={{ mb: 2 }}>
                             <a
                                 href={data.link}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 style={{
-                                    color: 'black',
-                                    textDecoration: 'none',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '0.5rem'
+                                    color: "black",
+                                    textDecoration: "none",
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "0.5rem",
+                                    fontWeight: 500,
+                                    transition: "color 0.2s ease",
                                 }}
+                                onMouseEnter={(e) => (e.currentTarget.style.color = "#1976d2")}
+                                onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
                             >
-                                <InsertLinkOutlinedIcon sx={{fontSize: "2rem"}}/>
+                                <InsertLinkOutlinedIcon sx={{ fontSize: "1.8rem" }} />
                                 Ссылка на подарок
                             </a>
-                        </Typography>
+                        </Box>
                     )}
-                    {data.description ? (
+
+                    {/* Описание */}
+                    {data.description && (
                         <>
-                            <Typography variant="body1" sx={{mb: 1}}>
-                                <strong>Описание:</strong>
+                            <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
+                                Описание:
                             </Typography>
-                            <Typography variant="body2" sx={{mb: 2}}>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    mb: 2,
+                                    color: "text.secondary",
+                                    lineHeight: 1.5,
+                                }}
+                            >
                                 {data.description}
                             </Typography>
                         </>
-                    ) : null}
+                    )}
 
-                    <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
+                    {/* Кнопка закрытия */}
+                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                         <Button
-                            variant="outlined"
-                            color="black"
+                            variant="contained"
                             onClick={handleCloseModal}
+                            sx={{
+                                borderRadius: 2,
+                                textTransform: "none",
+                                fontWeight: 500,
+                                backgroundColor: "grey.800",
+                                "&:hover": {
+                                    backgroundColor: "grey.900",
+                                    transform: "translateY(-2px)",
+                                    boxShadow: "0 4px 10px rgba(0,0,0,0.2)",
+                                },
+                                transition: "all 0.2s ease",
+                            }}
                         >
                             Закрыть
                         </Button>
                     </Box>
                 </Box>
             </Modal>
+
         </>
     );
 }
