@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import TextField from '@mui/material/TextField';
 import Stack from '@mui/material/Stack';
 import Autocomplete from '@mui/material/Autocomplete';
 import Box from '@mui/material/Box';
-import { green, pink, yellow } from '@mui/material/colors';
+import {green, pink, yellow} from '@mui/material/colors';
 
-export default function ListSelector({ data = [], onSelect, selectedListId }) {
+export default function ListSelector({data = [], onSelect, selectedListId}) {
     const [selectedItem, setSelectedItem] = useState(null);
 
     useEffect(() => {
@@ -19,10 +19,14 @@ export default function ListSelector({ data = [], onSelect, selectedListId }) {
 
     const getPrivacyColor = (privacyLevel, shade = 100) => {
         switch (privacyLevel) {
-            case 'PUBLIC': return green[shade];
-            case 'PRIVATE': return pink[shade];
-            case 'FRIENDS_ONLY': return yellow[shade];
-            default: return 'inherit';
+            case 'PUBLIC':
+                return green[shade];
+            case 'PRIVATE':
+                return pink[shade];
+            case 'FRIENDS_ONLY':
+                return yellow[shade];
+            default:
+                return 'inherit';
         }
     };
 
@@ -32,7 +36,7 @@ export default function ListSelector({ data = [], onSelect, selectedListId }) {
     };
 
     return (
-        <Stack spacing={2} sx={{ width: '100%' }}>
+        <Stack spacing={2} sx={{width: '100%'}}>
             <Autocomplete
                 id="list-selector"
                 clearOnBlur
@@ -66,7 +70,7 @@ export default function ListSelector({ data = [], onSelect, selectedListId }) {
                                 borderRadius: '4px',
                                 color: 'text.primary',
                                 '&.MuiAutocomplete-option[aria-selected="true"]': {
-                                    backgroundColor: hoverColor,
+                                    backgroundColor: `${hoverColor} !important`,
                                     fontWeight: 'bold'
                                 },
                                 '&.MuiAutocomplete-option:hover:not(.Mui-focused)': {
