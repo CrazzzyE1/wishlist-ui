@@ -116,10 +116,28 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     },
                 }}
             >
+                {/* Картинка сверху */}
+                <Box sx={{ position: "relative" }}>
+                    <CardMedia
+                        component="img"
+                        height="180"
+                        image={imageUrl}
+                        alt="Gift image"
+                        onClick={handleOpenModal}
+                        sx={{
+                            cursor: "pointer",
+                            objectFit: "cover",
+                            transition: "0.3s ease",
+                            "&:hover": {
+                                filter: "brightness(0.9)",
+                            },
+                        }}
+                    />
+                </Box>
+
+                {/* Заголовок */}
                 <CardHeader
-                    sx={{
-                        p: 1.5,
-                    }}
+                    sx={{ p: 1.5 }}
                     title={
                         <Tooltip title={data.name} placement="top-start" arrow>
                             <Typography
@@ -143,25 +161,8 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     }
                 />
 
-                <Box sx={{ position: "relative" }}>
-                    <CardMedia
-                        component="img"
-                        height="210"
-                        image={imageUrl}
-                        alt="Gift image"
-                        onClick={handleOpenModal}
-                        sx={{
-                            cursor: "pointer",
-                            objectFit: "cover",
-                            transition: "0.3s ease",
-                            "&:hover": {
-                                filter: "brightness(0.9)",
-                            },
-                        }}
-                    />
-                </Box>
-
-                <CardContent sx={{ p: 1.5 }}>
+                {/* Цена */}
+                <CardContent sx={{ p: 1.5, pt: 0 }}>
                     {data.price.amount ? (
                         <Tooltip
                             title={`${data.price.amount} ${data.price.currency}`}
@@ -195,6 +196,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     )}
                 </CardContent>
 
+                {/* Действия */}
                 <CardActions
                     disableSpacing
                     sx={{
@@ -271,6 +273,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     </Box>
                 </CardActions>
 
+                {/* Описание */}
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent sx={{ px: 2, pb: 2 }}>
                         <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600 }}>
@@ -289,6 +292,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     </CardContent>
                 </Collapse>
             </Card>
+
 
 
             <Modal
