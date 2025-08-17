@@ -162,7 +162,7 @@ export default function ProfileEditBox({gift, onEdit, onCancel, lists}) {
                     fullWidth
                 />
             </Box>
-            <Box sx={{mt: 2}}>
+            <Box sx={{mt: 3}}>
                 <BasicDatePicker
                     label="Дата Рождения"
                     value={date}
