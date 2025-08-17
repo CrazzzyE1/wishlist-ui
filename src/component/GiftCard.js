@@ -93,8 +93,8 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
     const getShortName = (name) => {
         if (!name) return 'Без названия';
 
-        if (name.length > 31) {
-            return `${name.substring(0, 31)}...`;
+        if (name.length > 15) {
+            return `${name.substring(0, 15)}...`;
         }
 
         return name;
@@ -105,28 +105,30 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
             <Card sx={{maxWidth: 191, minWidth: 191}}>
                 <CardHeader
                     sx={{
-                        padding: "10px"
+                        padding: "10px",
                     }}
-                    avatar={
-                        <Avatar
-                            sx={{
-                                width: "36px",
-                                bgcolor: "#ffffff",
-                                color: "gray",
-                            }}
-                            aria-label="recipe">
-                            <RedeemOutlinedIcon sx={{
-                                fontSize: 36
-                            }}/>
-                        </Avatar>
+                    title={
+                        <Tooltip title={data.name} placement="top-start" arrow>
+                            <Typography
+                                variant="h6"   // готовый размер (≈1.25rem)
+                                sx={{
+                                    fontSize: "1.2rem",   // твой размер
+                                    textAlign: "left",
+                                    // fontWeight: 600,
+                                    lineHeight: 1.4,
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis"
+                                }}
+                                noWrap
+                            >
+                                {getShortName(data.name)}
+                            </Typography>
+                        </Tooltip>
                     }
-                    title=
-                        {
-                            <Tooltip title={data.name} placement="top-start" arrow>
-                                <span>{getShortName(data.name)}</span>
-                            </Tooltip>
-                        }
                 />
+
+
                 <div
                     style={{position: 'relative'}}
                 >
