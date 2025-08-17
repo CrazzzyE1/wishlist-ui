@@ -71,6 +71,7 @@ export default function GiftEditBox({ gift, onEdit, onCancel, lists }) {
         setIsSubmitting(true);
 
         try {
+            console.log("selected: " + selectedListId)
             if (onEdit) {
                 await onEdit({
                     id: gift.id,

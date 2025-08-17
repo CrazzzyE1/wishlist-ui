@@ -28,18 +28,16 @@ export default function ListSelector({ data = [], onSelect, selectedListId }) {
 
     const handleChange = (event, newValue) => {
         setSelectedItem(newValue);
-        if (onSelect) {
-            onSelect(typeof newValue === 'object' ? newValue.id : null);
-        }
+        onSelect?.(newValue?.id || null);
     };
 
     return (
         <Stack spacing={2} sx={{ width: '100%' }}>
             <Autocomplete
                 id="list-selector"
-                freeSolo
-                disableClearable
-                disabled={data.length === 0}
+                clearOnBlur
+                clearOnEscape
+                disableClearable={false}
                 options={data}
                 getOptionLabel={(option) =>
                     typeof option === 'string'
