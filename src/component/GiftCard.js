@@ -110,11 +110,10 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     title={
                         <Tooltip title={data.name} placement="top-start" arrow>
                             <Typography
-                                variant="h6"   // готовый размер (≈1.25rem)
+                                variant="h6"
                                 sx={{
-                                    fontSize: "1.2rem",   // твой размер
+                                    fontSize: "1.2rem",
                                     textAlign: "left",
-                                    // fontWeight: 600,
                                     lineHeight: 1.4,
                                     whiteSpace: "nowrap",
                                     overflow: "hidden",
