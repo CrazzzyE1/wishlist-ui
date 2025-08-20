@@ -19,7 +19,7 @@ import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
 import {green, red, yellow} from "@mui/material/colors";
 
-function AccountInfo({onIsOwner, events, userId, refreshCounterKey}) {
+function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefreshKey}) {
     const [userData, setUserData] = useState(null);
     const [giftsCount, setGiftsCount] = useState(0);
     const [isFriend, setIsFriend] = useState(null);
@@ -70,7 +70,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey}) {
         };
 
         fetchUserData();
-    }, [userId, onIsOwner]);
+    }, [userId, onIsOwner, profileRefreshKey]);
 
     useEffect(() => {
         const fetchRelations = async () => {

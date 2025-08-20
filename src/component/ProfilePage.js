@@ -17,6 +17,7 @@ export default function ProfilePage({userId}) {
     const [selectedWishlistId, setSelectedWishlistId] = useState(null);
     const [isOwner, setIsOwner] = useState();
     const [refreshKey, setRefreshKey] = useState(0);
+    const [profileRefreshKey, setProfileRefreshKey] = useState(0);
     const [refreshCounterKey, setRefreshCounterKey] = useState(0);
     const [editRefreshKey, setEditRefreshKey] = useState(0);
     const [lists, setLists] = useState();
@@ -31,6 +32,10 @@ export default function ProfilePage({userId}) {
     const onListCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
         setSelectedWishlistId(newListId);
+    };
+
+    const onProfileEdit = () => {
+        setProfileRefreshKey(prev => prev + 1);
     };
 
     const onListGetting = (lists) => {
@@ -69,7 +74,9 @@ export default function ProfilePage({userId}) {
                 <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={3}>
                         <Grid size={12}>
-                            <Item><TopMenu/></Item>
+                            <Item><TopMenu
+                                onProfileEdit={onProfileEdit}
+                            /></Item>
                         </Grid>
                         <Grid container spacing={3} size={12}>
                             <Grid size={1}>
@@ -87,6 +94,7 @@ export default function ProfilePage({userId}) {
                                     <Item>
                                         <AccountInfo
                                             refreshCounterKey={refreshCounterKey}
+                                            profileRefreshKey={{profileRefreshKey}}
                                             userId={userId}
                                             events={lists}
                                             onIsOwner={setIsOwner}

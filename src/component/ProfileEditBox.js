@@ -67,14 +67,12 @@ export default function ProfileEditBox({onCancel, onEdit}) {
     const [privacyLevel, setPrivacyLevel] = useState('PUBLIC');
     const [gender, setGender] = useState();
     const [email, setEmailLevel] = useState();
-    const [location, setLocationLevel] = useState();
 
     const [errorFamilyName, setErrorFamilyName] = useState(false);
     const [errorFirstName, setErrorFirstName] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [image, setImage] = useState(null);
-    const [selectedListId, setSelectedListId] = useState(null);
     const [birthDate, setBirthDate] = useState(dayjs());
     const [error, setError] = useState(null);
 
@@ -82,16 +80,16 @@ export default function ProfileEditBox({onCancel, onEdit}) {
         const fetchUserData = async () => {
             try {
                 setLoading(true);
-                const url = 'http://localhost:9000/api/v1/profiles/me';
 
-                const response = await httpClient.get(url);
-                setFamilyName(response.data.familyName || '');
-                setFirstName(response.data.firstName || '');
+                const response = await httpClient.get('http://localhost:9000/api/v1/profiles/me');
+                setFamilyName(response.data.familyName);
+                setFirstName(response.data.firstName);
                 setBirthDate(dayjs(response.data.birthDate));
                 setStatus(response.data.status);
                 setPrivacyLevel(response.data.privacyLevel);
                 setGender(response.data.gender);
                 setEmailLevel(response.data.email);
+                setStatus(response.data.status);
 
             } catch (err) {
                 setError(err.message);
@@ -105,7 +103,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
     }, []);
 
     const handleSelectedListId = (id) => {
-        setSelectedListId(id);
+        setStatus(id);
     };
 
     const handleDateChange = (newDate) => {
@@ -149,13 +147,12 @@ export default function ProfileEditBox({onCancel, onEdit}) {
         try {
             if (onEdit) {
                 await onEdit({
+                    image: image,
                     firstName: firstName,
                     familyName: familyName,
                     gender: gender,
-                    email: email,
                     birthDate: birthDate,
                     status: status,
-                    location: location,
                     privacyLevel: privacyLevel
                 });
             }
@@ -230,7 +227,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
                 <ListSelector
                     label="Выберите Ваш статус"
                     data={statuses}
-                    selectedListId={selectedListId}
+                    selectedListId={status}
                     onSelect={handleSelectedListId}
                 />
             </Box>

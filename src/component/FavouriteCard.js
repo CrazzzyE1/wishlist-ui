@@ -120,7 +120,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                                 {favourite.fullName}
                             </Typography>
                             <Typography noWrap variant="body2" color="text.secondary">
-                                {favourite.email}
+                                {favourite.status}
                             </Typography>
                         </Box>
                         <IconButton
@@ -152,7 +152,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Статус:</strong> {favourite.privacyLevel}
+                                <strong>Приватность:</strong> {favourite.privacyLevel}
                             </Typography>
                         </Grid>
                     </Grid>

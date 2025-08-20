@@ -127,7 +127,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                                 {friend.fullName}
                             </Typography>
                             <Typography noWrap variant="body2" color="text.secondary">
-                                {friend.email}
+                                {friend.status}
                             </Typography>
                         </Box>
                         <IconButton
@@ -159,7 +159,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
-                                <strong>Статус:</strong> {friend.privacyLevel}
+                                <strong>Приватность:</strong> {friend.privacyLevel}
                             </Typography>
                         </Grid>
                     </Grid>

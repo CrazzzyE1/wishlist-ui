@@ -30,19 +30,16 @@ const modalStyle = {
     p: 4,
 };
 
-export default function AccountSettingToggle() {
+export default function AccountSettingToggle({onProfileEdit}) {
     const [avatarSrc, setAvatarSrc] = useState(null);
     const [anchorEl, setAnchorEl] = useState(null);
     const [profileModalOpen, setProfileModalOpen] = useState(false);
-    const [error, setError] = useState(null);
-    const [profileData, setProfileData] = useState({
-        firstName: '',
-        lastName: '',
-        email: ''
-    });
     const isMenuOpen = Boolean(anchorEl);
     const navigate = useNavigate();
     const {unreadCount} = useNotifications();
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -60,24 +57,53 @@ export default function AccountSettingToggle() {
     const handleProfileClick = () => {
         handleMenuClose();
         setProfileModalOpen(true);
-        // Здесь можно добавить загрузку текущих данных профиля
     };
 
     const handleProfileModalClose = () => {
         setProfileModalOpen(false);
     };
 
-    const handleEditProfile = (e) => {
-        const {name, value} = e.target;
-        setProfileData(prev => ({
-            ...prev,
-            [name]: value
-        }));
-    };
+    const handleEditProfile = async (newProfile) => {
+        setError(null);
+        try {
+            const response = await httpClient.patch(`http://localhost:9000/api/v1/profiles/me`, {
+                firstName: newProfile.firstName,
+                familyName: newProfile.familyName,
+                gender: newProfile.gender,
+                email: newProfile.email,
+                birthDate: newProfile.birthDate.format('YYYY-MM-DD'),
+                status: newProfile.status,
+                privacyLevel: newProfile.privacyLevel
+            });
 
-    // const handleProfileSave = () => {
-    //     handleProfileModalClose();
-    // };
+            if (response.status !== 200 && response.status !== 204) {
+                setError('Не удалось отменить заявку');
+            }
+
+            if (newProfile.image) {
+                const formData = new FormData();
+                formData.append('file', newProfile.image);
+
+                await httpClient.post('http://localhost:9000/api/v1/avatars', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            }
+
+            if (onProfileEdit) {
+                onProfileEdit();
+            }
+
+            handleProfileModalClose();
+            handleMenuClose();
+        } catch (err) {
+            console.error('Ошибка создания подарка:', err);
+            setError(err.response?.data?.message || 'Произошла ошибка при редактировании подарка');
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const menuId = 'primary-search-account-menu';
 
@@ -196,11 +222,6 @@ export default function AccountSettingToggle() {
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
                         Редактировать профиль
                     </Typography>
-                    {error && (
-                        <Typography color="error" sx={{ mb: 2 }}>
-                            {error}
-                        </Typography>
-                    )}
                     <ProfileEditBox
                         onEdit={handleEditProfile}
                         onCancel={handleProfileModalClose}
