@@ -2,7 +2,6 @@ import {useEffect, useState} from 'react';
 import FormControl from '@mui/material/FormControl';
 import {Box, styled, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
-import SelectTextFields from "./CurrencySelect";
 import ListSelector from "./ListSelector";
 import ImageUploadAndCrop from "./ImageUploadAndCrop";
 import BasicDatePicker from "./BasicDatePicker";
@@ -11,6 +10,19 @@ import FormLabel from "@mui/material/FormLabel";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Radio from "@mui/material/Radio";
+import {httpClient} from "../http/HttpClient";
+import {pink} from "@mui/material/colors";
+
+const statuses = [
+    {
+        id: 'WAITING',
+        name: 'WAITING'
+    },
+    {
+        id: 'NO_WAITING',
+        name: 'NO_WAITING'
+    }
+];
 
 const PublicRadio = styled(Radio)(({theme}) => ({
     color: theme.palette.success.main,
@@ -33,93 +45,118 @@ const PrivateRadio = styled(Radio)(({theme}) => ({
     },
 }));
 
+const GenderMaleRadio = styled(Radio)(({theme}) => ({
+    color: theme.palette.primary.main,
+    '&.Mui-checked': {
+        color: theme.palette.primary.main,
+    },
+}));
 
-export default function ProfileEditBox({gift, onEdit, onCancel, lists}) {
-    const [giftName, setGiftName] = useState('');
-    const [errorName, setErrorName] = useState(false);
-    const [description, setDescription] = useState('');
-    const [errorDescription, setErrorDescription] = useState(false);
-    const [price, setPrice] = useState('');
-    const [link, setLink] = useState('');
+const GenderFemaleRadio = styled(Radio)(({theme}) => ({
+    color: pink[500],
+    '&.Mui-checked': {
+        color: pink[500],
+    },
+}));
+
+
+export default function ProfileEditBox({onCancel, onEdit}) {
+    const [familyName, setFamilyName] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [status, setStatus] = useState('');
+    const [privacyLevel, setPrivacyLevel] = useState('PUBLIC');
+    const [gender, setGender] = useState();
+    const [email, setEmailLevel] = useState();
+    const [location, setLocationLevel] = useState();
+
+    const [errorFamilyName, setErrorFamilyName] = useState(false);
+    const [errorFirstName, setErrorFirstName] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [image, setImage] = useState(null);
     const [selectedListId, setSelectedListId] = useState(null);
-    const [currency, setCurrency] = useState(null);
-    const [date, setDate] = useState(dayjs());
-    const [value, setValue] = useState('PUBLIC');
+    const [birthDate, setBirthDate] = useState(dayjs());
+    const [error, setError] = useState(null);
 
-    // useEffect(() => {
-    //     setGiftName(gift.name)
-    //     setPrice(gift.price.amount)
-    //     setCurrency(gift.price.currency)
-    //     setLink(gift.link)
-    //     setDescription(gift.description)
-    //     setSelectedListId(gift.wishListId)
-    // }, [gift.id]);
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                setLoading(true);
+                const url = 'http://localhost:9000/api/v1/profiles/me';
+
+                const response = await httpClient.get(url);
+                setFamilyName(response.data.familyName || '');
+                setFirstName(response.data.firstName || '');
+                setBirthDate(dayjs(response.data.birthDate));
+                setStatus(response.data.status);
+                setPrivacyLevel(response.data.privacyLevel);
+                setGender(response.data.gender);
+                setEmailLevel(response.data.email);
+
+            } catch (err) {
+                setError(err.message);
+                console.error('Ошибка загрузки данных:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserData();
+    }, []);
 
     const handleSelectedListId = (id) => {
         setSelectedListId(id);
     };
 
-    const handleCurrency = (currency) => {
-        setCurrency(currency)
-    };
-
     const handleDateChange = (newDate) => {
-        setDate(newDate);
-    };
-
-    const handleDescriptionChange = (event) => {
-        const value = event.target.value;
-        setDescription(value);
-        setErrorDescription(value.length > 500);
+        setBirthDate(newDate);
     };
 
     const handleChange = (event) => {
-        setValue(event.target.value);
+        setPrivacyLevel(event.target.value);
     };
 
-    const handleListNameChange = (event) => {
+    const handleGenderChange = (event) => {
+        setGender(event.target.value);
+    };
+
+    const handleFamilyNameChange = (event) => {
         const value = event.target.value;
-        setGiftName(value);
+        setFamilyName(value);
 
-        const isValid = value.trim().length >= 3;
-        setErrorName(!isValid);
+        const isValid = value.trim().length >= 1;
+        setErrorFamilyName(!isValid);
     };
 
-    const handleLinkNameChange = (event) => {
-        const value = event.target.value.trim();
-        setLink(value);
-    };
+    const handleFirstNameChange = (event) => {
+        const value = event.target.value;
+        setFirstName(value);
 
-    const handlePriceChange = (event) => {
-        const value = event.target.value.replace(/[^\d]/g, '');
-        event.target.value = value;
-        setPrice(value);
+        const isValid = value.trim().length >= 1;
+        setErrorFirstName(!isValid);
     };
 
     const handleSubmit = async () => {
-        const trimmedName = giftName.trim();
+        const trimmedName = familyName.trim();
 
-        if (trimmedName.length < 3) {
-            setErrorName(true);
+        if (trimmedName.length < 1) {
+            setErrorFirstName(true);
             return;
         }
 
         setIsSubmitting(true);
 
         try {
-            console.log("selected: " + selectedListId)
             if (onEdit) {
                 await onEdit({
-                    // id: gift.id,
-                    // name: trimmedName,
-                    // image: image,
-                    // listId: selectedListId,
-                    // description: description,
-                    // price: price,
-                    // link: link,
-                    // currency: currency
+                    firstName: firstName,
+                    familyName: familyName,
+                    gender: gender,
+                    email: email,
+                    birthDate: birthDate,
+                    status: status,
+                    location: location,
+                    privacyLevel: privacyLevel
                 });
             }
         } finally {
@@ -128,8 +165,16 @@ export default function ProfileEditBox({gift, onEdit, onCancel, lists}) {
     };
 
     const isSubmitDisabled = isSubmitting ||
-        giftName.trim().length < 3 ||
-        errorDescription;
+        familyName.trim().length < 1 ||
+        firstName.trim().length < 1
+
+    if (loading) {
+        return <div>Загрузка...</div>;
+    }
+
+    if (error) {
+        return <div>Ошибка: {error}</div>;
+    }
 
     return (
         <FormControl sx={{gap: 2, width: '100%'}}>
@@ -140,42 +185,76 @@ export default function ProfileEditBox({gift, onEdit, onCancel, lists}) {
 
             <Box sx={{mt: 0}}>
                 <TextField
-                    id="gift-name"
+                    id="family-name"
                     label="Фамилия"
                     variant="standard"
-                    value={giftName}
-                    onChange={handleListNameChange}
-                    error={errorName}
-                    helperText={errorName ? "Название должно быть не короче 3 символов" : ""}
+                    value={familyName}
+                    onChange={handleFamilyNameChange}
+                    error={errorFamilyName}
+                    helperText={errorFamilyName ? "Фамилия не должна быть пустой" : ""}
                     fullWidth
                 />
             </Box>
             <Box sx={{mt: 0}}>
                 <TextField
-                    id="gift-name"
+                    id="first-name"
                     label="Имя"
                     variant="standard"
-                    value={giftName}
-                    onChange={handleListNameChange}
-                    error={errorName}
-                    helperText={errorName ? "Название должно быть не короче 3 символов" : ""}
+                    value={firstName}
+                    onChange={handleFirstNameChange}
+                    error={errorFirstName}
+                    helperText={errorFirstName ? "Имя не должно быть пустым" : ""}
                     fullWidth
                 />
             </Box>
+
+            <Box sx={{mt: 0}}>
+                <TextField
+                    id="first-name"
+                    label="Email"
+                    variant="standard"
+                    value={email}
+                    disabled={true}
+                    fullWidth
+                />
+            </Box>
+
             <Box sx={{mt: 3}}>
                 <BasicDatePicker
                     label="Дата Рождения"
-                    value={date}
+                    value={birthDate}
                     onChange={handleDateChange}
                 />
             </Box>
             <Box sx={{mt: 2}}>
                 <ListSelector
                     label="Выберите Ваш статус"
-                    data={lists}
+                    data={statuses}
                     selectedListId={selectedListId}
                     onSelect={handleSelectedListId}
                 />
+            </Box>
+
+            <Box sx={{mt: 2}}>
+                <FormLabel id="PrivacyLabelRadioBox">Пол</FormLabel>
+                <RadioGroup
+                    aria-labelledby="PrivacyLabelRadioBox"
+                    name="PrivacyLabelRadioBox"
+                    value={gender}
+                    onChange={handleGenderChange}
+                    sx={{mt: 1}}
+                >
+                    <FormControlLabel
+                        value="MALE"
+                        control={<GenderMaleRadio/>}
+                        label="Мужской"
+                    />
+                    <FormControlLabel
+                        value="FEMALE"
+                        control={<GenderFemaleRadio/>}
+                        label="Женский"
+                    />
+                </RadioGroup>
             </Box>
 
             <Box sx={{mt: 2}}>
@@ -183,7 +262,7 @@ export default function ProfileEditBox({gift, onEdit, onCancel, lists}) {
                 <RadioGroup
                     aria-labelledby="PrivacyLabelRadioBox"
                     name="PrivacyLabelRadioBox"
-                    value={value}
+                    value={privacyLevel}
                     onChange={handleChange}
                     sx={{mt: 1}}
                 >

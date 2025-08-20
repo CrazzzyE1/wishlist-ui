@@ -75,11 +75,9 @@ export default function AccountSettingToggle() {
         }));
     };
 
-    const handleProfileSave = () => {
-        // Здесь можно добавить логику сохранения профиля
-        console.log('Profile data to save:', profileData);
-        handleProfileModalClose();
-    };
+    // const handleProfileSave = () => {
+    //     handleProfileModalClose();
+    // };
 
     const menuId = 'primary-search-account-menu';
 
@@ -204,7 +202,6 @@ export default function AccountSettingToggle() {
                         </Typography>
                     )}
                     <ProfileEditBox
-                        // lists={lists}
                         onEdit={handleEditProfile}
                         onCancel={handleProfileModalClose}
                     />
