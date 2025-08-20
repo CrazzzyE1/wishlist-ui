@@ -1,17 +1,27 @@
 import WishList from "./WishList";
 import Grid from "@mui/material/Grid";
 import Item from "./StyledItem";
-import * as React from "react";
+import {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import ListVertMenuSettings from "./ListVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
 
-function WishListContent({selectedWishlistId, isOwner, onListDeleted, onGiftEdit, onListEdit, editRefreshKey, onGiftDeleted, lists}) {
-    const [wishlistData, setWishlistData] = React.useState(null);
-    const [loading, setLoading] = React.useState(true);
-    const [error, setError] = React.useState(null);
+function WishListContent({
+                             selectedWishlistId,
+                             isOwner,
+                             onListDeleted,
+                             onGiftEdit,
+                             onListEdit,
+                             editRefreshKey,
+                             onGiftDeleted,
+                             lists,
+                             userId
+                         }) {
+    const [wishlistData, setWishlistData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (selectedWishlistId) {
             fetchWishlistData();
         }
@@ -22,7 +32,9 @@ function WishListContent({selectedWishlistId, isOwner, onListDeleted, onGiftEdit
         try {
             setLoading(true);
             if (selectedWishlistId === 'default') {
-                response = await httpClient.get(`http://localhost:9000/api/v1/gifts/me?withList=false`);
+                const url = userId ? `http://localhost:9000/api/v1/gifts/user/${userId}?withList=false`
+                    : `http://localhost:9000/api/v1/gifts/me?withList=false`
+                response = await httpClient.get(url);
             } else {
                 response = await httpClient.get(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`);
             }

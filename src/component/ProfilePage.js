@@ -94,7 +94,7 @@ export default function ProfilePage({userId}) {
                                     <Item>
                                         <AccountInfo
                                             refreshCounterKey={refreshCounterKey}
-                                            profileRefreshKey={{profileRefreshKey}}
+                                            profileRefreshKey={profileRefreshKey}
                                             userId={userId}
                                             events={lists}
                                             onIsOwner={setIsOwner}
@@ -122,6 +122,7 @@ export default function ProfilePage({userId}) {
                                                          onGiftEdit={onGiftEdit}
                                                          onListEdit={onListEdit}
                                                          lists={lists}
+                                                         userId={userId}
                                         />
                                     </Item>
                                 </Grid>

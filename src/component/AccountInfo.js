@@ -70,7 +70,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         };
 
         fetchUserData();
-    }, [userId, onIsOwner, profileRefreshKey]);
+    }, [userId, profileRefreshKey, onIsOwner]);
 
     useEffect(() => {
         const fetchRelations = async () => {
@@ -99,7 +99,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         if (userData && !userData.isOwner && userData.privacyLevel !== 'PRIVATE') {
             fetchRelations();
         }
-    }, [userId, userData, hasOutcomeFriendsRequest, isFriend, hasIncomeFriendsRequest]);
+    }, [userId, userData]);
 
     const handleClickBookmark = () => {
         try {
