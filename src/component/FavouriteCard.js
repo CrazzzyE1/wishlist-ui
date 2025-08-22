@@ -136,7 +136,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                     <Divider sx={{my: 2}}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={3}>
-                            {favourite.privacyLevel === 'PRIVATE' ? (
+                            {!favourite.isPublic ? (
                                 <Typography variant="body2">
                                     <strong>Дата рождения:</strong> скрыто
                                 </Typography>
@@ -147,7 +147,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            {favourite.privacyLevel === 'PRIVATE' ? (
+                            {!favourite.isPublic ? (
                                 <Typography variant="body2">
                                     <strong>Друзей:</strong> скрыто
                                 </Typography>
@@ -158,7 +158,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            {favourite.privacyLevel === 'PRIVATE' ? (
+                            {!favourite.isPublic ? (
                                 <Typography variant="body2">
                                     <strong>Избранное:</strong> скрыто
                                 </Typography>

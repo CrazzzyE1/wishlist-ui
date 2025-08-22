@@ -208,7 +208,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     };
 
     const formatBirthDate = (dateString) => {
-        if (!dateString) return 'Не указано';
+        if (!dateString) return 'Скрыто';
         const options = {day: 'numeric', month: 'long', year: 'numeric'};
         return new Date(dateString).toLocaleDateString('ru-RU', options);
     };
