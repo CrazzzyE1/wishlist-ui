@@ -75,6 +75,16 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         }
     };
 
+    const handleCopyGift = async () => {
+        try {
+            await httpClient.post(`http://localhost:9000/api/v1/gifts/add`, {
+                giftId: data.id
+            });
+        } catch (error) {
+            console.error('Ошибка при копировании подарка:', error);
+        }
+    }
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
@@ -227,6 +237,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         {!isOwner && (
                             <IconButton
                                 aria-label="clone"
+                                onClick={handleCopyGift}
                                 sx={{
                                     width: 38,
                                     height: 38,
