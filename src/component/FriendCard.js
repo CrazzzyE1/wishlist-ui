@@ -16,7 +16,7 @@ import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import {deepPurple} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 export function FriendCard({friend, onFriendRemoved}) {
     const [open, setOpen] = React.useState(false);
@@ -136,19 +136,37 @@ export function FriendCard({friend, onFriendRemoved}) {
                     <Divider sx={{my: 2}}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="body2">
-                                <strong>Дата рождения:</strong> {new Date(friend.birthDate).toLocaleDateString()}
-                            </Typography>
+                            {friend.privacyLevel === 'PRIVATE' ? (
+                                <Typography variant="body2">
+                                    <strong>Дата рождения:</strong> скрыто
+                                </Typography>
+                            ) : (
+                                <Typography variant="body2">
+                                    <strong>Дата рождения:</strong> {new Date(friend.birthDate).toLocaleDateString()}
+                                </Typography>
+                            )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="body2">
-                                <strong>Друзей:</strong> {friend.friendsCount}
-                            </Typography>
+                            {friend.privacyLevel === 'PRIVATE' ? (
+                                <Typography variant="body2">
+                                    <strong>Друзей:</strong> скрыто
+                                </Typography>
+                            ) : (
+                                <Typography variant="body2">
+                                    <strong>Друзей:</strong> {friend.friendsCount}
+                                </Typography>
+                            )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="body2">
-                                <strong>Избранное:</strong> {friend.favouritesCount}
-                            </Typography>
+                            {friend.privacyLevel === 'PRIVATE' ? (
+                                <Typography variant="body2">
+                                    <strong>Избранное:</strong> скрыто
+                                </Typography>
+                            ) : (
+                                <Typography variant="body2">
+                                    <strong>Избранное:</strong> {friend.favouritesCount}
+                                </Typography>
+                            )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">

@@ -16,7 +16,7 @@ import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
 import {deepPurple} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 export function FavouriteCard({favourite, onFavouriteRemoved}) {
     const [open, setOpen] = React.useState(false);
@@ -136,19 +136,37 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                     <Divider sx={{my: 2}}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="body2">
-                                <strong>Дата рождения:</strong> {new Date(favourite.birthDate).toLocaleDateString()}
-                            </Typography>
+                            {favourite.privacyLevel === 'PRIVATE' ? (
+                                <Typography variant="body2">
+                                    <strong>Дата рождения:</strong> скрыто
+                                </Typography>
+                            ) : (
+                                <Typography variant="body2">
+                                    <strong>Дата рождения:</strong> {new Date(favourite.birthDate).toLocaleDateString()}
+                                </Typography>
+                            )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="body2">
-                                <strong>Друзей:</strong> {favourite.friendsCount}
-                            </Typography>
+                            {favourite.privacyLevel === 'PRIVATE' ? (
+                                <Typography variant="body2">
+                                    <strong>Друзей:</strong> скрыто
+                                </Typography>
+                            ) : (
+                                <Typography variant="body2">
+                                    <strong>Друзей:</strong> {favourite.friendsCount}
+                                </Typography>
+                            )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="body2">
-                                <strong>Избранное:</strong> {favourite.favouritesCount}
-                            </Typography>
+                            {favourite.privacyLevel === 'PRIVATE' ? (
+                                <Typography variant="body2">
+                                    <strong>Избранное:</strong> скрыто
+                                </Typography>
+                            ) : (
+                                <Typography variant="body2">
+                                    <strong>Избранное:</strong> {favourite.favouritesCount}
+                                </Typography>
+                            )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             <Typography variant="body2">
