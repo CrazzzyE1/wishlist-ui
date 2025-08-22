@@ -47,7 +47,6 @@ export const NotificationsProvider = ({ children }) => {
     );
 };
 
-// 3. Создаем и экспортируем кастомный хук
 export function useNotifications() {
     const context = useContext(NotificationsContext);
     if (context === undefined) {

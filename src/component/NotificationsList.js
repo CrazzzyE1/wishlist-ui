@@ -14,7 +14,7 @@ export default function NotificationsList({isUnread}) {
     const [markAsReadLoading, setMarkAsReadLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const {decrementCount, incrementCount} = useNotifications();  // Исправлено имя
+    const {decrementCount, incrementCount} = useNotifications();
 
     const handleMarkAsRead = async (id) => {
         try {
