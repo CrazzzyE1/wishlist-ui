@@ -477,7 +477,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         </Grid>
                         <Grid size={3} container justifyContent="flex-end" spacing={0}>
                             {buttons()}
-                            {(!isOwner && !isFriend && !isPrivate) && (
+                            {(!isOwner && !isFriend && userData.isPublic) && (
                                 <Item noshadow>
                                     <IconButton
                                         onClick={handleClickBookmark}
