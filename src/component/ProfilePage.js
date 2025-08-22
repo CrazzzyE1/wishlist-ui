@@ -16,11 +16,13 @@ export default function ProfilePage({userId}) {
 
     const [selectedWishlistId, setSelectedWishlistId] = useState(null);
     const [isOwner, setIsOwner] = useState();
+    const [privacyLevel, setPrivacyLevel] = useState();
     const [refreshKey, setRefreshKey] = useState(0);
     const [profileRefreshKey, setProfileRefreshKey] = useState(0);
     const [refreshCounterKey, setRefreshCounterKey] = useState(0);
     const [editRefreshKey, setEditRefreshKey] = useState(0);
     const [lists, setLists] = useState();
+    const [isFriend, setIsFriend] = useState(null);
     const {fetchUnreadCount} = useNotifications();
 
     const onGiftCreated = (newListId) => {
@@ -98,34 +100,42 @@ export default function ProfilePage({userId}) {
                                             userId={userId}
                                             events={lists}
                                             onIsOwner={setIsOwner}
+                                            onPrivacyLevel={setPrivacyLevel}
+                                            onIsFriend={setIsFriend}
                                         />
                                     </Item>
                                 </Grid>
-                                <Grid size={12}>
-                                    <Item>
-                                        <WishLists
-                                            userId={userId}
-                                            onListGetting={onListGetting}
-                                            onWishlistSelect={setSelectedWishlistId}
-                                            refreshKey={refreshKey}
-                                            selectedWishlistId={selectedWishlistId}
-                                        />
-                                    </Item>
-                                </Grid>
-                                <Grid size={12}>
-                                    <Item>
-                                        <WishListContent selectedWishlistId={selectedWishlistId}
-                                                         isOwner={isOwner}
-                                                         editRefreshKey={editRefreshKey}
-                                                         onListDeleted={onListDeleted}
-                                                         onGiftDeleted={onGiftDeleted}
-                                                         onGiftEdit={onGiftEdit}
-                                                         onListEdit={onListEdit}
-                                                         lists={lists}
-                                                         userId={userId}
-                                        />
-                                    </Item>
-                                </Grid>
+                                {isOwner || privacyLevel === 'PUBLIC' || (privacyLevel === 'FRIENDS_ONLY' && isFriend) ?
+                                    (<>
+                                        <Grid size={12}>
+                                            <Item>
+                                                <WishLists
+                                                    userId={userId}
+                                                    onListGetting={onListGetting}
+                                                    onWishlistSelect={setSelectedWishlistId}
+                                                    refreshKey={refreshKey}
+                                                    selectedWishlistId={selectedWishlistId}
+                                                />
+                                            </Item>
+                                        </Grid>
+                                        <Grid size={12}>
+                                            <Item>
+                                                <WishListContent selectedWishlistId={selectedWishlistId}
+                                                                 isOwner={isOwner}
+                                                                 editRefreshKey={editRefreshKey}
+                                                                 onListDeleted={onListDeleted}
+                                                                 onGiftDeleted={onGiftDeleted}
+                                                                 onGiftEdit={onGiftEdit}
+                                                                 onListEdit={onListEdit}
+                                                                 lists={lists}
+                                                                 userId={userId}
+                                                />
+                                            </Item>
+                                        </Grid>
+                                    </>)
+                                    :
+                                    null
+                                }
                             </Grid>
                         </Grid>
                     </Grid>

@@ -8,7 +8,7 @@ function Counters({userData, giftsCount}) {
     return (
         <Box sx={{flexGrow: 1, pl: 0}}>
             <Grid container spacing={0}>
-                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
+                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '8px'}}>
                     <Box sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -17,7 +17,7 @@ function Counters({userData, giftsCount}) {
                         <Typography variant="body1">Желаний: <b>{giftsCount}</b> </Typography>
                     </Box>
                 </Grid>
-                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
+                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '8px'}}>
                     <Box sx={{
                         display: 'flex',
                         flexDirection: 'column',
@@ -26,7 +26,7 @@ function Counters({userData, giftsCount}) {
                         <Typography variant="body1">Друзей: <b>{userData.friendsCount}</b></Typography>
                     </Box>
                 </Grid>
-                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
+                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '8px'}}>
                     <Box sx={{
                         display: 'flex',
                         flexDirection: 'column',

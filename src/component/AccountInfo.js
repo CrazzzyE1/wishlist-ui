@@ -19,10 +19,12 @@ import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
 import {green, red, yellow} from "@mui/material/colors";
 
-function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefreshKey}) {
+function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefreshKey, onPrivacyLevel, onIsFriend}) {
     const [userData, setUserData] = useState(null);
     const [giftsCount, setGiftsCount] = useState(0);
     const [isFriend, setIsFriend] = useState(null);
+    const [isPrivate, setIsPrivate] = useState(null);
+    const [isOwner, setIsOwner] = useState(null);
     const [isFavourites, setIsFavourites] = useState(null);
     const [hasIncomeFriendsRequest, setHasIncomeFriendsRequest] = useState(null);
     const [hasOutcomeFriendsRequest, setHasOutcomeFriendsRequest] = useState(null);
@@ -60,6 +62,11 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                 setUserData(response.data);
                 if (onIsOwner) {
                     onIsOwner(response.data.isOwner);
+                    setIsOwner(response.data.isOwner)
+                }
+                if (onPrivacyLevel) {
+                    onPrivacyLevel(response.data.privacyLevel);
+                    setIsPrivate(response.data.privacyLevel === 'PRIVATE');
                 }
             } catch (err) {
                 setError(err.message);
@@ -70,12 +77,11 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         };
 
         fetchUserData();
-    }, [userId, profileRefreshKey, onIsOwner]);
+    }, [userId, profileRefreshKey, onIsOwner, onPrivacyLevel]);
 
     useEffect(() => {
         const fetchRelations = async () => {
             if (!userData) return;
-
             try {
                 setLoading(true);
                 const me = getUserIdFromToken(keycloak.token);
@@ -85,6 +91,9 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     friend: userId
                 });
                 setIsFriend(response.data.isFriends);
+                if(onIsFriend) {
+                    onIsFriend(response.data.isFriends);
+                }
                 setIsFavourites(response.data.isFavourites);
                 setHasIncomeFriendsRequest(response.data.hasIncomeFriendsRequest);
                 setHasOutcomeFriendsRequest(response.data.hasOutcomeFriendsRequest);
@@ -96,7 +105,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             }
         };
 
-        if (userData && !userData.isOwner && userData.privacyLevel !== 'PRIVATE') {
+        if (userData && !userData.isOwner) {
             fetchRelations();
         }
     }, [userId, userData]);
@@ -268,7 +277,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                 </Item>)
         }
 
-        if ('PRIVATE' === userData.privacyLevel) {
+        if (isPrivate) {
             return;
         }
 
@@ -416,28 +425,31 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                             </Typography>
                         </Grid>
                         <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
-                            <Item noshadow>
-                                <Typography
-                                    variant="body1"
-                                    sx={{
-                                        fontSize: '16px',
-                                        color: 'text.secondary',
-                                        textAlign: 'left',
-                                        pl: '0px'
-                                    }}>
-                                    Статус:
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    sx={{
-                                        fontSize: '12px',
-                                        color: 'text.secondary',
-                                        textAlign: 'left',
-                                        pl: '0px'
-                                    }}>
-                                    {userData.status}
-                                </Typography>
-                            </Item>
+                            {isOwner || !isPrivate ? (
+                                <Item noshadow>
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            fontSize: '16px',
+                                            color: 'text.secondary',
+                                            textAlign: 'left',
+                                            pl: '0px'
+                                        }}>
+                                        Статус:
+                                    </Typography>
+                                    <Typography
+                                        variant="body1"
+                                        sx={{
+                                            fontSize: '12px',
+                                            color: 'text.secondary',
+                                            textAlign: 'left',
+                                            pl: '0px'
+                                        }}>
+                                        {userData.status}
+                                    </Typography>
+                                </Item>
+
+                            ) : null}
                         </Grid>
                         <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
                             <Item noshadow>
@@ -465,7 +477,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         </Grid>
                         <Grid size={3} container justifyContent="flex-end" spacing={0}>
                             {buttons()}
-                            {(!userData.isOwner && !isFriend) && (
+                            {(!isOwner && !isFriend && !isPrivate) && (
                                 <Item noshadow>
                                     <IconButton
                                         onClick={handleClickBookmark}
@@ -502,23 +514,28 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                 </Item>
                             )}
                         </Grid>
-                        <Grid size={4} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'flex-start'
-                            }}>
-                                <Typography variant="body1"><b>День Рождения:</b></Typography>
-                                <Typography variant="body2" color="text.info">
-                                    {formatBirthDate(userData.birthDate)}
-                                </Typography>
-                            </Box>
+                        <Grid size={5} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
+                            {isOwner || !isPrivate ? (
+                                <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-start'
+                                }}>
+                                    <Typography variant="body1"><b>День Рождения:</b></Typography>
+                                    <Typography variant="body2" color="text.info">
+                                        {formatBirthDate(userData.birthDate)}
+                                    </Typography>
+                                </Box>) : null}
                         </Grid>
-                        <Grid size={8} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
-                            <Counters userData={userData} giftsCount={giftsCount}/>
+                        <Grid size={7} container justifyContent="flex-start">
+                            {isOwner || !isPrivate ? (
+                                <Counters userData={userData} giftsCount={giftsCount}/>
+                            ) : null}
                         </Grid>
                         <Grid size={12} container justifyContent="flex-start">
-                            <EventsInfoList events={events}/>
+                            {isOwner || !isPrivate ? (
+                                <EventsInfoList events={events}/>
+                            ) : null}
                         </Grid>
                     </Grid>
                 </Grid>
