@@ -41,6 +41,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
     const [likesCount, setLikesCount] = useState(0);
     const [isLikeLoading, setIsLikeLoading] = useState(false);
     const [isUnlikeLoading, setIsUnlikeLoading] = useState(false);
+    const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
     useEffect(() => {
         let isMounted = true;
@@ -103,15 +104,35 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         }
     };
 
+    // const handleCopyGift = async () => {
+    //     try {
+    //         await httpClient.post(`http://localhost:9000/api/v1/gifts/add`, {
+    //             giftId: data.id
+    //         });
+    //     } catch (error) {
+    //         console.error('Ошибка при копировании подарка:', error);
+    //     }
+    // }
+
     const handleCopyGift = async () => {
         try {
             await httpClient.post(`http://localhost:9000/api/v1/gifts/add`, {
                 giftId: data.id
             });
+            setOpenConfirmModal(false);
         } catch (error) {
             console.error('Ошибка при копировании подарка:', error);
+            setOpenConfirmModal(false);
         }
-    }
+    };
+
+    const handleOpenConfirmModal = () => {
+        setOpenConfirmModal(true);
+    };
+
+    const handleCloseConfirmModal = () => {
+        setOpenConfirmModal(false);
+    };
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -185,7 +206,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                 }}
             >
 
-                <Box sx={{ position: "relative" }}>
+                <Box sx={{position: "relative"}}>
                     <CardMedia
                         component="img"
                         height="180"
@@ -204,7 +225,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                 </Box>
 
                 <CardHeader
-                    sx={{ p: 1.5 }}
+                    sx={{p: 1.5}}
                     title={
                         <Tooltip title={data.name} placement="top-start" arrow>
                             <Typography
@@ -228,7 +249,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     }
                 />
 
-                <CardContent sx={{ p: 1.5, pt: 0 }}>
+                <CardContent sx={{p: 1.5, pt: 0}}>
                     {data.price.amount ? (
                         <Tooltip
                             title={`${data.price.amount} ${data.price.currency}`}
@@ -285,9 +306,9 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                         },
                                     }}
                                 >
-                                    <FavoriteOutlinedIcon />
+                                    <FavoriteOutlinedIcon/>
                                 </IconButton>
-                        ) :
+                            ) :
                             (
                                 <IconButton
                                     onClick={handleLike}
@@ -300,7 +321,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                         },
                                     }}
                                 >
-                                    <FavoriteBorderOutlinedIcon />
+                                    <FavoriteBorderOutlinedIcon/>
                                 </IconButton>
                             )}
                         {likesCount ? likesCount : null}
@@ -320,13 +341,13 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 },
                             }}
                         >
-                            <InsertLinkOutlinedIcon />
+                            <InsertLinkOutlinedIcon/>
                         </IconButton>
 
                         {!isOwner && (
                             <IconButton
                                 aria-label="clone"
-                                onClick={handleCopyGift}
+                                onClick={handleOpenConfirmModal}
                                 sx={{
                                     width: 38,
                                     height: 38,
@@ -335,12 +356,12 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     },
                                 }}
                             >
-                                <AddToPhotosOutlinedIcon />
+                                <AddToPhotosOutlinedIcon/>
                             </IconButton>
                         )}
                     </Box>
 
-                    <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Box sx={{display: "flex", alignItems: "center"}}>
                         <ExpandMoreButton
                             description={data.description}
                             expanded={expanded}
@@ -359,8 +380,8 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                 </CardActions>
 
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
-                    <CardContent sx={{ px: 2, pb: 2 }}>
-                        <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 600 }}>
+                    <CardContent sx={{px: 2, pb: 2}}>
+                        <Typography variant="subtitle2" sx={{mb: 1, fontWeight: 600}}>
                             Описание
                         </Typography>
                         <Typography
@@ -394,7 +415,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         bgcolor: "background.paper",
                     }}
                 >
-                    {/* Заголовок */}
                     <Box
                         sx={{
                             display: "flex",
@@ -407,14 +427,13 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                             id="modal-modal-title"
                             variant="h6"
                             component="h2"
-                            sx={{ fontWeight: 600 }}
+                            sx={{fontWeight: 600}}
                         >
                             {data.name}
                         </Typography>
                     </Box>
 
-                    {/* Картинка */}
-                    <Box sx={{ position: "relative", mb: 2 }}>
+                    <Box sx={{position: "relative", mb: 2}}>
                         <CardMedia
                             component="img"
                             height="350"
@@ -428,17 +447,15 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         />
                     </Box>
 
-                    {/* Цена */}
-                    <Typography variant="body1" sx={{ mb: 1 }}>
+                    <Typography variant="body1" sx={{mb: 1}}>
                         <strong>Цена:</strong>{" "}
                         {data.price.amount
                             ? `${data.price.amount} ${data.price.currency}`
                             : "не указана"}
                     </Typography>
 
-                    {/* Ссылка */}
                     {data.link && (
-                        <Box sx={{ mb: 2 }}>
+                        <Box sx={{mb: 2}}>
                             <a
                                 href={data.link}
                                 target="_blank"
@@ -455,7 +472,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 onMouseEnter={(e) => (e.currentTarget.style.color = "#1976d2")}
                                 onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
                             >
-                                <InsertLinkOutlinedIcon sx={{ fontSize: "1.8rem" }} />
+                                <InsertLinkOutlinedIcon sx={{fontSize: "1.8rem"}}/>
                                 Ссылка на подарок
                             </a>
                         </Box>
@@ -464,7 +481,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     {/* Описание */}
                     {data.description && (
                         <>
-                            <Typography variant="body1" sx={{ mb: 1, fontWeight: 500 }}>
+                            <Typography variant="body1" sx={{mb: 1, fontWeight: 500}}>
                                 Описание:
                             </Typography>
                             <Typography
@@ -480,8 +497,8 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         </>
                     )}
 
-                    {/* Кнопка закрытия */}
-                    <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+
+                    <Box sx={{display: "flex", justifyContent: "flex-end"}}>
                         <Button
                             variant="contained"
                             onClick={handleCloseModal}
@@ -503,7 +520,64 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     </Box>
                 </Box>
             </Modal>
+            <Modal
+                open={openConfirmModal}
+                onClose={handleCloseConfirmModal}
+                aria-labelledby="confirm-copy-modal-title"
+                aria-describedby="confirm-copy-modal-description"
+            >
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        width: 400,
+                        bgcolor: 'background.paper',
+                        boxShadow: 24,
+                        p: 4,
+                        borderRadius: 3,
+                        textAlign: 'center'
+                    }}
+                >
+                    <Typography id="confirm-copy-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
+                        Копирование подарка
+                    </Typography>
 
+                    <Typography id="confirm-copy-modal-description" sx={{mb: 3}}>
+                        Вы точно хотите добавить подарок "{data.name}" в свою коллекцию?
+                    </Typography>
+
+                    <Box sx={{display: 'flex', justifyContent: 'center', gap: 2}}>
+                        <Button
+                            variant="outlined"
+                            onClick={handleCloseConfirmModal}
+                            sx={{
+                                borderRadius: 2,
+                                textTransform: 'none',
+                                fontWeight: 500
+                            }}
+                        >
+                            Отмена
+                        </Button>
+                        <Button
+                            variant="contained"
+                            onClick={handleCopyGift}
+                            sx={{
+                                borderRadius: 2,
+                                textTransform: 'none',
+                                fontWeight: 500,
+                                backgroundColor: 'success.main',
+                                '&:hover': {
+                                    backgroundColor: 'success.dark'
+                                }
+                            }}
+                        >
+                            Да, добавить
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
         </>
     );
 }
