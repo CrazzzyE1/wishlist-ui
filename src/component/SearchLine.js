@@ -108,7 +108,7 @@ function SearchLine() {
                                         </ListItemAvatar>
                                         <ListItemText
                                             primary={user.fullName}
-                                            secondary={user.email}
+                                            secondary={user.privacyLevel}
                                         />
                                     </ListItem>
                                     <Divider component="li"/>
