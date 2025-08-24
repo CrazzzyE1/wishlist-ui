@@ -536,7 +536,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                 }}>
                                     <Typography variant="body1"><b>Пол:</b></Typography>
                                     <Typography variant="body2" color="text.info">
-                                        {userData.gender}
+                                        {userData.gender ? userData.gender : 'Не указан'}
                                     </Typography>
                                 </Box>) : null}
                         </Grid>
