@@ -10,6 +10,7 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import InsertLinkOutlinedIcon from '@mui/icons-material/InsertLinkOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import {ExpandMoreButton} from "./ExpandMoreButton";
 import {Tooltip} from "@mui/material";
@@ -36,6 +37,33 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
     const [imageUrl, setImageUrl] = useState(null);
     const [largeImageUrl, setLargeImageUrl] = useState(null);
     const [openModal, setOpenModal] = useState(false);
+    const [isLiked, setIsLiked] = useState(false);
+    const [likesCount, setLikesCount] = useState(0);
+    const [isLikeLoading, setIsLikeLoading] = useState(false);
+    const [isUnlikeLoading, setIsUnlikeLoading] = useState(false);
+
+    useEffect(() => {
+        let isMounted = true;
+        const fetchLike = async () => {
+            try {
+                const response = await httpClient.get(`http://localhost:9000/api/v1/likes/gift/${data.id}`);
+
+                if (isMounted) {
+                    const data = response.data;
+                    setIsLiked(data.hasMyLike);
+                    setLikesCount(data.likesCount);
+                }
+            } catch (error) {
+                console.error('Error fetching likes:', error);
+            }
+        };
+        if (data.id) {
+            fetchLike();
+        }
+        return () => {
+            isMounted = false;
+        };
+    }, [data.id]);
 
     useEffect(() => {
         const fetchImage = async () => {
@@ -96,6 +124,48 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
 
     const handleCloseModal = () => {
         setOpenModal(false);
+    };
+    const handleUnlike = async () => {
+        if (isUnlikeLoading) return;
+
+        setIsUnlikeLoading(true);
+
+        const previousIsLiked = isLiked;
+        const previousLikesCount = likesCount;
+
+        setIsLiked(false);
+        setLikesCount(likesCount - 1);
+
+        try {
+            await httpClient.delete(`http://localhost:9000/api/v1/likes/gift/${data.id}`);
+        } catch (error) {
+            console.error('Error unlikes:', error);
+            setIsLiked(previousIsLiked);
+            setLikesCount(previousLikesCount);
+        } finally {
+            setIsUnlikeLoading(false);
+        }
+    };
+
+    const handleLike = async () => {
+        if (isLikeLoading) return;
+
+        setIsLikeLoading(true);
+        const previousIsLiked = isLiked;
+        const previousLikesCount = likesCount;
+
+        setIsLiked(true);
+        setLikesCount(likesCount + 1);
+
+        try {
+            await httpClient.post(`http://localhost:9000/api/v1/likes/gift/${data.id}`);
+        } catch (error) {
+            console.error('Error likes:', error);
+            setIsLiked(previousIsLiked);
+            setLikesCount(previousLikesCount);
+        } finally {
+            setIsLikeLoading(false);
+        }
     };
 
     return (
@@ -202,19 +272,38 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     }}
                 >
                     <Box>
-                        <IconButton
-                            aria-label="like"
-                            sx={{
-                                width: 38,
-                                height: 38,
-                                "&:hover .MuiSvgIcon-root": {
-                                    color: "error.main",
-                                },
-                            }}
-                        >
-                            <FavoriteBorderOutlinedIcon />
-                        </IconButton>
-
+                        {isLiked ? (
+                                <IconButton
+                                    onClick={handleUnlike}
+                                    aria-label="like"
+                                    sx={{
+                                        width: 38,
+                                        height: 38,
+                                        color: "error.main",
+                                        "&:hover .MuiSvgIcon-root": {
+                                            color: "error.main",
+                                        },
+                                    }}
+                                >
+                                    <FavoriteOutlinedIcon />
+                                </IconButton>
+                        ) :
+                            (
+                                <IconButton
+                                    onClick={handleLike}
+                                    aria-label="like"
+                                    sx={{
+                                        width: 38,
+                                        height: 38,
+                                        "&:hover .MuiSvgIcon-root": {
+                                            color: "error.main",
+                                        },
+                                    }}
+                                >
+                                    <FavoriteBorderOutlinedIcon />
+                                </IconButton>
+                            )}
+                        {likesCount ? likesCount : null}
                         <IconButton
                             aria-label="link"
                             onClick={() => {
