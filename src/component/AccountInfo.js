@@ -514,7 +514,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                 </Item>
                             )}
                         </Grid>
-                        <Grid size={5} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
+                        <Grid size={3} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
                             {isOwner || !isPrivate ? (
                                 <Box sx={{
                                     display: 'flex',
@@ -524,6 +524,19 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                     <Typography variant="body1"><b>День Рождения:</b></Typography>
                                     <Typography variant="body2" color="text.info">
                                         {formatBirthDate(userData.birthDate)}
+                                    </Typography>
+                                </Box>) : null}
+                        </Grid>
+                        <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
+                            {isOwner || !isPrivate ? (
+                                <Box sx={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'flex-start'
+                                }}>
+                                    <Typography variant="body1"><b>Пол:</b></Typography>
+                                    <Typography variant="body2" color="text.info">
+                                        {userData.gender}
                                     </Typography>
                                 </Box>) : null}
                         </Grid>
