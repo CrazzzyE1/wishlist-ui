@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes, useParams } from 'react-router-dom';
+import React, {useEffect, useRef, useState} from 'react';
+import {BrowserRouter as Router, Route, Routes, useParams} from 'react-router-dom';
 import keycloak from './keycloak/Keycloak';
 import ProfilePage from "./component/ProfilePage";
 import FriendsPage from "./component/FriendsPage";
-import { httpClient } from './http/HttpClient';
+import {httpClient} from './http/HttpClient';
 import NotificationsPage from "./component/NotificationsPage";
 import {NotificationsProvider} from "./component/NotificationsContext";
-import {getUserIdFromToken} from "./utils/Auth";
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -15,7 +14,7 @@ function App() {
     useEffect(() => {
         if (isRun.current) return;
         isRun.current = true;
-        keycloak.init({ onLoad: 'login-required' })
+        keycloak.init({onLoad: 'login-required'})
             .then((auth) => {
                 if (auth) {
                     setAuthenticated(true);
@@ -47,27 +46,31 @@ function App() {
 
     try {
         httpClient.post(`http://localhost:9000/api/v1/authorize`);
-    } catch (err) {
-        console.error('Ошибка проверки наличия данных пользователя:', err);
+    } catch (error) {
+        if (error.response?.status === 500) {
+            console.log('User already exists in database');
+            return;
+        }
+        throw error;
     }
 
     return (
         <NotificationsProvider>
-        <Router>
-            <Routes>
-                <Route path="/" element={<ProfilePage />} />
-                <Route path="/users" element={<FriendsPage />} />
-                <Route path="/users/:userId" element={<ProfilePageWithParams />} />
-                <Route path="/notifications" element={<NotificationsPage />} />
-            </Routes>
-        </Router>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<ProfilePage/>}/>
+                    <Route path="/users" element={<FriendsPage/>}/>
+                    <Route path="/users/:userId" element={<ProfilePageWithParams/>}/>
+                    <Route path="/notifications" element={<NotificationsPage/>}/>
+                </Routes>
+            </Router>
         </NotificationsProvider>
     );
 }
 
 function ProfilePageWithParams() {
-    const { userId } = useParams();
-    return <ProfilePage userId={userId} />;
+    const {userId} = useParams();
+    return <ProfilePage userId={userId}/>;
 }
 
 export default App;
