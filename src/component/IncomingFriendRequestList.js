@@ -25,13 +25,13 @@ export default function IncomingFriendRequestList() {
             setLoading(true);
             setError(null);
 
-            const response = await httpClient.get(`http://localhost:9000/api/v1/friends/requests?incoming=true`);
+            const response = await httpClient.get(`/friends/requests?incoming=true`);
             const requests = response.data;
 
             const requestsWithProfiles = await Promise.all(
                 requests.map(async (req) => {
                     try {
-                        const profileResponse = await httpClient.get(`http://localhost:9000/api/v1/profiles/${req.sender}`);
+                        const profileResponse = await httpClient.get(`/profiles/${req.sender}`);
                         return {
                             ...profileResponse.data,
                             requestId: req.id,

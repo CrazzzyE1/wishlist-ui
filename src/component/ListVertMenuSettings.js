@@ -49,7 +49,7 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
 
     const handleEditList = async (listData) => {
         try {
-            const response = await httpClient.patch(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`, {
+            const response = await httpClient.patch(`/wishlists/${selectedWishlistId}`, {
                 name: listData.name,
                 eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
                 privacyLevel: listData.privacyLevel
@@ -88,7 +88,7 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
 
         setIsDeleting(true);
         try {
-            await httpClient.delete(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`);
+            await httpClient.delete(`/wishlists/${selectedWishlistId}`);
             onListDeleted?.();
         } catch (error) {
             console.error('Ошибка при удалении списка:', error);

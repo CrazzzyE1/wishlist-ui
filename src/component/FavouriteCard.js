@@ -28,7 +28,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
     useEffect(() => {
         const fetchAvatar = async () => {
             try {
-                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${favourite.id}`, {
+                const response = await httpClient.get(`/avatars/user/${favourite.id}`, {
                     responseType: 'arraybuffer'
                 });
 
@@ -63,7 +63,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
         e?.stopPropagation();
         setIsDeleting(true);
         try {
-            await httpClient.delete(`http://localhost:9000/api/v1/favourites/user/${favourite.id}`);
+            await httpClient.delete(`/favourites/user/${favourite.id}`);
             enqueueSnackbar(`${favourite.fullName} удален из друзей`, {variant: 'success'});
             onFavouriteRemoved(favourite.id);
         } catch (error) {

@@ -51,7 +51,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
     const handleEditGift = async (giftData) => {
         setError(null);
         try {
-            const giftResponse = await httpClient.patch(`http://localhost:9000/api/v1/gifts/${giftData.id}`, {
+            const giftResponse = await httpClient.patch(`/gifts/${giftData.id}`, {
                 name: giftData.name,
                 price: {
                     amount: giftData.price && !isNaN(giftData.price) ? giftData.price : 0,
@@ -69,7 +69,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                 formData.append('giftId', savedId);
                 formData.append('file', giftData.image);
 
-                await httpClient.post('http://localhost:9000/api/v1/pictures', formData, {
+                await httpClient.post('/pictures', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -111,7 +111,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
         if (!giftId) return;
         setIsDeleting(true);
         try {
-            await httpClient.delete(`http://localhost:9000/api/v1/gifts/${giftId}`);
+            await httpClient.delete(`/gifts/${giftId}`);
             onGiftDeleted?.();
         } catch (error) {
             console.error('Ошибка при удалении подарка:', error);

@@ -45,7 +45,7 @@ function App() {
     httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
 
     try {
-        httpClient.post(`http://localhost:9000/api/v1/authorize`);
+        httpClient.post(`/authorize`);
     } catch (error) {
         if (error.response?.status === 500) {
             console.log('User already exists in database');

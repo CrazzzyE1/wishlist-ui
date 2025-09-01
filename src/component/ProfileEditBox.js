@@ -81,7 +81,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
             try {
                 setLoading(true);
 
-                const response = await httpClient.get('http://localhost:9000/api/v1/profiles/me');
+                const response = await httpClient.get('/profiles/me');
                 setFamilyName(response.data.familyName);
                 setFirstName(response.data.firstName);
                 setBirthDate(dayjs(response.data.birthDate));

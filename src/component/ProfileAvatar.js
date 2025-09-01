@@ -10,8 +10,8 @@ function ProfileAvatar({userId}) {
         const fetchAvatar = async () => {
             try {
                 const url = userId
-                    ? `http://localhost:9000/api/v1/avatars/user/${userId}`
-                    : 'http://localhost:9000/api/v1/avatars/me';
+                    ? `/avatars/user/${userId}`
+                    : '/avatars/me';
                 const response = await httpClient.get(url, {
                     responseType: 'arraybuffer'
                 });

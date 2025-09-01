@@ -36,7 +36,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             try {
                 setLoading(true);
                 const id = userId ? userId : getUserIdFromToken(keycloak.token);
-                const url = `http://localhost:9000/api/v1/gifts/user/${id}/count`;
+                const url = `/gifts/user/${id}/count`;
                 const response = await httpClient.get(url);
                 setGiftsCount(response.data.giftsCount);
             } catch (err) {
@@ -55,8 +55,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             try {
                 setLoading(true);
                 const url = userId
-                    ? `http://localhost:9000/api/v1/profiles/${userId}`
-                    : 'http://localhost:9000/api/v1/profiles/me';
+                    ? `/profiles/${userId}`
+                    : '/profiles/me';
 
                 const response = await httpClient.get(url);
                 setUserData(response.data);
@@ -85,7 +85,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             try {
                 setLoading(true);
                 const me = getUserIdFromToken(keycloak.token);
-                const url = `http://localhost:9000/api/v1/profiles/relations`;
+                const url = `/profiles/relations`;
                 const response = await httpClient.post(url, {
                     me: me,
                     friend: userId
@@ -114,10 +114,10 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         try {
             setLoading(true);
             if (isFavourites) {
-                httpClient.delete(`http://localhost:9000/api/v1/favourites/user/${userId}`);
+                httpClient.delete(`/favourites/user/${userId}`);
                 setIsFavourites(false)
             } else {
-                const url = `http://localhost:9000/api/v1/favourites`;
+                const url = `/favourites`;
                 httpClient.post(url, {
                     friendId: userId
                 });
@@ -135,7 +135,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     const handleClickAddFriend = async () => {
         try {
             setLoading(true);
-            await httpClient.post(`http://localhost:9000/api/v1/friends/requests`, {
+            await httpClient.post(`/friends/requests`, {
                 friendId: userId
             });
             setHasOutcomeFriendsRequest(true);
@@ -149,7 +149,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     const handleClickRemoveFriend = async () => {
         try {
             setLoading(true);
-            await httpClient.delete(`http://localhost:9000/api/v1/friends/${userId}`);
+            await httpClient.delete(`/friends/${userId}`);
             setIsFriend(false);
             setHasOutcomeFriendsRequest(false);
         } catch (error) {
@@ -161,7 +161,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
     const handleCancelFriendRequest = async () => {
         try {
-            const res = await httpClient.get(`http://localhost:9000/api/v1/friends/requests?incoming=false`);
+            const res = await httpClient.get(`/friends/requests?incoming=false`);
             const requests = res.data;
             const request = requests.find(r => r.receiver === userId);
 
@@ -170,7 +170,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             }
 
             const response = await httpClient.delete(
-                `http://localhost:9000/api/v1/friends/requests/${request.id}?isCanceled=true`
+                `/friends/requests/${request.id}?isCanceled=true`
             );
 
             if (response.status !== 200 && response.status !== 204) {
@@ -185,7 +185,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
     const handleAcceptFriendRequest = async () => {
         try {
-            const res = await httpClient.get(`http://localhost:9000/api/v1/friends/requests?incoming=true`);
+            const res = await httpClient.get(`/friends/requests?incoming=true`);
             const requests = res.data;
             const request = requests.find(r => r.sender === userId);
 
@@ -194,7 +194,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             }
 
             const response = await httpClient.put(
-                `http://localhost:9000/api/v1/friends/requests/${request.id}/accept`
+                `/friends/requests/${request.id}/accept`
             );
 
             if (response.status !== 200 && response.status !== 204) {

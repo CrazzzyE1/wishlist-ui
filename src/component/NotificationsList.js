@@ -19,7 +19,7 @@ export default function NotificationsList({isUnread}) {
     const handleMarkAsRead = async (id) => {
         try {
             setMarkAsReadLoading(true);
-            const response = await httpClient.patch(`http://localhost:9000/api/v1/notifications/${id}`);
+            const response = await httpClient.patch(`/notifications/${id}`);
 
             setNotifications(prev => prev.map(n =>
                 n.id === id ? {...n, isRead: response.data.isRead} : n
@@ -42,7 +42,7 @@ export default function NotificationsList({isUnread}) {
         try {
             setLoading(true);
             setError(null);
-            const response = await httpClient.get(`http://localhost:9000/api/v1/notifications`);
+            const response = await httpClient.get(`/notifications`);
             let notifications = response.data;
 
             if (isUnread) {

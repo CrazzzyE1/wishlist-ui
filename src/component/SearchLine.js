@@ -25,7 +25,7 @@ function SearchLine() {
         if (term.length >= 3) {
             try {
                 setLoading(true);
-                const response = await httpClient.get(`http://localhost:9000/api/v1/profiles/search?query=${term}`);
+                const response = await httpClient.get(`/profiles/search?query=${term}`);
                 setResults(response.data);
                 setOpenResults(true);
             } catch (error) {

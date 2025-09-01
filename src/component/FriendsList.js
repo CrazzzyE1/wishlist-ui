@@ -24,11 +24,11 @@ export default function FriendsList() {
         try {
             setLoading(true);
             setError(null);
-            const friendsResponse = await httpClient.get(`http://localhost:9000/api/v1/friends/user/${userId}`);
+            const friendsResponse = await httpClient.get(`/friends/user/${userId}`);
             const friendsData = await friendsResponse.data;
             const friendsDetails = await Promise.all(
                 friendsData.friendIds.map(async (friendId) => {
-                    const profileResponse = await httpClient.get(`http://localhost:9000/api/v1/profiles/${friendId}`);
+                    const profileResponse = await httpClient.get(`/profiles/${friendId}`);
                     return await profileResponse.data;
                 })
             );

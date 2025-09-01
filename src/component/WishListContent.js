@@ -32,11 +32,11 @@ function WishListContent({
         try {
             setLoading(true);
             if (selectedWishlistId === 'default') {
-                const url = userId ? `http://localhost:9000/api/v1/gifts/user/${userId}?withList=false`
-                    : `http://localhost:9000/api/v1/gifts/me?withList=false`
+                const url = userId ? `/gifts/user/${userId}?withList=false`
+                    : `/gifts/me?withList=false`
                 response = await httpClient.get(url);
             } else {
-                response = await httpClient.get(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`);
+                response = await httpClient.get(`/wishlists/${selectedWishlistId}`);
             }
             setWishlistData(response.data);
             setError(null);

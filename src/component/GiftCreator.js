@@ -37,7 +37,7 @@ export default function GiftCreator({ onGiftCreated, lists }) {
         setError(null);
 
         try {
-            const giftResponse = await httpClient.post('http://localhost:9000/api/v1/gifts', {
+            const giftResponse = await httpClient.post('/gifts', {
                 name: giftData.name,
                 price: {
                     amount: giftData.price && !isNaN(giftData.price) ? giftData.price : 0,
@@ -55,7 +55,7 @@ export default function GiftCreator({ onGiftCreated, lists }) {
                 formData.append('giftId', giftId);
                 formData.append('file', giftData.image);
 
-                await httpClient.post('http://localhost:9000/api/v1/pictures', formData, {
+                await httpClient.post('/pictures', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

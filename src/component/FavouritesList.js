@@ -24,11 +24,11 @@ export default function FavouritesList() {
         try {
             setLoading(true);
             setError(null);
-            const favouritesResponse = await httpClient.get(`http://localhost:9000/api/v1/favourites`);
+            const favouritesResponse = await httpClient.get(`/favourites`);
             const favouritesData = await favouritesResponse.data;
             const favouritesDetails = await Promise.all(
                 favouritesData.favouritesIds.map(async (favouriteId) => {
-                    const profileResponse = await httpClient.get(`http://localhost:9000/api/v1/profiles/${favouriteId}`);
+                    const profileResponse = await httpClient.get(`/profiles/${favouriteId}`);
                     return await profileResponse.data;
                 })
             );

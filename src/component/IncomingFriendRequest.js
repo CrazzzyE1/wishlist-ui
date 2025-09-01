@@ -29,7 +29,7 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
     useEffect(() => {
         const fetchAvatar = async () => {
             try {
-                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${friend.id}`, {
+                const response = await httpClient.get(`/avatars/user/${friend.id}`, {
                     responseType: 'arraybuffer'
                 });
 
@@ -65,7 +65,7 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
         setIsDeleting(true);
         try {
             const response = await httpClient.delete(
-                `http://localhost:9000/api/v1/friends/requests/${requestId}?isCanceled=false`
+                `/friends/requests/${requestId}?isCanceled=false`
             );
 
             if (response.status !== 200 && response.status !== 204) {
@@ -87,7 +87,7 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
         e?.stopPropagation();
         try {
             const response = await httpClient.put(
-                `http://localhost:9000/api/v1/friends/requests/${requestId}/accept`
+                `/friends/requests/${requestId}/accept`
             );
 
             if (response.status !== 200 && response.status !== 204) {

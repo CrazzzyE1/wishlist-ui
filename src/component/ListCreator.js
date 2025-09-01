@@ -26,7 +26,7 @@ export default function ListCreator({onListCreated}) {
 
     const handleCreateList = async (listData) => {
         try {
-            const response = await httpClient.post('http://localhost:9000/api/v1/wishlists', {
+            const response = await httpClient.post('/wishlists', {
                 name: listData.name,
                 eventDate: listData.date ? listData.date.format('YYYY-MM-DD') : null,
                 privacyLevel: listData.privacyLevel

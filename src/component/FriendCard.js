@@ -28,7 +28,7 @@ export function FriendCard({friend, onFriendRemoved}) {
     useEffect(() => {
         const fetchAvatar = async () => {
             try {
-                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${friend.id}`, {
+                const response = await httpClient.get(`/avatars/user/${friend.id}`, {
                     responseType: 'arraybuffer'
                 });
 
@@ -63,7 +63,7 @@ export function FriendCard({friend, onFriendRemoved}) {
         e?.stopPropagation();
         setIsDeleting(true);
         try {
-            await httpClient.delete(`http://localhost:9000/api/v1/friends/${friend.id}`);
+            await httpClient.delete(`/friends/${friend.id}`);
             enqueueSnackbar(`${friend.fullName} удален из друзей`, {variant: 'success'});
             onFriendRemoved(friend.id);
         } catch (error) {

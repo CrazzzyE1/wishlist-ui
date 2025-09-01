@@ -28,7 +28,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
     useEffect(() => {
         const fetchAvatar = async () => {
             try {
-                const response = await httpClient.get(`http://localhost:9000/api/v1/avatars/user/${friend.id}`, {
+                const response = await httpClient.get(`/avatars/user/${friend.id}`, {
                     responseType: 'arraybuffer'
                 });
 
@@ -64,7 +64,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
         setIsDeleting(true);
         try {
             const response = await httpClient.delete(
-                `http://localhost:9000/api/v1/friends/requests/${requestId}?isCanceled=true`
+                `/friends/requests/${requestId}?isCanceled=true`
             );
 
             if (response.status !== 200 && response.status !== 204) {

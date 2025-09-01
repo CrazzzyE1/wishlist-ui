@@ -16,8 +16,8 @@ function WishListsItemInfo({ onWishlistSelect, refreshKey, selectedWishlistId, o
         try {
             setLoading(true);
             const url = userId
-                ? `http://localhost:9000/api/v1/wishlists/user/${userId}`
-                : 'http://localhost:9000/api/v1/wishlists/me';
+                ? `/wishlists/user/${userId}`
+                : '/wishlists/me';
 
             const response = await httpClient.get(url);
             const dataWithDefault = [

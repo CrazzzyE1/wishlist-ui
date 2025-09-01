@@ -66,7 +66,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
     const handleEditProfile = async (newProfile) => {
         setError(null);
         try {
-            const response = await httpClient.patch(`http://localhost:9000/api/v1/profiles/me`, {
+            const response = await httpClient.patch(`/profiles/me`, {
                 firstName: newProfile.firstName,
                 familyName: newProfile.familyName,
                 gender: newProfile.gender,
@@ -84,7 +84,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
                 const formData = new FormData();
                 formData.append('file', newProfile.image);
 
-                await httpClient.post('http://localhost:9000/api/v1/avatars', formData, {
+                await httpClient.post('/avatars', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -110,7 +110,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
     useEffect(() => {
         const fetchAvatar = async () => {
             try {
-                const response = await httpClient.get('http://localhost:9000/api/v1/avatars/me?size=SMALL', {
+                const response = await httpClient.get('/avatars/me?size=SMALL', {
                     responseType: 'arraybuffer'
                 });
 

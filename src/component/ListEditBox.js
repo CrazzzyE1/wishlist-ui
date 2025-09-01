@@ -53,7 +53,7 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
     const fetchWishlistData = async () => {
         try {
             setLoading(true);
-            const response = await httpClient.get(`http://localhost:9000/api/v1/wishlists/${selectedWishlistId}`);
+            const response = await httpClient.get(`/wishlists/${selectedWishlistId}`);
             const data = response.data;
             setWishlistData(data);
             setListName(data.name);

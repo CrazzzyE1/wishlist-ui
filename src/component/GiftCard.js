@@ -47,7 +47,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         let isMounted = true;
         const fetchLike = async () => {
             try {
-                const response = await httpClient.get(`http://localhost:9000/api/v1/likes/gift/${data.id}`);
+                const response = await httpClient.get(`/likes/gift/${data.id}`);
 
                 if (isMounted) {
                     const data = response.data;
@@ -69,7 +69,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
     useEffect(() => {
         const fetchImage = async () => {
             try {
-                const response = await httpClient.get(`http://localhost:9000/api/v1/pictures/gift/${data.id}?size=MEDIUM`, {
+                const response = await httpClient.get(`/pictures/gift/${data.id}?size=MEDIUM`, {
                     responseType: 'arraybuffer'
                 });
 
@@ -90,7 +90,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
 
     const fetchLargeImage = async () => {
         try {
-            const response = await httpClient.get(`http://localhost:9000/api/v1/pictures/gift/${data.id}?size=LARGE`, {
+            const response = await httpClient.get(`/pictures/gift/${data.id}?size=LARGE`, {
                 responseType: 'arraybuffer'
             });
 
@@ -104,19 +104,9 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         }
     };
 
-    // const handleCopyGift = async () => {
-    //     try {
-    //         await httpClient.post(`http://localhost:9000/api/v1/gifts/add`, {
-    //             giftId: data.id
-    //         });
-    //     } catch (error) {
-    //         console.error('Ошибка при копировании подарка:', error);
-    //     }
-    // }
-
     const handleCopyGift = async () => {
         try {
-            await httpClient.post(`http://localhost:9000/api/v1/gifts/add`, {
+            await httpClient.post(`/gifts/add`, {
                 giftId: data.id
             });
             setOpenConfirmModal(false);
@@ -158,7 +148,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         setLikesCount(likesCount - 1);
 
         try {
-            await httpClient.delete(`http://localhost:9000/api/v1/likes/gift/${data.id}`);
+            await httpClient.delete(`/likes/gift/${data.id}`);
         } catch (error) {
             console.error('Error unlikes:', error);
             setIsLiked(previousIsLiked);
@@ -179,7 +169,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         setLikesCount(likesCount + 1);
 
         try {
-            await httpClient.post(`http://localhost:9000/api/v1/likes/gift/${data.id}`);
+            await httpClient.post(`/likes/gift/${data.id}`);
         } catch (error) {
             console.error('Error likes:', error);
             setIsLiked(previousIsLiked);

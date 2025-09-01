@@ -8,7 +8,7 @@ export const NotificationsProvider = ({ children }) => {
 
     const fetchUnreadCount = async () => {
         try {
-            const response = await httpClient.get('http://localhost:9000/api/v1/notifications/count', {
+            const response = await httpClient.get('/notifications/count', {
                 params: { unread: true }
             });
             setUnreadCount(response.data || 0);
