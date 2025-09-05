@@ -7,6 +7,7 @@ import {httpClient} from './http/HttpClient';
 import NotificationsPage from "./component/NotificationsPage";
 import {NotificationsProvider} from "./component/NotificationsContext";
 import {LinearProgress} from "@mui/material";
+import './GlobalStyles.css';
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
