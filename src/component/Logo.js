@@ -167,7 +167,7 @@ export const Logo = () => {
                         color: theme.palette.mode === 'dark' ? 'grey.300' : 'grey.700',
                         transition: 'all 0.3s ease',
                         '&:hover': {
-                            color: 'secondary.main',
+                            color: 'yellow',
                             transform: 'translateY(2px)',
                             textShadow: '0 2px 4px rgba(0,0,0,0.1)'
                         }
