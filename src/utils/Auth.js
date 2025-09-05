@@ -17,5 +17,5 @@ export const parseJwt = (token) => {
 
 export const getUserIdFromToken = (token) => {
     const parsed = parseJwt(token);
-    return parsed?.sub; // или другой ключ, где хранится ID пользователя
+    return parsed?.sub;
 };

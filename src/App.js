@@ -6,6 +6,7 @@ import FriendsPage from "./component/FriendsPage";
 import {httpClient} from './http/HttpClient';
 import NotificationsPage from "./component/NotificationsPage";
 import {NotificationsProvider} from "./component/NotificationsContext";
+import {LinearProgress} from "@mui/material";
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
@@ -39,7 +40,7 @@ function App() {
     }, [authenticated]);
 
     if (!authenticated) {
-        return <div>Initializing Keycloak...</div>;
+        return <LinearProgress color="info"/>;
     }
 
     httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;

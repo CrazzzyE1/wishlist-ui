@@ -21,7 +21,7 @@ export const Logo = () => {
             {/* Верхняя строка (W и H) */}
             <Box sx={{
                 position: 'absolute',
-                top: { xs: '-5%', md: '-5%' },
+                top: { xs: '-7%', md: '-7%' },
                 left: '48%',
                 transform: 'translateX(-50%)',
                 display: 'flex',
@@ -93,7 +93,7 @@ export const Logo = () => {
             {/* Нижняя строка (L и T) */}
             <Box sx={{
                 position: 'absolute',
-                bottom: { xs: '-5%', md: '-5%' },
+                bottom: { xs: '-7%', md: '-7%' },
                 left: '50%',
                 transform: 'translateX(-50%)',
                 display: 'flex',
@@ -160,53 +160,22 @@ export const Logo = () => {
                 >
                     T
                 </Typography>
+                <Typography
+                    variant="h4"
+                    component="span"
+                    sx={{
+                        color: theme.palette.mode === 'dark' ? 'grey.300' : 'grey.700',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                            color: 'secondary.main',
+                            transform: 'translateY(2px)',
+                            textShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                        }
+                    }}
+                >
+                    Y
+                </Typography>
             </Box>
-
-            {/* Центральные буквы (I и S) */}
-            {/*<Box sx={{*/}
-            {/*    position: 'absolute',*/}
-            {/*    top: '50%',*/}
-            {/*    left: '50%',*/}
-            {/*    transform: 'translate(-50%, -50%)',*/}
-            {/*    display: 'flex',*/}
-            {/*    gap: { xs: '10px', md: '0px' },*/}
-            {/*    alignItems: 'center'*/}
-            {/*}}>*/}
-            {/*    <Typography*/}
-            {/*        variant="h2"*/}
-            {/*        component="span"*/}
-            {/*        sx={{*/}
-            {/*            color: theme.palette.mode === 'dark' ? 'common.white' : 'common.black',*/}
-            {/*            fontWeight: 700,*/}
-            {/*            fontFamily: '"Helvetica Neue", Arial, sans-serif',*/}
-            {/*            transition: 'all 0.3s ease',*/}
-            {/*            '&:hover': {*/}
-            {/*                color: 'red',*/}
-            {/*                transform: 'scale(1.1)',*/}
-            {/*                textShadow: '0 3px 6px rgba(0,0,0,0.2)'*/}
-            {/*            }*/}
-            {/*        }}*/}
-            {/*    >*/}
-            {/*        I*/}
-            {/*    </Typography>*/}
-                {/*<Typography*/}
-                {/*    variant="h2"*/}
-                {/*    component="span"*/}
-                {/*    sx={{*/}
-                {/*        color: theme.palette.mode === 'dark' ? 'common.white' : 'common.black',*/}
-                {/*        fontWeight: 700,*/}
-                {/*        fontFamily: '"Helvetica Neue", Arial, sans-serif',*/}
-                {/*        transition: 'all 0.3s ease',*/}
-                {/*        '&:hover': {*/}
-                {/*            color: 'red',*/}
-                {/*            transform: 'scale(1.1)',*/}
-                {/*            textShadow: '0 3px 6px rgba(0,0,0,0.2)'*/}
-                {/*        }*/}
-                {/*    }}*/}
-                {/*>*/}
-                {/*    S*/}
-                {/*</Typography>*/}
-            {/*</Box>*/}
         </Box>
     );
 };
