@@ -34,7 +34,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     useEffect(() => {
         const fetchGiftCount = async () => {
             try {
-                setLoading(true);
                 const id = userId ? userId : getUserIdFromToken(keycloak.token);
                 const url = `/gifts/user/${id}/count`;
                 const response = await httpClient.get(url);
@@ -43,7 +42,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                 setError(err.message);
                 console.error('Ошибка загрузки данных:', err);
             } finally {
-                setLoading(false);
             }
         };
 
@@ -83,7 +81,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         const fetchRelations = async () => {
             if (!userData) return;
             try {
-                setLoading(true);
                 const me = getUserIdFromToken(keycloak.token);
                 const url = `/profiles/relations`;
                 const response = await httpClient.post(url, {
@@ -91,7 +88,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     friend: userId
                 });
                 setIsFriend(response.data.isFriends);
-                if(onIsFriend) {
+                if (onIsFriend) {
                     onIsFriend(response.data.isFriends);
                 }
                 setIsFavourites(response.data.isFavourites);
@@ -100,8 +97,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             } catch (err) {
                 setError(err.message);
                 console.error('Ошибка загрузки данных:', err);
-            } finally {
-                setLoading(false);
             }
         };
 
@@ -112,7 +107,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
     const handleClickBookmark = () => {
         try {
-            setLoading(true);
             if (isFavourites) {
                 httpClient.delete(`/favourites/user/${userId}`);
                 setIsFavourites(false)
@@ -126,36 +120,27 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         } catch (err) {
             setError(err.message);
             console.error('Ошибка загрузки данных:', err);
-        } finally {
-            setLoading(false);
         }
-
     };
 
     const handleClickAddFriend = async () => {
         try {
-            setLoading(true);
             await httpClient.post(`/friends/requests`, {
                 friendId: userId
             });
             setHasOutcomeFriendsRequest(true);
         } catch (error) {
             console.error('Ошибка при отправке запроса в друзья:', error);
-        } finally {
-            setLoading(false);
         }
     };
 
     const handleClickRemoveFriend = async () => {
         try {
-            setLoading(true);
             await httpClient.delete(`/friends/${userId}`);
             setIsFriend(false);
             setHasOutcomeFriendsRequest(false);
         } catch (error) {
             console.error('Ошибка при удалении друга:', error);
-        } finally {
-            setLoading(false);
         }
     };
 
