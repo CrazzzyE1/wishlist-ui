@@ -1,6 +1,6 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import FormControl from '@mui/material/FormControl';
-import {Box, styled, TextField} from "@mui/material";
+import {Box, LinearProgress, styled, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import ListSelector from "./ListSelector";
 import ImageUploadAndCrop from "./ImageUploadAndCrop";
@@ -166,7 +166,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
         firstName.trim().length < 1
 
     if (loading) {
-        return <div>Загрузка...</div>;
+        return <LinearProgress color="success"/>;
     }
 
     if (error) {

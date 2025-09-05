@@ -1,10 +1,11 @@
 import WishList from "./WishList";
 import Grid from "@mui/material/Grid";
 import Item from "./StyledItem";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import ListVertMenuSettings from "./ListVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
+import {LinearProgress} from "@mui/material";
 
 function WishListContent({
                              selectedWishlistId,
@@ -47,7 +48,7 @@ function WishListContent({
         }
     };
 
-    if (loading) return <Typography>Загрузка...</Typography>;
+    if (loading) return <LinearProgress color="success"/>;
     if (error) return <Typography color="error">Ошибка: {error}<    /Typography>;
     if (!wishlistData) return <Typography>Выберите список</Typography>;
 

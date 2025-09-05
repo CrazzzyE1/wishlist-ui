@@ -41,7 +41,7 @@ function App() {
     }, [authenticated]);
 
     if (!authenticated) {
-        return <LinearProgress color="info"/>;
+        return <LinearProgress color="success"/>;
     }
 
     httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;

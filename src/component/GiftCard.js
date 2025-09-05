@@ -13,7 +13,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import FavoriteOutlinedIcon from '@mui/icons-material/FavoriteOutlined';
 import AddToPhotosOutlinedIcon from '@mui/icons-material/AddToPhotosOutlined';
 import {ExpandMoreButton} from "./ExpandMoreButton";
-import {Tooltip} from "@mui/material";
+import {Skeleton, Tooltip} from "@mui/material";
 import {httpClient} from "../http/HttpClient";
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -34,6 +34,8 @@ const modalStyle = {
 
 export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, lists}) {
     const [expanded, setExpanded] = useState(false);
+    const [imageLoading, setImageLoading] = useState(false);
+    const [imageLargeLoading, setImageLargeLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
     const [largeImageUrl, setLargeImageUrl] = useState(null);
     const [openModal, setOpenModal] = useState(false);
@@ -68,6 +70,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
 
     useEffect(() => {
         const fetchImage = async () => {
+            setImageLoading(true);
             try {
                 const response = await httpClient.get(`/pictures/gift/${data.id}?size=MEDIUM`, {
                     responseType: 'arraybuffer'
@@ -81,6 +84,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
             } catch (error) {
                 console.error('Error fetching medium image:', error);
             }
+            setImageLoading(false);
         };
 
         if (data.id) {
@@ -89,6 +93,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
     }, [data.id]);
 
     const fetchLargeImage = async () => {
+        setImageLargeLoading(true);
         try {
             const response = await httpClient.get(`/pictures/gift/${data.id}?size=LARGE`, {
                 responseType: 'arraybuffer'
@@ -102,6 +107,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         } catch (error) {
             console.error('Error fetching large image:', error);
         }
+        setImageLargeLoading(false);
     };
 
     const handleCopyGift = async () => {
@@ -197,21 +203,29 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
             >
 
                 <Box sx={{position: "relative"}}>
-                    <CardMedia
-                        component="img"
-                        height="180"
-                        image={imageUrl}
-                        alt="Gift image"
-                        onClick={handleOpenModal}
-                        sx={{
-                            cursor: "pointer",
-                            objectFit: "cover",
-                            transition: "0.3s ease",
-                            "&:hover": {
-                                filter: "brightness(0.9)",
-                            },
-                        }}
-                    />
+                    {imageLoading ? (
+                            <Skeleton variant="rectangular" width="100%">
+                                <div style={{paddingTop: '100%'}}/>
+                            </Skeleton>
+
+                        ) :
+                        <CardMedia
+                            component="img"
+                            height="180"
+                            image={imageUrl}
+                            alt="Gift image"
+                            onClick={handleOpenModal}
+                            sx={{
+                                cursor: "pointer",
+                                objectFit: "cover",
+                                transition: "0.3s ease",
+                                "&:hover": {
+                                    filter: "brightness(0.9)",
+                                },
+                            }}
+                        />
+                    }
+
                 </Box>
 
                 <CardHeader
@@ -424,18 +438,25 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     </Box>
 
                     <Box sx={{position: "relative", mb: 2}}>
-                        <CardMedia
-                            component="img"
-                            height="350"
-                            image={largeImageUrl || imageUrl}
-                            alt="Gift image"
-                            sx={{
-                                borderRadius: 2,
-                                objectFit: "cover",
-                                boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-                            }}
-                        />
-                    </Box>
+                        {imageLargeLoading ? (
+                            <Skeleton variant="rectangular" width="100%">
+                                <div style={{paddingTop: '100%'}}/>
+                            </Skeleton>
+
+                        ) : (
+                            <CardMedia
+                                component="img"
+                                height="350"
+                                image={largeImageUrl || imageUrl}
+                                alt="Gift image"
+                                sx={{
+                                    borderRadius: 2,
+                                    objectFit: "cover",
+                                    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+                                }}
+                            />)
+                        }
+                    < /Box>
 
                     <Typography variant="body1" sx={{mb: 1}}>
                         <strong>Цена:</strong>{" "}

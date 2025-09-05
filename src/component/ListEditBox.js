@@ -1,10 +1,10 @@
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import {Box, Checkbox, styled, TextField} from "@mui/material";
+import {Box, Checkbox, LinearProgress, styled, TextField} from "@mui/material";
 import BasicDatePicker from "./BasicDatePicker";
 import Button from "@mui/material/Button";
 import dayjs from 'dayjs';
@@ -78,7 +78,7 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
         }
     };
 
-    if (loading) return <Typography>Загрузка...</Typography>;
+    if (loading) return <LinearProgress color="success"/>;
     if (errorLoading) return <Typography color="error">Ошибка: {errorLoading}<    /Typography>;
     if (!wishlistData) return <Typography>Выберите список</Typography>;
 
