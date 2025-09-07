@@ -7,13 +7,13 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import FaceRetouchingNaturalOutlinedIcon from '@mui/icons-material/FaceRetouchingNaturalOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import {Avatar, Divider, Modal, Typography, TextField, Button, Stack} from "@mui/material";
+import {Avatar, Divider, Modal, Typography} from "@mui/material";
 import keycloak from "../keycloak/Keycloak";
+import * as React from "react";
 import {useEffect, useState} from "react";
 import {httpClient} from "../http/HttpClient";
 import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
-import * as React from "react";
 import ProfileEditBox from "./ProfileEditBox";
 
 
@@ -22,12 +22,18 @@ const modalStyle = {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    maxWidth: '90vw',
+    width: {
+        xs: '90vw',
+        sm: '80vw',
+        md: 600,
+        lg: 800
+    },
+    maxHeight: '85vh',
     bgcolor: 'background.paper',
-    border: '2px solid #000',
+    borderRadius: 2,
     boxShadow: 24,
-    p: 4,
+    p: 3,
+    overflow: 'auto',
 };
 
 export default function AccountSettingToggle({onProfileEdit}) {
@@ -37,9 +43,6 @@ export default function AccountSettingToggle({onProfileEdit}) {
     const isMenuOpen = Boolean(anchorEl);
     const navigate = useNavigate();
     const {unreadCount} = useNotifications();
-
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState(null);
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -64,9 +67,8 @@ export default function AccountSettingToggle({onProfileEdit}) {
     };
 
     const handleEditProfile = async (newProfile) => {
-        setError(null);
         try {
-            const response = await httpClient.patch(`/profiles/me`, {
+            await httpClient.patch(`/profiles/me`, {
                 firstName: newProfile.firstName,
                 familyName: newProfile.familyName,
                 gender: newProfile.gender,
@@ -75,10 +77,6 @@ export default function AccountSettingToggle({onProfileEdit}) {
                 status: newProfile.status,
                 privacyLevel: newProfile.privacyLevel
             });
-
-            if (response.status !== 200 && response.status !== 204) {
-                setError('Не удалось отменить заявку');
-            }
 
             if (newProfile.image) {
                 const formData = new FormData();
@@ -99,9 +97,6 @@ export default function AccountSettingToggle({onProfileEdit}) {
             handleMenuClose();
         } catch (err) {
             console.error('Ошибка создания подарка:', err);
-            setError(err.response?.data?.message || 'Произошла ошибка при редактировании подарка');
-        } finally {
-            setIsSubmitting(false);
         }
     };
 
@@ -219,7 +214,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
                 aria-describedby="profile-modal-description"
             >
                 <Box sx={modalStyle}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+                    <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
                         Редактировать профиль
                     </Typography>
                     <ProfileEditBox

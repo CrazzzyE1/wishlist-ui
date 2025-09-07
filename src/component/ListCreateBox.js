@@ -84,7 +84,7 @@ export default function ListCreateBox({onCreate, onCancel}) {
     };
 
     return (
-        <FormControl sx={{gap: 2}}>
+        <FormControl sx={{gap: 2, width: '100%'}}>
             <Box sx={{mt: 0}}>
                 <TextField
                     id="list-name"
