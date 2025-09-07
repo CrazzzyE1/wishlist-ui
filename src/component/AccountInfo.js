@@ -49,7 +49,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     }, [refreshCounterKey]);
 
     useEffect(() => {
-        const fetchUserData = async () => {
+        const fetchUserDataWithRetry = async (retryCount = 0) => {
             try {
                 setLoading(true);
                 const url = userId
@@ -66,15 +66,20 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     onPrivacyLevel(response.data.privacyLevel);
                     setIsPrivate(response.data.privacyLevel === 'PRIVATE');
                 }
-            } catch (err) {
-                setError(err.message);
-                console.error('Ошибка загрузки данных:', err);
-            } finally {
                 setLoading(false);
+            } catch (err) {
+                if (err.response?.status === 404 && retryCount < 3) {
+                    setTimeout(() => {
+                        fetchUserDataWithRetry(retryCount + 1);
+                    }, 2000);
+                } else {
+                    setError(err.message);
+                    setLoading(false);
+                }
             }
         };
 
-        fetchUserData();
+        fetchUserDataWithRetry();
     }, [userId, profileRefreshKey, onIsOwner, onPrivacyLevel]);
 
     useEffect(() => {
@@ -103,7 +108,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         if (userData && !userData.isOwner) {
             fetchRelations();
         }
-    }, [userId, userData]);
+    }, [userId, userData, onIsFriend]);
 
     const handleClickBookmark = () => {
         try {
