@@ -1,5 +1,5 @@
-import Grid from "@mui/material/Grid";
 import * as React from "react";
+import {Typography} from "@mui/material";
 
 const formatDate = (dateString) => {
     const options = {day: 'numeric', month: 'long', year: 'numeric'};
@@ -8,11 +8,14 @@ const formatDate = (dateString) => {
 
 function EventsInfo({event}) {
     return (
-        <Grid container justifyContent="flex-start" sx={{ paddingLeft: '22px' }} spacing={1}>
-            <Grid size={12} container justifyContent="flex-start" >
-                <span>{formatDate(event.eventDate)} - {event.name}</span>
-            </Grid>
-        </Grid>
+        <Typography variant="body2" color="text.secondary" sx={{
+            fontSize: {xs: '12px', sm: '16px'},
+            color: 'text.secondary',
+            justifyContent: 'flex-start',
+            textAlign: 'left',
+        }}>
+            {formatDate(event.eventDate)} - {event.name}
+        </Typography>
     );
 }
 
