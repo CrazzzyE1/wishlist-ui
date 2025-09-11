@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {CssBaseline} from "@mui/material";
@@ -73,15 +72,14 @@ export default function ProfilePage({userId}) {
         <React.Fragment>
             <CssBaseline/>
             <Container sx={{pt: 2}}>
-                <Box sx={{flexGrow: 1}}>
-                    <Grid container spacing={3}>
-                        <Grid size={12}>
+                    <Grid container spacing={3} >
+                        <Grid size={{ xs: 12, sm: 12 }}>
                             <Item><TopMenu
                                 onProfileEdit={onProfileEdit}
                             /></Item>
                         </Grid>
-                        <Grid container spacing={3} size={12}>
-                            <Grid size={1}>
+                        <Grid container spacing={3}>
+                            <Grid size={{ xs: 12, sm: 1 }}>
                                 <Item>
                                     <MainMenu
                                         isOwner={isOwner}
@@ -91,8 +89,8 @@ export default function ProfilePage({userId}) {
                                     />
                                 </Item>
                             </Grid>
-                            <Grid container spacing={3} size={11}>
-                                <Grid size={12}>
+                            <Grid container spacing={3} size={{ xs: 12, sm: 11 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                     <Item>
                                         <AccountInfo
                                             refreshCounterKey={refreshCounterKey}
@@ -107,7 +105,7 @@ export default function ProfilePage({userId}) {
                                 </Grid>
                                 {isOwner || privacyLevel === 'PUBLIC' || (privacyLevel === 'FRIENDS_ONLY' && isFriend) ?
                                     (<>
-                                        <Grid size={12}>
+                                        <Grid size={{ xs: 12, sm: 12 }}>
                                             <Item>
                                                 <WishLists
                                                     userId={userId}
@@ -118,7 +116,7 @@ export default function ProfilePage({userId}) {
                                                 />
                                             </Item>
                                         </Grid>
-                                        <Grid size={12}>
+                                        <Grid size={{ xs: 12, sm: 12 }}>
                                             <Item>
                                                 <WishListContent selectedWishlistId={selectedWishlistId}
                                                                  isOwner={isOwner}
@@ -139,7 +137,6 @@ export default function ProfilePage({userId}) {
                             </Grid>
                         </Grid>
                     </Grid>
-                </Box>
             </Container>
         </React.Fragment>
     );

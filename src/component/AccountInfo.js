@@ -5,7 +5,7 @@ import {httpClient} from "../http/HttpClient";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import EventsInfoList from "./EventsInfoList";
-import {Typography} from "@mui/material";
+import {Typography, useMediaQuery, useTheme} from "@mui/material";
 import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
@@ -30,6 +30,9 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     const [hasOutcomeFriendsRequest, setHasOutcomeFriendsRequest] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         const fetchGiftCount = async () => {
@@ -227,7 +230,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         );
     }
 
-
     const buttons = () => {
         if (userData.isOwner) {
             return;
@@ -242,8 +244,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            width: 48,
-                            height: 48,
+                            width: isMobile ? 40 : 48,
+                            height: isMobile ? 40 : 48,
                             borderRadius: '50%',
                             mr: 0,
                             '&:hover': {
@@ -258,7 +260,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     >
                         <PersonRemoveOutlinedIcon
                             sx={{
-                                fontSize: 40,
+                                fontSize: isMobile ? 32 : 40,
                                 transition: 'color 0.5s ease',
                                 color: 'inherit'
                             }}
@@ -280,8 +282,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            width: 48,
-                            height: 48,
+                            width: isMobile ? 40 : 48,
+                            height: isMobile ? 40 : 48,
                             borderRadius: '50%',
                             mr: 0,
                             '&:hover': {
@@ -295,7 +297,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         }}
                     > <CancelOutlinedIcon
                         sx={{
-                            fontSize: 40,
+                            fontSize: isMobile ? 32 : 40,
                             transition: 'color 0.5s ease',
                             color: 'inherit'
                         }}
@@ -314,8 +316,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                             display: 'flex',
                             justifyContent: 'center',
                             alignItems: 'center',
-                            width: 48,
-                            height: 48,
+                            width: isMobile ? 40 : 48,
+                            height: isMobile ? 40 : 48,
                             borderRadius: '50%',
                             mr: 0,
                             '&:hover': {
@@ -329,7 +331,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         }}
                     > <AddTaskOutlinedIcon
                         sx={{
-                            fontSize: 40,
+                            fontSize: isMobile ? 32 : 40,
                             transition: 'color 0.5s ease',
                             color: 'inherit'
                         }}
@@ -347,8 +349,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: 48,
-                        height: 48,
+                        width: isMobile ? 40 : 48,
+                        height: isMobile ? 40 : 48,
                         borderRadius: '50%',
                         mr: 0,
                         '&:hover': {
@@ -366,7 +368,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
                         <PersonAddAltOutlinedIcon
                             sx={{
-                                fontSize: 40,
+                                fontSize: isMobile ? 32 : 40,
                                 transition: 'color 0.5s ease',
                                 color: 'inherit'
                             }}
@@ -374,7 +376,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     ) : (
                         <PersonRemoveOutlinedIcon
                             sx={{
-                                fontSize: 40,
+                                fontSize: isMobile ? 32 : 40,
                                 transition: 'color 0.5s ease',
                                 color: 'inherit'
                             }}
@@ -385,87 +387,102 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     }
 
     return (
-        <Box sx={{flexGrow: 1, pl: 0}}>
-            <Grid container spacing={1}>
-                <Grid size={3}>
+        <Grid container spacing={2}>
+            <Grid size={{xs: 12, sm: 3}}>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: isMobile ? 'center' : 'flex-start',
+                    mb: isMobile ? 2 : 0
+                }}>
                     <ProfileAvatar userId={userId}/>
-                </Grid>
-                <Grid size={9}>
-                    <Grid container spacing={2}>
-                        <Grid size={5} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
+                </Box>
+            </Grid>
+
+            <Grid size={{xs: 12, sm: 9}}>
+                <Grid container spacing={2}>
+                    <Grid size={{xs: 12, sm: 5}}>
+                        <Box sx={{
+                            textAlign: isMobile ? 'center' : 'left',
+                            pl: isMobile ? 0 : '22px'
+                        }}>
                             <Typography
-                                variant="body1"
+                                variant="h6"
                                 sx={{
-                                    fontSize: '2rem',
+                                    fontSize: {xs: '1.5rem', sm: '2rem'},
                                     color: 'text.secondary',
-                                    textAlign: 'left',
-                                    pl: '0px'
+                                    fontWeight: 'bold'
                                 }}>
                                 {userData.fullName}
                             </Typography>
-                            <Typography
-                                variant="body1"
-                                sx={{
-                                    fontSize: '0.75rem',
-                                    color: green[500],
-                                    textAlign: 'left',
-                                    pl: '0px'
-                                }}>
-                                {userData.isOwner ? ('это Вы') : null}
-                            </Typography>
-                        </Grid>
-                        <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
-                            {isOwner || !isPrivate ? (
-                                <Item noshadow>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{
-                                            fontSize: '16px',
-                                            color: 'text.secondary',
-                                            textAlign: 'left',
-                                            pl: '0px'
-                                        }}>
-                                        Статус:
-                                    </Typography>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{
-                                            fontSize: '12px',
-                                            color: 'text.secondary',
-                                            textAlign: 'left',
-                                            pl: '0px'
-                                        }}>
-                                        {userData.status}
-                                    </Typography>
-                                </Item>
+                            {userData.isOwner && (
+                                <Typography
+                                    variant="body2"
+                                    sx={{
+                                        fontSize: {xs: '0.7rem', sm: '0.75rem'},
+                                        color: green[500],
+                                        mt: 0.5
+                                    }}>
+                                    это Вы
+                                </Typography>
+                            )}
+                        </Box>
+                    </Grid>
 
-                            ) : null}
-                        </Grid>
-                        <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
+                    <Grid size={{xs: 6, sm: 2}}>
+                        {(isOwner || !isPrivate) && (
                             <Item noshadow>
                                 <Typography
-                                    variant="body1"
+                                    variant="body2"
                                     sx={{
-                                        fontSize: '16px',
+                                        fontSize: {xs: '14px', sm: '16px'},
                                         color: 'text.secondary',
-                                        textAlign: 'left',
-                                        pl: '0px'
+                                        fontWeight: 'bold'
                                     }}>
-                                    Приватность:
+                                    Статус:
                                 </Typography>
                                 <Typography
-                                    variant="body1"
+                                    variant="body2"
                                     sx={{
-                                        fontSize: '12px',
+                                        fontSize: {xs: '12px', sm: '14px'},
                                         color: 'text.secondary',
-                                        textAlign: 'left',
-                                        pl: '0px'
+                                        mt: 0.5
                                     }}>
-                                    {userData.privacyLevel}
+                                    {userData.status}
                                 </Typography>
                             </Item>
-                        </Grid>
-                        <Grid size={3} container justifyContent="flex-end" spacing={0}>
+                        )}
+                    </Grid>
+
+                    <Grid size={{xs: 6, sm: 2}}>
+                        <Item noshadow>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    fontSize: {xs: '14px', sm: '16px'},
+                                    color: 'text.secondary',
+                                    fontWeight: 'bold'
+                                }}>
+                                Приватность:
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                sx={{
+                                    fontSize: {xs: '12px', sm: '14px'},
+                                    color: 'text.secondary',
+                                    mt: 0.5
+                                }}>
+                                {userData.privacyLevel}
+                            </Typography>
+                        </Item>
+                    </Grid>
+
+                    <Grid size={{xs: 12, sm: 3}}>
+                        <Box sx={{
+                            display: 'flex',
+                            justifyContent: isMobile ? 'center' : 'flex-end',
+                            gap: 1,
+                            mt: isMobile ? 2 : 0
+                        }}>
                             {buttons()}
                             {(!isOwner && !isFriend && userData.isPublic) && (
                                 <Item noshadow>
@@ -475,10 +492,9 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                             display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
-                                            width: 48,
-                                            height: 48,
+                                            width: isMobile ? 40 : 48,
+                                            height: isMobile ? 40 : 48,
                                             borderRadius: '50%',
-                                            mr: 0,
                                             '&:hover': {
                                                 '& .MuiSvgIcon-root': {
                                                     color: '#FFD700'
@@ -491,59 +507,79 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                         {isFavourites ?
                                             <TurnedInOutlinedIcon sx={{
                                                 color: yellow[500],
-                                                fontSize: 40,
+                                                fontSize: isMobile ? 32 : 40,
                                                 transition: 'color 0.5s ease'
                                             }}/>
                                             :
                                             <BookmarkBorderIcon sx={{
-                                                fontSize: 40,
+                                                fontSize: isMobile ? 32 : 40,
                                                 transition: 'color 0.5s ease'
                                             }}/>
                                         }
                                     </IconButton>
                                 </Item>
                             )}
-                        </Grid>
-                        <Grid size={3} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
-                            {isOwner || !isPrivate ? (
-                                <Box sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'flex-start'
-                                }}>
-                                    <Typography variant="body1"><b>День Рождения:</b></Typography>
-                                    <Typography variant="body2" color="text.info">
-                                        {formatBirthDate(userData.birthDate)}
-                                    </Typography>
-                                </Box>) : null}
-                        </Grid>
-                        <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
-                            {isOwner || !isPrivate ? (
-                                <Box sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'flex-start'
-                                }}>
-                                    <Typography variant="body1"><b>Пол:</b></Typography>
-                                    <Typography variant="body2" color="text.info">
-                                        {userData.gender ? userData.gender : 'Не указан'}
-                                    </Typography>
-                                </Box>) : null}
-                        </Grid>
-                        <Grid size={7} container justifyContent="flex-start">
-                            {isOwner || !isPrivate ? (
+                        </Box>
+                    </Grid>
+
+                    <Grid size={{xs: 12, sm: 3}}>
+                        {(isOwner || !isPrivate) && (
+                            <Box sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: isMobile ? 'center' : 'flex-start',
+                                textAlign: isMobile ? 'center' : 'left'
+                            }}>
+                                <Typography variant="body2" fontWeight="bold">
+                                    День Рождения:
+                                </Typography>
+                                <Typography variant="body2" color="text.info" sx={{mt: 0.5}}>
+                                    {formatBirthDate(userData.birthDate)}
+                                </Typography>
+                            </Box>
+                        )}
+                    </Grid>
+
+                    <Grid size={{xs: 12, sm: 2}}>
+                        {(isOwner || !isPrivate) && (
+                            <Box sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: isMobile ? 'center' : 'flex-start',
+                                textAlign: isMobile ? 'center' : 'left'
+                            }}>
+                                <Typography variant="body2" fontWeight="bold">
+                                    Пол:
+                                </Typography>
+                                <Typography variant="body2" color="text.info" sx={{mt: 0.5}}>
+                                    {userData.gender ? userData.gender : 'Не указан'}
+                                </Typography>
+                            </Box>
+                        )}
+                    </Grid>
+
+                    <Grid size={{xs: 12, sm: 7}}>
+                        {(isOwner || !isPrivate) && (
+                            <Box sx={{
+                                mt: isMobile ? 2 : 0,
+                                display: 'flex',
+                                justifyContent: isMobile ? 'center' : 'flex-start'
+                            }}>
                                 <Counters userData={userData} giftsCount={giftsCount}/>
-                            ) : null}
-                        </Grid>
-                        <Grid size={12} container justifyContent="flex-start">
-                            {isOwner || !isPrivate ? (
+                            </Box>
+                        )}
+                    </Grid>
+
+                    <Grid size={{xs: 12, sm: 12}}>
+                        {(isOwner || !isPrivate) && (
+                            <Box sx={{mt: 2}}>
                                 <EventsInfoList events={events}/>
-                            ) : null}
-                        </Grid>
+                            </Box>
+                        )}
                     </Grid>
                 </Grid>
             </Grid>
-        </Box>
+        </Grid>
     );
 }
 

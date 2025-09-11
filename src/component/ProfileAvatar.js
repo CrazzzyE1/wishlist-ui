@@ -1,4 +1,5 @@
-import {Avatar, Skeleton} from "@mui/material";
+import {Avatar, Skeleton, useMediaQuery} from "@mui/material";
+import {useTheme} from "@mui/material/styles";
 import * as React from "react";
 import {useEffect, useState} from "react";
 import {httpClient} from "../http/HttpClient";
@@ -6,6 +7,18 @@ import {httpClient} from "../http/HttpClient";
 function ProfileAvatar({userId}) {
     const [loading, setLoading] = useState(true);
     const [avatarSrc, setAvatarSrc] = useState(null);
+    const theme = useTheme();
+
+    const isXs = useMediaQuery(theme.breakpoints.down('sm'));
+    const isSm = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+
+    const getAvatarSize = () => {
+        if (isXs) return 100;
+        if (isSm) return 150;
+        return 200;
+    };
+
+    const avatarSize = getAvatarSize();
 
     useEffect(() => {
         const fetchAvatar = async () => {
@@ -39,14 +52,33 @@ function ProfileAvatar({userId}) {
 
     return (
         loading ? (
-            <Skeleton variant="circular" width={250} height={250}>
-                <Avatar sx={{width: 250, height: 250}}/>
+            <Skeleton
+                variant="circular"
+                width={avatarSize}
+                height={avatarSize}
+                sx={{
+                    minWidth: avatarSize,
+                    minHeight: avatarSize
+                }}
+            >
+                <Avatar sx={{
+                    width: avatarSize,
+                    height: avatarSize,
+                    minWidth: avatarSize,
+                    minHeight: avatarSize
+                }}/>
             </Skeleton>
         ) : (
             <Avatar
                 alt="User avatar"
                 src={avatarSrc}
-                sx={{width: 250, height: 250}}
+                sx={{
+                    width: avatarSize,
+                    height: avatarSize,
+                    minWidth: avatarSize,
+                    minHeight: avatarSize,
+                    fontSize: `${avatarSize / 5}px`
+                }}
             />
         )
     );

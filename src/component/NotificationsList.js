@@ -94,7 +94,7 @@ export default function NotificationsList({isUnread}) {
             ) : (
                 <Grid container spacing={2}>
                     {notifications.map((notification) => (
-                        <Grid size={12} key={notification.id}>
+                        <Grid size={{ xs: 12, sm: 12 }} key={notification.id}>
                             <NotificationCard
                                 notification={notification}
                                 onMarkAsRead={handleMarkAsRead}

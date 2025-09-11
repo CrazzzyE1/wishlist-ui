@@ -16,7 +16,7 @@ function WishListContent({
                              editRefreshKey,
                              onGiftDeleted,
                              lists,
-                             userId
+                             userId,
                          }) {
     const [wishlistData, setWishlistData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -32,9 +32,10 @@ function WishListContent({
         let response;
         try {
             setLoading(true);
-            if (selectedWishlistId === 'default') {
-                const url = userId ? `/gifts/user/${userId}?withList=false`
-                    : `/gifts/me?withList=false`
+            if (selectedWishlistId === "default") {
+                const url = userId
+                    ? `/gifts/user/${userId}?withList=false`
+                    : `/gifts/me?withList=false`;
                 response = await httpClient.get(url);
             } else {
                 response = await httpClient.get(`/wishlists/${selectedWishlistId}`);
@@ -49,82 +50,90 @@ function WishListContent({
     };
 
     if (loading) return <LinearProgress color="success"/>;
-    if (error) return <Typography color="error">Ошибка: {error}<    /Typography>;
+    if (error) return <Typography color="error">Ошибка: {error}</Typography>;
     if (!wishlistData) return <Typography>Выберите список</Typography>;
 
     const formatDate = (dateString) => {
-        const options = {day: 'numeric', month: 'long', year: 'numeric'};
-        return dateString ? new Date(dateString).toLocaleDateString('ru-RU', options) : null;
+        const options = {day: "numeric", month: "long", year: "numeric"};
+        return dateString
+            ? new Date(dateString).toLocaleDateString("ru-RU", options)
+            : null;
     };
+
     const checkName = (name) => {
         return name ? name : "Без списка";
     };
+
     const resolvePrivacyLevel = (wishlistData) => {
-        if (selectedWishlistId === 'default') {
-            return 'PUBLIC';
+        if (selectedWishlistId === "default") {
+            return "PUBLIC";
         }
         return wishlistData.privacyLevel;
     };
 
     const resolveItemList = (wishlistData) => {
-        if (selectedWishlistId === 'default') {
+        if (selectedWishlistId === "default") {
             return wishlistData;
         }
         return wishlistData.gifts;
     };
 
     return (
-        <Grid container spacing={3}>
-            <Grid size={9}>
+        <Grid container spacing={3} sx={{flexGrow: 1}}>
+            <Grid size={{xs: 5, sm: 9}}>
                 <Item noshadow>
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: '22px',
-                            color: 'text.secondary',
-                            textAlign: 'left',
-                            pl: '10px'
-                        }}>
+                            fontSize: {xs: '12px', sm: '14px'},
+                            color: "text.secondary",
+                            textAlign: "left",
+                            pl: "10px",
+                        }}
+                    >
                         {checkName(wishlistData.name)}
                     </Typography>
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: '14px',
-                            color: 'text.secondary',
-                            textAlign: 'left',
-                            pl: '10px'
-                        }}>
+                            fontSize: {xs: '10px', sm: '12px'},
+                            color: "text.secondary",
+                            textAlign: "left",
+                            pl: "10px",
+                        }}
+                    >
                         {formatDate(wishlistData.eventDate)}
                     </Typography>
                 </Item>
             </Grid>
-            <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
+            <Grid size={{xs: 5, sm: 2}} container sx={{flexGrow: 1}} justifyContent="flex-start">
                 <Item noshadow>
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: '16px',
-                            color: 'text.secondary',
-                            textAlign: 'left',
-                            pl: '0px'
-                        }}>
+                            fontSize: {xs: '12px', sm: '14px'},
+                            color: "text.secondary",
+                            textAlign: "left",
+                            pl: "0px",
+                        }}
+                    >
                         Приватность:
                     </Typography>
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: '12px',
-                            color: 'text.secondary',
-                            textAlign: 'left',
-                            pl: '0px'
-                        }}>
+                            fontSize: {xs: '10px', sm: '12px'},
+                            color: "text.secondary",
+                            textAlign: "left",
+                            pl: "0px",
+                        }}
+                    >
                         {resolvePrivacyLevel(wishlistData)}
                     </Typography>
                 </Item>
             </Grid>
-            <Grid size={1}>
-                {isOwner && selectedWishlistId !== 'default' && (
+            <Grid size={{xs: 2, sm: 1}} container sx={{flexGrow: 1}} justifyContent="flex-end" alignItems="flex-start">
+                {isOwner && selectedWishlistId !== "default" && (
                     <ListVertMenuSettings
                         selectedWishlistId={selectedWishlistId}
                         onListDeleted={onListDeleted}
@@ -132,17 +141,19 @@ function WishListContent({
                     />
                 )}
             </Grid>
-            <Grid size={12}>
-                <Item noshadow><WishList
-                    data={resolveItemList(wishlistData)}
-                    isOwner={isOwner}
-                    onGiftDeleted={onGiftDeleted}
-                    onGiftEdit={onGiftEdit}
-                    lists={lists}
-                /></Item>
+            <Grid size={{xs: 12, sm: 12}}>
+                <Item noshadow>
+                    <WishList
+                        data={resolveItemList(wishlistData)}
+                        isOwner={isOwner}
+                        onGiftDeleted={onGiftDeleted}
+                        onGiftEdit={onGiftEdit}
+                        lists={lists}
+                    />
+                </Item>
             </Grid>
         </Grid>
     );
 }
 
-export default WishListContent;
+export default WishListContent

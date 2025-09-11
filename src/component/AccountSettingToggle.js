@@ -158,7 +158,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
 
     return (
         <Box sx={{flexGrow: 1}}>
-            <Box sx={{display: {xs: 'none', md: 'flex', justifyContent: 'flex-end', display: 'flex'}}}>
+            <Box sx={{display: {xs: 'flex', md: 'flex', justifyContent: 'flex-end', display: 'flex'}}}>
                 <IconButton
                     onClick={() => navigate('/notifications')}
                     size="large"

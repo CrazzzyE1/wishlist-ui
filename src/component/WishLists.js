@@ -6,8 +6,8 @@ import WishListsItemInfo from "./WishListsItemInfo";
 
 function WishLists({onWishlistSelect, refreshKey, selectedWishlistId, onListGetting, userId}) {
     return (
-        <Grid container spacing={3}>
-            <Grid size={12}>
+        <Grid container sx={{ flexGrow: 1 }} spacing={3}>
+            <Grid size={{ xs: 12, sm: 12 }}>
                 <Item noshadow>
                     <Typography
                         variant="body1"
@@ -21,7 +21,7 @@ function WishLists({onWishlistSelect, refreshKey, selectedWishlistId, onListGett
                     </Typography>
                 </Item>
             </Grid>
-            <Grid size={12}>
+            <Grid size={{ xs: 12, sm: 12 }}>
                 <WishListsItemInfo noshadow
                                    userId={userId}
                                    onListGetting={onListGetting}

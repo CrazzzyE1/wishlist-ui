@@ -142,7 +142,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                     </Box>
                     <Divider sx={{my: 2}}/>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                             {!friend.isPublic ? (
                                 <Typography variant="body2">
                                     <strong>Дата рождения:</strong> скрыто
@@ -153,7 +153,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                                 </Typography>
                             )}
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                             {!friend.isPublic ? (
                                 <Typography variant="body2">
                                     <strong>Друзей:</strong> скрыто
@@ -164,7 +164,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                                 </Typography>
                             )}
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                             {!friend.isPublic ? (
                                 <Typography variant="body2">
                                     <strong>Избранное:</strong> скрыто
@@ -175,7 +175,7 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                                 </Typography>
                             )}
                         </Grid>
-                        <Grid item xs={12} sm={6} md={3}>
+                        <Grid size={{ xs: 12, sm: 3 }}>
                             <Typography variant="body2">
                                 <strong>Приватность:</strong> {friend.privacyLevel}
                             </Typography>

@@ -88,7 +88,7 @@ export default function IncomingFriendRequestList() {
             ) : (
                 <Grid container spacing={3}>
                     {incomingRequests.map((request) => (
-                        <Grid size={12} key={request.requestId}>
+                        <Grid size={{ xs: 12, sm: 12 }} key={request.requestId}>
                             <IncomingFriendRequest
                                 friend={request}
                                 requestId={request.requestId}
