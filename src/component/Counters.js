@@ -9,7 +9,7 @@ function Counters({userData, giftsCount}) {
         <Box sx={{flexGrow: 1, pl: 0}}>
             <Grid container spacing={0}>
                 <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
-                    <Typography variant="body1" fontWeight="bold" sx={{
+                    <Typography variant="body1" sx={{
                         fontSize: {xs: '12px', sm: '16px'},
                         color: 'text.secondary',
                         justifyContent: 'flex-start',
@@ -17,7 +17,7 @@ function Counters({userData, giftsCount}) {
                     }}>
                         Желаний:
                     </Typography>
-                    <Typography variant="body1" sx={{
+                    <Typography variant="body1" fontWeight="bold" sx={{
                         fontSize: {xs: '12px', sm: '16px'},
                         color: 'text.secondary',
                         justifyContent: 'flex-start',
@@ -27,7 +27,7 @@ function Counters({userData, giftsCount}) {
                     </Typography>
                 </Grid>
                 <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
-                    <Typography variant="body1" fontWeight="bold" sx={{
+                    <Typography variant="body1" sx={{
                         fontSize: {xs: '12px', sm: '16px'},
                         color: 'text.secondary',
                         justifyContent: 'flex-start',
@@ -35,7 +35,7 @@ function Counters({userData, giftsCount}) {
                     }}>
                         Друзей:
                     </Typography>
-                    <Typography variant="body1" sx={{
+                    <Typography variant="body1" fontWeight="bold" sx={{
                         fontSize: {xs: '12px', sm: '16px'},
                         color: 'text.secondary',
                         justifyContent: 'flex-start',
@@ -45,7 +45,7 @@ function Counters({userData, giftsCount}) {
                     </Typography>
                 </Grid>
                 <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
-                    <Typography variant="body1" fontWeight="bold" sx={{
+                    <Typography variant="body1" sx={{
                         fontSize: {xs: '12px', sm: '16px'},
                         color: 'text.secondary',
                         justifyContent: 'flex-start',
@@ -53,7 +53,7 @@ function Counters({userData, giftsCount}) {
                     }}>
                         Подписки:
                     </Typography>
-                    <Typography variant="body1" sx={{
+                    <Typography variant="body1" fontWeight="bold" sx={{
                         fontSize: {xs: '12px', sm: '16px'},
                         color: 'text.secondary',
                         justifyContent: 'flex-start',

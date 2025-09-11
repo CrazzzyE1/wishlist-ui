@@ -448,7 +448,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 5, sm: 2}}>
+                    <Grid size={{xs: 4, sm: 2}}>
                         <Typography
                             sx={{
                                 fontSize: {xs: '12px', sm: '16px'},
@@ -470,7 +470,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         </Typography>
                     </Grid>
 
-                    <Grid size={{xs: 4, sm: 3}}>
+                    <Grid size={{xs: 5, sm: 3}}>
                         <Box sx={{
                             display: 'flex',
                             justifyContent: 'flex-end',
@@ -540,7 +540,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 2, sm: 2}}>
+                    <Grid size={{xs: 3, sm: 2}}>
                         {(isOwner || !isPrivate) && (
                             <>
                                 <Typography fontWeight="bold" sx={{
@@ -564,7 +564,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 5, sm: 7}}>
+                    <Grid size={{xs: 4, sm: 7}}>
                         {(isOwner || !isPrivate) && (
                             <Counters userData={userData} giftsCount={giftsCount}/>
                         )}
