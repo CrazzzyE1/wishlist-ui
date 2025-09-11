@@ -13,9 +13,9 @@ function ProfileAvatar({userId}) {
     const isSm = useMediaQuery(theme.breakpoints.between('sm', 'md'));
 
     const getAvatarSize = () => {
-        if (isXs) return 100;
-        if (isSm) return 150;
-        return 200;
+        if (isXs) return 80;
+        if (isSm) return 100;
+        return 150;
     };
 
     const avatarSize = getAvatarSize();

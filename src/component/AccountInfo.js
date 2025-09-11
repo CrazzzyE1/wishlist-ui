@@ -388,100 +388,95 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
     return (
         <Grid container spacing={2}>
-            <Grid size={{xs: 12, sm: 3}}>
+            <Grid size={{xs: 3, sm: 2}}>
                 <Box sx={{
                     display: 'flex',
-                    justifyContent: isMobile ? 'center' : 'flex-start',
+                    justifyContent: 'center',
                     mb: isMobile ? 2 : 0
                 }}>
                     <ProfileAvatar userId={userId}/>
                 </Box>
             </Grid>
 
-            <Grid size={{xs: 12, sm: 9}}>
+            <Grid size={{xs: 9, sm: 10}}>
                 <Grid container spacing={2}>
-                    <Grid size={{xs: 12, sm: 5}}>
-                        <Box sx={{
-                            textAlign: isMobile ? 'center' : 'left',
-                            pl: isMobile ? 0 : '22px'
-                        }}>
+                    <Grid container size={{xs: 12, sm: 5}}>
+                        <Typography
+                            variant="h6"
+                            sx={{
+                                fontSize: {xs: '1.5rem', sm: '2rem'},
+                                color: 'text.secondary',
+                                fontWeight: 'bold'
+                            }}>
+                            {userData.fullName}
+                        </Typography>
+                        {userData.isOwner && (
                             <Typography
-                                variant="h6"
+                                variant="body2"
                                 sx={{
-                                    fontSize: {xs: '1.5rem', sm: '2rem'},
-                                    color: 'text.secondary',
-                                    fontWeight: 'bold'
+                                    fontSize: {xs: '0.5rem', sm: '0.75rem'},
+                                    color: green[500],
+                                    mt: 0.5
                                 }}>
-                                {userData.fullName}
+                                это Вы
                             </Typography>
-                            {userData.isOwner && (
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        fontSize: {xs: '0.7rem', sm: '0.75rem'},
-                                        color: green[500],
-                                        mt: 0.5
-                                    }}>
-                                    это Вы
-                                </Typography>
-                            )}
-                        </Box>
-                    </Grid>
-
-                    <Grid size={{xs: 6, sm: 2}}>
-                        {(isOwner || !isPrivate) && (
-                            <Item noshadow>
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        fontSize: {xs: '14px', sm: '16px'},
-                                        color: 'text.secondary',
-                                        fontWeight: 'bold'
-                                    }}>
-                                    Статус:
-                                </Typography>
-                                <Typography
-                                    variant="body2"
-                                    sx={{
-                                        fontSize: {xs: '12px', sm: '14px'},
-                                        color: 'text.secondary',
-                                        mt: 0.5
-                                    }}>
-                                    {userData.status}
-                                </Typography>
-                            </Item>
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 6, sm: 2}}>
-                        <Item noshadow>
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontSize: {xs: '14px', sm: '16px'},
+                    <Grid size={{xs: 3, sm: 2}}>
+                        {(isOwner || !isPrivate) && (
+                            <>
+                                <Typography sx={{
+                                    fontSize: {xs: '12px', sm: '16px'},
                                     color: 'text.secondary',
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
                                     fontWeight: 'bold'
                                 }}>
-                                Приватность:
-                            </Typography>
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontSize: {xs: '12px', sm: '14px'},
+                                    Статус:
+                                </Typography>
+                                <Typography sx={{
+                                    fontSize: {xs: '10px', sm: '14px'},
                                     color: 'text.secondary',
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
                                     mt: 0.5
                                 }}>
-                                {userData.privacyLevel}
-                            </Typography>
-                        </Item>
+                                    {userData.status}
+                                </Typography>
+                            </>
+                        )}
                     </Grid>
 
-                    <Grid size={{xs: 12, sm: 3}}>
+                    <Grid size={{xs: 5, sm: 2}}>
+                        <Typography
+                            // variant="body2"
+                            sx={{
+                                fontSize: {xs: '12px', sm: '16px'},
+                                color: 'text.secondary',
+                                justifyContent: 'flex-start',
+                                textAlign: 'left',
+                                fontWeight: 'bold'
+                            }}>
+                            Приватность:
+                        </Typography>
+                        <Typography sx={{
+                            fontSize: {xs: '10px', sm: '14px'},
+                            color: 'text.secondary',
+                            mt: 0.5,
+                            justifyContent: 'flex-start',
+                            textAlign: 'left',
+                        }}>
+                            {userData.privacyLevel}
+                        </Typography>
+                    </Grid>
+
+                    <Grid size={{xs: 4, sm: 3}}>
                         <Box sx={{
                             display: 'flex',
-                            justifyContent: isMobile ? 'center' : 'flex-end',
-                            gap: 1,
-                            mt: isMobile ? 2 : 0
+                            justifyContent: 'flex-end',
+                            gap: isMobile ? 0 : 1,
+                            mt: 0
                         }}>
                             {buttons()}
                             {(!isOwner && !isFriend && userData.isPublic) && (
@@ -522,59 +517,63 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         </Box>
                     </Grid>
 
-                    <Grid size={{xs: 12, sm: 3}}>
+                    <Grid size={{xs: 5, sm: 3}}>
                         {(isOwner || !isPrivate) && (
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: isMobile ? 'center' : 'flex-start',
-                                textAlign: isMobile ? 'center' : 'left'
-                            }}>
-                                <Typography variant="body2" fontWeight="bold">
+                            <>
+                                <Typography variant="body2" fontWeight="bold" sx={{
+                                    fontSize: {xs: '12px', sm: '16px'},
+                                    color: 'text.secondary',
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
+                                }}>
                                     День Рождения:
                                 </Typography>
-                                <Typography variant="body2" color="text.info" sx={{mt: 0.5}}>
+                                <Typography color="text.info" sx={{
+                                    fontSize: {xs: '10px', sm: '14px'},
+                                    color: 'text.secondary',
+                                    mt: 0.5,
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
+                                }}>
                                     {formatBirthDate(userData.birthDate)}
                                 </Typography>
-                            </Box>
+                            </>
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 12, sm: 2}}>
+                    <Grid size={{xs: 2, sm: 2}}>
                         {(isOwner || !isPrivate) && (
-                            <Box sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: isMobile ? 'center' : 'flex-start',
-                                textAlign: isMobile ? 'center' : 'left'
-                            }}>
-                                <Typography variant="body2" fontWeight="bold">
+                            <>
+                                <Typography fontWeight="bold" sx={{
+                                    fontSize: {xs: '10px', sm: '14px'},
+                                    color: 'text.secondary',
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
+                                }}>
                                     Пол:
                                 </Typography>
-                                <Typography variant="body2" color="text.info" sx={{mt: 0.5}}>
+                                <Typography color="text.info" sx={{
+                                    fontSize: {xs: '10px', sm: '14px'},
+                                    color: 'text.secondary',
+                                    mt: 0.5,
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
+                                }}>
                                     {userData.gender ? userData.gender : 'Не указан'}
                                 </Typography>
-                            </Box>
+                            </>
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 12, sm: 7}}>
+                    <Grid size={{xs: 5, sm: 7}}>
                         {(isOwner || !isPrivate) && (
-                            <Box sx={{
-                                mt: isMobile ? 2 : 0,
-                                display: 'flex',
-                                justifyContent: isMobile ? 'center' : 'flex-start'
-                            }}>
-                                <Counters userData={userData} giftsCount={giftsCount}/>
-                            </Box>
+                            <Counters userData={userData} giftsCount={giftsCount}/>
                         )}
                     </Grid>
 
                     <Grid size={{xs: 12, sm: 12}}>
                         {(isOwner || !isPrivate) && (
-                            <Box sx={{mt: 2}}>
-                                <EventsInfoList events={events}/>
-                            </Box>
+                            <EventsInfoList events={events}/>
                         )}
                     </Grid>
                 </Grid>
