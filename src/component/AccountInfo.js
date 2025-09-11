@@ -540,7 +540,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 3, sm: 2}}>
+                    <Grid size={{xs: 2, sm: 2}}>
                         {(isOwner || !isPrivate) && (
                             <>
                                 <Typography fontWeight="bold" sx={{
@@ -564,7 +564,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 4, sm: 7}}>
+                    <Grid size={{xs: 5, sm: 7}}>
                         {(isOwner || !isPrivate) && (
                             <Counters userData={userData} giftsCount={giftsCount}/>
                         )}

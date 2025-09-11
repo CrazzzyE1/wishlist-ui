@@ -8,8 +8,8 @@ function Logo2() {
 
     const getLogoSize = () => {
         if (isMobile) return 40;
-        if (isTablet) return 60;
-        return 80;
+        if (isTablet) return 50;
+        return 60;
     };
 
     const logoSize = getLogoSize();
