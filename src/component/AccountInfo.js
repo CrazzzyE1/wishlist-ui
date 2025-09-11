@@ -545,7 +545,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         {(isOwner || !isPrivate) && (
                             <>
                                 <Typography fontWeight="bold" sx={{
-                                    fontSize: {xs: '10px', sm: '14px'},
+                                    fontSize: {xs: '12px', sm: '16px'},
                                     color: 'text.secondary',
                                     justifyContent: 'flex-start',
                                     textAlign: 'left',

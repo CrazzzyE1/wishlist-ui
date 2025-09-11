@@ -8,32 +8,59 @@ function Counters({userData, giftsCount}) {
     return (
         <Box sx={{flexGrow: 1, pl: 0}}>
             <Grid container spacing={0}>
-                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '8px'}}>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start'
+                <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
+                    <Typography variant="body1" fontWeight="bold" sx={{
+                        fontSize: {xs: '12px', sm: '16px'},
+                        color: 'text.secondary',
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
                     }}>
-                        <Typography variant="body1">Желаний: <b>{giftsCount}</b> </Typography>
-                    </Box>
+                        Желаний:
+                    </Typography>
+                    <Typography variant="body1" sx={{
+                        fontSize: {xs: '12px', sm: '16px'},
+                        color: 'text.secondary',
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
+                        ml: 1
+                    }}>{giftsCount}
+                    </Typography>
                 </Grid>
-                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '8px'}}>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start'
+                <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
+                    <Typography variant="body1" fontWeight="bold" sx={{
+                        fontSize: {xs: '12px', sm: '16px'},
+                        color: 'text.secondary',
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
                     }}>
-                        <Typography variant="body1">Друзей: <b>{userData.friendsCount}</b></Typography>
-                    </Box>
+                        Друзей:
+                    </Typography>
+                    <Typography variant="body1" sx={{
+                        fontSize: {xs: '12px', sm: '16px'},
+                        color: 'text.secondary',
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
+                        ml: 1
+                    }}>{userData.friendsCount}
+                    </Typography>
                 </Grid>
-                <Grid size={12} container justifyContent="flex-start" sx={{paddingLeft: '8px'}}>
-                    <Box sx={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'flex-start'
+                <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
+                    <Typography variant="body1" fontWeight="bold" sx={{
+                        fontSize: {xs: '12px', sm: '16px'},
+                        color: 'text.secondary',
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
                     }}>
-                        <Typography variant="body1">Подписки: <b>{userData.favouritesCount}</b></Typography>
-                    </Box>
+                        Подписки:
+                    </Typography>
+                    <Typography variant="body1" sx={{
+                        fontSize: {xs: '12px', sm: '16px'},
+                        color: 'text.secondary',
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
+                        ml: 1
+                    }}>{userData.favouritesCount}
+                    </Typography>
                 </Grid>
             </Grid>
         </Box>
