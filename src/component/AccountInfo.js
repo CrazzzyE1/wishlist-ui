@@ -400,7 +400,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
             <Grid size={{xs: 9, sm: 10}}>
                 <Grid container spacing={{xs: 1, sm: 2}}>
-                    <Grid container size={{xs: 12, sm: 5}}>
+                    <Grid container size={{xs: 12, sm: 12}}>
                         <Typography
                             variant="h6"
                             sx={{
@@ -423,7 +423,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 3, sm: 2}}>
+                    <Grid size={{xs: 3, sm: 3}}>
                         {(isOwner || !isPrivate) && (
                             <>
                                 <Typography sx={{
@@ -448,7 +448,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         )}
                     </Grid>
 
-                    <Grid size={{xs: 4, sm: 2}}>
+                    <Grid size={{xs: 4, sm: 4}}>
                         <Typography
                             sx={{
                                 fontSize: {xs: '12px', sm: '16px'},
@@ -470,7 +470,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         </Typography>
                     </Grid>
 
-                    <Grid size={{xs: 5, sm: 3}}>
+                    <Grid size={{xs: 5, sm: 5}}>
                         <Box sx={{
                             display: 'flex',
                             justifyContent: 'flex-end',
