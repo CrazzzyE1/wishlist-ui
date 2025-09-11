@@ -24,8 +24,7 @@ function Logo2() {
                 height: logoSize,
                 overflow: 'hidden',
                 backgroundColor: 'transparent',
-                transition: 'all 0.3s ease',
-
+                transition: 'all 0.3s ease'
             }}
         >
             <img
