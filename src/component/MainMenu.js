@@ -1,5 +1,4 @@
 import Grid from "@mui/material/Grid";
-import Item from "./StyledItem";
 import * as React from "react";
 import Face6Icon from '@mui/icons-material/Face6';
 import IconButton from "@mui/material/IconButton";
@@ -10,7 +9,7 @@ import GiftCreator from "./GiftCreator";
 import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
 import {red} from "@mui/material/colors";
-import {useMediaQuery, useTheme} from "@mui/material";
+import {Divider, Typography, useMediaQuery, useTheme} from "@mui/material";
 
 function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
     const navigate = useNavigate();
@@ -18,119 +17,147 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     return (
-        <Grid container spacing={0} sx={{justifyContent: 'start'}}>
-            <Grid size={{xs: 2, sm: 12}}>
-                <Item noshadow>
-                    <IconButton
-                        onClick={() => navigate('/')}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 42,
-                            height: 42,
-                            borderRadius: '50%',
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: '#000000'
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+        <Grid container spacing={0}>
+            <Grid size={{xs: 2, sm: 12}}
+                  sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      mb: {sm: 1}
+                  }}>
+                <IconButton
+                    onClick={() => navigate('/')}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: { xs: 32, sm: 42},
+                        height: { xs: 32, sm: 42},
+                        borderRadius: '50%',
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: '#000000'
                             }
-                        }}>
-                        <Face6Icon sx={{
-                            fontSize: 32,
-                            transition: 'color 0.5s ease'
-                        }}/>
-                    </IconButton>
-                </Item>
-            </Grid>
-            <Grid size={{xs: 2, sm: 12}}>
-                <Item noshadow>
-                    <IconButton
-                        onClick={() => navigate('/users')}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 42,
-                            height: 42,
-                            borderRadius: '50%',
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: '#000000'
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                            }
-                        }}>
-                        <Diversity3Icon sx={{
-                            fontSize: 32,
-                            transition: 'color 0.5s ease'
-                        }}/>
-                    </IconButton>
-                </Item>
-            </Grid>
-            <Grid size={{xs: 2, sm: 12}}>
-                <Item noshadow>
-                    <IconButton
-                        onClick={() => navigate('/notifications')}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 42,
-                            height: 42,
-                            borderRadius: '50%',
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: '#000000'
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                            }
-                        }}>
-                        {unreadCount > 0 ?
-                            (<NotificationsActiveOutlinedIcon sx={{
-                                color: red[500],
-                                fontSize: 32,
-                                transition: 'color 0.5s ease'
-                            }}/>)
-                            :
-                            (<NotificationsActiveOutlinedIcon sx={{
-
-                                fontSize: 32,
-                                transition: 'color 0.5s ease'
-                            }}/>)
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                         }
-                    </IconButton>
-                </Item>
+                    }}>
+                    <Face6Icon sx={{
+                        fontSize: { xs: 24, sm: 32},
+                        transition: 'color 0.5s ease'
+                    }}/>
+                </IconButton>
             </Grid>
-            <Grid size={{xs: 2, sm: 12}}>
-                {isMobile ? null :
-                    (
-                        <Item noshadow>
-                            <hr/>
-                        </Item>)}
+            <Grid size={{xs: 2, sm: 12}}
+                  sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      mb: {sm: 1}
+                  }}>
+                <IconButton
+                    onClick={() => navigate('/users')}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: { xs: 32, sm: 42},
+                        height: { xs: 32, sm: 42},
+                        borderRadius: '50%',
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: '#000000'
+                            }
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                        }
+                    }}>
+                    <Diversity3Icon sx={{
+                        fontSize: { xs: 24, sm: 32},
+                        transition: 'color 0.5s ease'
+                    }}/>
+                </IconButton>
             </Grid>
+            <Grid size={{xs: 2, sm: 12}}
+                  sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      mb: {sm: 1}
+                  }}>
+                <IconButton
+                    onClick={() => navigate('/notifications')}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: { xs: 32, sm: 42},
+                        height: { xs: 32, sm: 42},
+                        borderRadius: '50%',
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: '#000000'
+                            }
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                        }
+                    }}>
+                    {unreadCount > 0 ?
+                        (<NotificationsActiveOutlinedIcon sx={{
+                            color: red[500],
+                            fontSize: { xs: 24, sm: 32},
+                            transition: 'color 0.5s ease'
+                        }}/>)
+                        :
+                        (<NotificationsActiveOutlinedIcon sx={{
 
+                            fontSize: { xs: 24, sm: 32},
+                            transition: 'color 0.5s ease'
+                        }}/>)
+                    }
+                </IconButton>
+            </Grid>
+            <Grid size={{xs: 2, sm: 12}}
+                  sx={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      mb: {sm: 1},
+                      minHeight: '32px'
+                  }}>
+                {isMobile ?
+                    (
+                        <Divider orientation="vertical" sx={{width: '100%'}} flexItem/>
+                    ) :
+                    (
+                        <Divider orientation="horizontal" sx={{ width: '100%', height: '100%'}} flexItem/>
+                    )}
+            </Grid>
             {isOwner && (
                 <>
-                    <Grid size={{xs: 2, sm: 12}}>
-                        <Item noshadow>
-                            <ListCreator onListCreated={onListCreated}/>
-                        </Item>
+                    <Grid size={{xs: 2, sm: 12}}
+                          sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              mb: {sm: 1}
+                          }}>
+                        <ListCreator onListCreated={onListCreated}/>
                     </Grid>
-                    <Grid size={{xs: 2, sm: 12}}>
-                        <Item noshadow>
-                            <GiftCreator
-                                onGiftCreated={onGiftCreated}
-                                lists={lists}
-                            />
-                        </Item>
+                    <Grid size={{xs: 2, sm: 12}}
+                          sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              mb: {sm: 1}
+                          }}>
+                        <GiftCreator
+                            onGiftCreated={onGiftCreated}
+                            lists={lists}
+                        />
                     </Grid>
                 </>
             )}
