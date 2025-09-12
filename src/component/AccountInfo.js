@@ -386,34 +386,32 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             <Grid size={{xs: 3, sm: 2}}>
                 <ProfileAvatar userId={userId}/>
             </Grid>
-
-            <Grid size={{xs: 9, sm: 10}}>
-                <Grid container spacing={{xs: 1, sm: 2}}>
-                    <Grid container size={{xs: 12, sm: 12}}>
+            <Grid container spacing={{xs: 1, sm: 2}} size={{xs: 9, sm: 10}}>
+                <Grid container size={{xs: 12, sm: 12}}>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontSize: {xs: '1.5rem', sm: '2rem'},
+                            color: 'text.secondary',
+                            fontWeight: 'bold'
+                        }}>
+                        {userData.fullName}
+                    </Typography>
+                    {userData.isOwner && (
                         <Typography
-                            variant="h6"
+                            variant="body2"
                             sx={{
-                                fontSize: {xs: '1.5rem', sm: '2rem'},
-                                color: 'text.secondary',
-                                fontWeight: 'bold'
+                                fontSize: {xs: '0.5rem', sm: '0.75rem'},
+                                color: green[500],
+                                mt: 0.5
                             }}>
-                            {userData.fullName}
+                            это Вы
                         </Typography>
-                        {userData.isOwner && (
-                            <Typography
-                                variant="body2"
-                                sx={{
-                                    fontSize: {xs: '0.5rem', sm: '0.75rem'},
-                                    color: green[500],
-                                    mt: 0.5
-                                }}>
-                                это Вы
-                            </Typography>
-                        )}
-                    </Grid>
+                    )}
+                </Grid>
 
-                    <Grid size={{xs: 3, sm: 3}}>
-                        {(isOwner || !isPrivate) && (
+                {isOwner || !isPrivate ? (
+                        <Grid size={{xs: 3, sm: 3}}>
                             <>
                                 <Typography sx={{
                                     fontSize: {xs: '12px', sm: '16px'},
@@ -434,134 +432,131 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                     {userData.status}
                                 </Typography>
                             </>
-                        )}
-                    </Grid>
+                        </Grid>
+                    ) :
+                    null
+                }
 
-                    <Grid size={{xs: 4, sm: 4}}>
-                        <Typography
-                            sx={{
-                                fontSize: {xs: '12px', sm: '16px'},
-                                color: 'text.secondary',
-                                justifyContent: 'flex-start',
-                                textAlign: 'left',
-                                fontWeight: 'bold'
-                            }}>
-                            Приватность:
-                        </Typography>
-                        <Typography sx={{
-                            fontSize: {xs: '10px', sm: '14px'},
+                <Grid size={{xs: 4, sm: isOwner || !isPrivate ? 4 : 7}}>
+                    <Typography
+                        sx={{
+                            fontSize: {xs: '12px', sm: '16px'},
                             color: 'text.secondary',
-                            mt: 0.5,
                             justifyContent: 'flex-start',
                             textAlign: 'left',
+                            fontWeight: 'bold'
                         }}>
-                            {userData.privacyLevel}
-                        </Typography>
-                    </Grid>
-
-                    <Grid size={{xs: 5, sm: 5}}>
-                        <Box sx={{
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            gap: isMobile ? 0 : 1,
-                            mt: 0
-                        }}>
-                            {buttons()}
-                            {(!isOwner && !isFriend && userData.isPublic) && (
-                                <IconButton
-                                    onClick={handleClickBookmark}
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        width: isMobile ? 40 : 48,
-                                        height: isMobile ? 40 : 48,
-                                        borderRadius: '50%',
-                                        '&:hover': {
-                                            '& .MuiSvgIcon-root': {
-                                                color: '#FFD700'
-                                            }
-                                        },
-                                        '&:active': {
-                                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                        }
-                                    }}>
-                                    {isFavourites ?
-                                        <TurnedInOutlinedIcon sx={{
-                                            color: yellow[500],
-                                            fontSize: isMobile ? 32 : 40,
-                                            transition: 'color 0.5s ease'
-                                        }}/>
-                                        :
-                                        <BookmarkBorderIcon sx={{
-                                            fontSize: isMobile ? 32 : 40,
-                                            transition: 'color 0.5s ease'
-                                        }}/>
-                                    }
-                                </IconButton>
-                            )}
-                        </Box>
-                    </Grid>
-
-                    <Grid size={{xs: 5, sm: 3}}>
-                        {(isOwner || !isPrivate) && (
-                            <>
-                                <Typography variant="body2" fontWeight="bold" sx={{
-                                    fontSize: {xs: '12px', sm: '16px'},
-                                    color: 'text.secondary',
-                                    justifyContent: 'flex-start',
-                                    textAlign: 'left',
-                                }}>
-                                    День Рождения:
-                                </Typography>
-                                <Typography color="text.info" sx={{
-                                    fontSize: {xs: '10px', sm: '14px'},
-                                    color: 'text.secondary',
-                                    mt: 0.5,
-                                    justifyContent: 'flex-start',
-                                    textAlign: 'left',
-                                }}>
-                                    {formatBirthDate(userData.birthDate)}
-                                </Typography>
-                            </>
-                        )}
-                    </Grid>
-
-                    <Grid size={{xs: 2, sm: 2}}>
-                        {(isOwner || !isPrivate) && (
-                            <>
-                                <Typography fontWeight="bold" sx={{
-                                    fontSize: {xs: '12px', sm: '16px'},
-                                    color: 'text.secondary',
-                                    justifyContent: 'flex-start',
-                                    textAlign: 'left',
-                                }}>
-                                    Пол:
-                                </Typography>
-                                <Typography color="text.info" sx={{
-                                    fontSize: {xs: '10px', sm: '14px'},
-                                    color: 'text.secondary',
-                                    mt: 0.5,
-                                    justifyContent: 'flex-start',
-                                    textAlign: 'left',
-                                }}>
-                                    {userData.gender ? userData.gender : 'Не указан'}
-                                </Typography>
-                            </>
-                        )}
-                    </Grid>
-
-                    <Grid size={{xs: 5, sm: 7}}>
-                        {(isOwner || !isPrivate) && (
-                            <Counters userData={userData} giftsCount={giftsCount}/>
-                        )}
-                    </Grid>
-                    <Grid size={{xs: 12, sm: 12}}>
-                        {(isOwner || !isPrivate) && (
-                            <EventsInfoList events={events}/>
-                        )}
-                    </Grid>
+                        Приватность:
+                    </Typography>
+                    <Typography sx={{
+                        fontSize: {xs: '10px', sm: '14px'},
+                        color: 'text.secondary',
+                        mt: 0.5,
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
+                    }}>
+                        {userData.privacyLevel}
+                    </Typography>
                 </Grid>
+
+                <Grid size={{xs: 5, sm: 5}}>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: isMobile ? 0 : 1,
+                        mt: 0
+                    }}>
+                        {buttons()}
+                        {(!isOwner && !isFriend && userData.isPublic) && (
+                            <IconButton
+                                onClick={handleClickBookmark}
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: isMobile ? 40 : 48,
+                                    height: isMobile ? 40 : 48,
+                                    borderRadius: '50%',
+                                    '&:hover': {
+                                        '& .MuiSvgIcon-root': {
+                                            color: '#FFD700'
+                                        }
+                                    },
+                                    '&:active': {
+                                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                    }
+                                }}>
+                                {isFavourites ?
+                                    <TurnedInOutlinedIcon sx={{
+                                        color: yellow[500],
+                                        fontSize: isMobile ? 32 : 40,
+                                        transition: 'color 0.5s ease'
+                                    }}/>
+                                    :
+                                    <BookmarkBorderIcon sx={{
+                                        fontSize: isMobile ? 32 : 40,
+                                        transition: 'color 0.5s ease'
+                                    }}/>
+                                }
+                            </IconButton>
+                        )}
+                    </Box>
+                </Grid>
+                {isOwner || !isPrivate ?
+                    (<>
+                            <Grid size={{xs: 5, sm: 3}}>
+                                <>
+                                    <Typography variant="body2" fontWeight="bold" sx={{
+                                        fontSize: {xs: '12px', sm: '16px'},
+                                        color: 'text.secondary',
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        День Рождения:
+                                    </Typography>
+                                    <Typography color="text.info" sx={{
+                                        fontSize: {xs: '10px', sm: '14px'},
+                                        color: 'text.secondary',
+                                        mt: 0.5,
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        {formatBirthDate(userData.birthDate)}
+                                    </Typography>
+                                </>
+                            </Grid>
+                            <Grid size={{xs: 2, sm: 2}}>
+                                <>
+                                    <Typography fontWeight="bold" sx={{
+                                        fontSize: {xs: '12px', sm: '16px'},
+                                        color: 'text.secondary',
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        Пол:
+                                    </Typography>
+                                    <Typography color="text.info" sx={{
+                                        fontSize: {xs: '10px', sm: '14px'},
+                                        color: 'text.secondary',
+                                        mt: 0.5,
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        {userData.gender ? userData.gender : 'Не указан'}
+                                    </Typography>
+                                </>
+                            </Grid>
+                            <Grid size={{xs: 5, sm: 7}}>
+                                {(isOwner || !isPrivate) && (
+                                    <Counters userData={userData} giftsCount={giftsCount}/>
+                                )}
+                            </Grid>
+                            <Grid size={{xs: 12, sm: 12}}>
+                                <EventsInfoList events={events}/>
+                            </Grid></>
+                    )
+                    : null
+                }
             </Grid>
         </Grid>
     );
