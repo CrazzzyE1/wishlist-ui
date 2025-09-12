@@ -18,7 +18,9 @@ export default function FriendsPage() {
             <Container sx={{pt: 2}}>
                     <Grid container spacing={3}>
                         <Grid size={{ xs: 12, sm: 12 }}>
-                            <Item><TopMenu/></Item>
+                            <Item>
+                                <TopMenu/>
+                            </Item>
                         </Grid>
                         <Grid container spacing={3}>
                             <Grid size={{ xs: 12, sm: 1 }}>
