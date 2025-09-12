@@ -22,8 +22,8 @@ export default function FriendsPage() {
                                 <TopMenu/>
                             </Item>
                         </Grid>
-                        <Grid container spacing={3}>
-                            <Grid size={{ xs: 12, sm: 1 }}>
+                        <Grid container spacing={3} size={{xs: 12, sm: 12}}>
+                            <Grid size={{ xs: 12, sm: 1 }} >
                                 <Item>
                                     <MainMenu/>
                                 </Item>
