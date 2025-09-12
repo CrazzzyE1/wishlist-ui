@@ -9,7 +9,7 @@ import GiftCreator from "./GiftCreator";
 import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
 import {red} from "@mui/material/colors";
-import {Divider, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Divider, useMediaQuery, useTheme} from "@mui/material";
 
 function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
     const navigate = useNavigate();
@@ -31,8 +31,8 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: { xs: 32, sm: 42},
-                        height: { xs: 32, sm: 42},
+                        width: {xs: 32, sm: 42},
+                        height: {xs: 32, sm: 42},
                         borderRadius: '50%',
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
@@ -44,7 +44,7 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                         }
                     }}>
                     <Face6Icon sx={{
-                        fontSize: { xs: 24, sm: 32},
+                        fontSize: {xs: 24, sm: 32},
                         transition: 'color 0.5s ease'
                     }}/>
                 </IconButton>
@@ -62,8 +62,8 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: { xs: 32, sm: 42},
-                        height: { xs: 32, sm: 42},
+                        width: {xs: 32, sm: 42},
+                        height: {xs: 32, sm: 42},
                         borderRadius: '50%',
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
@@ -75,7 +75,7 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                         }
                     }}>
                     <Diversity3Icon sx={{
-                        fontSize: { xs: 24, sm: 32},
+                        fontSize: {xs: 24, sm: 32},
                         transition: 'color 0.5s ease'
                     }}/>
                 </IconButton>
@@ -93,8 +93,8 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: { xs: 32, sm: 42},
-                        height: { xs: 32, sm: 42},
+                        width: {xs: 32, sm: 42},
+                        height: {xs: 32, sm: 42},
                         borderRadius: '50%',
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
@@ -108,13 +108,13 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                     {unreadCount > 0 ?
                         (<NotificationsActiveOutlinedIcon sx={{
                             color: red[500],
-                            fontSize: { xs: 24, sm: 32},
+                            fontSize: {xs: 24, sm: 32},
                             transition: 'color 0.5s ease'
                         }}/>)
                         :
                         (<NotificationsActiveOutlinedIcon sx={{
 
-                            fontSize: { xs: 24, sm: 32},
+                            fontSize: {xs: 24, sm: 32},
                             transition: 'color 0.5s ease'
                         }}/>)
                     }
@@ -133,7 +133,7 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                         <Divider orientation="vertical" sx={{width: '100%'}} flexItem/>
                     ) :
                     (
-                        <Divider orientation="horizontal" sx={{ width: '100%', height: '100%'}} flexItem/>
+                        <Divider orientation="horizontal" sx={{width: '100%', height: '100%'}} flexItem/>
                     )}
             </Grid>
             {isOwner && (
