@@ -6,7 +6,6 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import EventsInfoList from "./EventsInfoList";
 import {Typography, useMediaQuery, useTheme} from "@mui/material";
-import Item from "./StyledItem";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
@@ -237,114 +236,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
         if (isFriend) {
             return (
-                <Item noshadow>
-                    <IconButton
-                        onClick={handleClickRemoveFriend}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: isMobile ? 40 : 48,
-                            height: isMobile ? 40 : 48,
-                            borderRadius: '50%',
-                            mr: 0,
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: red[500]
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                            }
-                        }}
-                    >
-                        <PersonRemoveOutlinedIcon
-                            sx={{
-                                fontSize: isMobile ? 32 : 40,
-                                transition: 'color 0.5s ease',
-                                color: 'inherit'
-                            }}
-                        />
-                    </IconButton>
-                </Item>)
-        }
-
-        if (isPrivate) {
-            return;
-        }
-
-        if (hasOutcomeFriendsRequest) {
-            return (
-                <Item noshadow>
-                    <IconButton
-                        onClick={handleCancelFriendRequest}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: isMobile ? 40 : 48,
-                            height: isMobile ? 40 : 48,
-                            borderRadius: '50%',
-                            mr: 0,
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: red[500]
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                            }
-                        }}
-                    > <CancelOutlinedIcon
-                        sx={{
-                            fontSize: isMobile ? 32 : 40,
-                            transition: 'color 0.5s ease',
-                            color: 'inherit'
-                        }}
-                    />
-
-                    </IconButton>
-                </Item>)
-        }
-
-        if (hasIncomeFriendsRequest) {
-            return (
-                <Item noshadow>
-                    <IconButton
-                        onClick={handleAcceptFriendRequest}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: isMobile ? 40 : 48,
-                            height: isMobile ? 40 : 48,
-                            borderRadius: '50%',
-                            mr: 0,
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: green[500]
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                            }
-                        }}
-                    > <AddTaskOutlinedIcon
-                        sx={{
-                            fontSize: isMobile ? 32 : 40,
-                            transition: 'color 0.5s ease',
-                            color: 'inherit'
-                        }}
-                    />
-
-                    </IconButton>
-                </Item>)
-        }
-
-        return (
-            <Item noshadow>
                 <IconButton
-                    onClick={handleClickAddFriend}
+                    onClick={handleClickRemoveFriend}
                     sx={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -355,9 +248,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         mr: 0,
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
-                                color: !isFriend && 'PRIVATE' !== userData.privacyLevel
-                                    ? green[500]
-                                    : red[500]
+                                color: red[500]
                             }
                         },
                         '&:active': {
@@ -365,29 +256,133 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         }
                     }}
                 >
-                    {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
-                        <PersonAddAltOutlinedIcon
-                            sx={{
-                                fontSize: isMobile ? 32 : 40,
-                                transition: 'color 0.5s ease',
-                                color: 'inherit'
-                            }}
-                        />
-                    ) : (
-                        <PersonRemoveOutlinedIcon
-                            sx={{
-                                fontSize: isMobile ? 32 : 40,
-                                transition: 'color 0.5s ease',
-                                color: 'inherit'
-                            }}
-                        />
-                    )}
+                    <PersonRemoveOutlinedIcon
+                        sx={{
+                            fontSize: isMobile ? 32 : 40,
+                            transition: 'color 0.5s ease',
+                            color: 'inherit'
+                        }}
+                    />
                 </IconButton>
-            </Item>)
+            )
+        }
+
+        if (isPrivate) {
+            return;
+        }
+
+        if (hasOutcomeFriendsRequest) {
+            return (
+                <IconButton
+                    onClick={handleCancelFriendRequest}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: isMobile ? 40 : 48,
+                        height: isMobile ? 40 : 48,
+                        borderRadius: '50%',
+                        mr: 0,
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: red[500]
+                            }
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                        }
+                    }}
+                > <CancelOutlinedIcon
+                    sx={{
+                        fontSize: isMobile ? 32 : 40,
+                        transition: 'color 0.5s ease',
+                        color: 'inherit'
+                    }}
+                />
+
+                </IconButton>
+            )
+        }
+
+        if (hasIncomeFriendsRequest) {
+            return (
+                <IconButton
+                    onClick={handleAcceptFriendRequest}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: isMobile ? 40 : 48,
+                        height: isMobile ? 40 : 48,
+                        borderRadius: '50%',
+                        mr: 0,
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: green[500]
+                            }
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                        }
+                    }}
+                > <AddTaskOutlinedIcon
+                    sx={{
+                        fontSize: isMobile ? 32 : 40,
+                        transition: 'color 0.5s ease',
+                        color: 'inherit'
+                    }}
+                />
+
+                </IconButton>
+            )
+        }
+
+        return (
+            <IconButton
+                onClick={handleClickAddFriend}
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: isMobile ? 40 : 48,
+                    height: isMobile ? 40 : 48,
+                    borderRadius: '50%',
+                    mr: 0,
+                    '&:hover': {
+                        '& .MuiSvgIcon-root': {
+                            color: !isFriend && 'PRIVATE' !== userData.privacyLevel
+                                ? green[500]
+                                : red[500]
+                        }
+                    },
+                    '&:active': {
+                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                    }
+                }}
+            >
+                {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
+                    <PersonAddAltOutlinedIcon
+                        sx={{
+                            fontSize: isMobile ? 32 : 40,
+                            transition: 'color 0.5s ease',
+                            color: 'inherit'
+                        }}
+                    />
+                ) : (
+                    <PersonRemoveOutlinedIcon
+                        sx={{
+                            fontSize: isMobile ? 32 : 40,
+                            transition: 'color 0.5s ease',
+                            color: 'inherit'
+                        }}
+                    />
+                )}
+            </IconButton>
+        )
     }
 
     return (
-        <Grid container spacing={{xs: 2, sm: 2}}>
+        <Grid container spacing={{xs: 2, sm: 2}} >
             <Grid size={{xs: 3, sm: 2}}>
                 <Box sx={{
                     display: 'flex',
@@ -479,39 +474,37 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         }}>
                             {buttons()}
                             {(!isOwner && !isFriend && userData.isPublic) && (
-                                <Item noshadow>
-                                    <IconButton
-                                        onClick={handleClickBookmark}
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            width: isMobile ? 40 : 48,
-                                            height: isMobile ? 40 : 48,
-                                            borderRadius: '50%',
-                                            '&:hover': {
-                                                '& .MuiSvgIcon-root': {
-                                                    color: '#FFD700'
-                                                }
-                                            },
-                                            '&:active': {
-                                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                <IconButton
+                                    onClick={handleClickBookmark}
+                                    sx={{
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        width: isMobile ? 40 : 48,
+                                        height: isMobile ? 40 : 48,
+                                        borderRadius: '50%',
+                                        '&:hover': {
+                                            '& .MuiSvgIcon-root': {
+                                                color: '#FFD700'
                                             }
-                                        }}>
-                                        {isFavourites ?
-                                            <TurnedInOutlinedIcon sx={{
-                                                color: yellow[500],
-                                                fontSize: isMobile ? 32 : 40,
-                                                transition: 'color 0.5s ease'
-                                            }}/>
-                                            :
-                                            <BookmarkBorderIcon sx={{
-                                                fontSize: isMobile ? 32 : 40,
-                                                transition: 'color 0.5s ease'
-                                            }}/>
+                                        },
+                                        '&:active': {
+                                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                         }
-                                    </IconButton>
-                                </Item>
+                                    }}>
+                                    {isFavourites ?
+                                        <TurnedInOutlinedIcon sx={{
+                                            color: yellow[500],
+                                            fontSize: isMobile ? 32 : 40,
+                                            transition: 'color 0.5s ease'
+                                        }}/>
+                                        :
+                                        <BookmarkBorderIcon sx={{
+                                            fontSize: isMobile ? 32 : 40,
+                                            transition: 'color 0.5s ease'
+                                        }}/>
+                                    }
+                                </IconButton>
                             )}
                         </Box>
                     </Grid>
