@@ -382,15 +382,9 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     }
 
     return (
-        <Grid container spacing={{xs: 2, sm: 2}} >
+        <Grid container spacing={{xs: 2, sm: 2}}>
             <Grid size={{xs: 3, sm: 2}}>
-                <Box sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    mb: isMobile ? 2 : 0
-                }}>
-                    <ProfileAvatar userId={userId}/>
-                </Box>
+                <ProfileAvatar userId={userId}/>
             </Grid>
 
             <Grid size={{xs: 9, sm: 10}}>
