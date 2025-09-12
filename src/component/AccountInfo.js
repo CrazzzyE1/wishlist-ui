@@ -382,16 +382,16 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     }
 
     return (
-        <Grid container spacing={{xs: 2, sm: 2}}>
+        <Grid container spacing={{xs: 1, sm: 2}}>
             <Grid size={{xs: 3, sm: 2}}>
                 <ProfileAvatar userId={userId}/>
             </Grid>
             <Grid container spacing={{xs: 1, sm: 2}} size={{xs: 9, sm: 10}}>
-                <Grid container size={{xs: 12, sm: 12}}>
+                <Grid container size={{xs: 8, sm: 10}}>
                     <Typography
                         variant="h6"
                         sx={{
-                            fontSize: {xs: '1.5rem', sm: '2rem'},
+                            fontSize: {xs: '0.9rem', sm: '1.7rem'},
                             color: 'text.secondary',
                             fontWeight: 'bold'
                         }}>
@@ -409,57 +409,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         </Typography>
                     )}
                 </Grid>
-
-                {isOwner || !isPrivate ? (
-                        <Grid size={{xs: 3, sm: 3}}>
-                            <>
-                                <Typography sx={{
-                                    fontSize: {xs: '12px', sm: '16px'},
-                                    color: 'text.secondary',
-                                    justifyContent: 'flex-start',
-                                    textAlign: 'left',
-                                    fontWeight: 'bold'
-                                }}>
-                                    Статус:
-                                </Typography>
-                                <Typography sx={{
-                                    fontSize: {xs: '10px', sm: '14px'},
-                                    color: 'text.secondary',
-                                    justifyContent: 'flex-start',
-                                    textAlign: 'left',
-                                    mt: 0.5
-                                }}>
-                                    {userData.status}
-                                </Typography>
-                            </>
-                        </Grid>
-                    ) :
-                    null
-                }
-
-                <Grid size={{xs: 4, sm: isOwner || !isPrivate ? 4 : 7}}>
-                    <Typography
-                        sx={{
-                            fontSize: {xs: '12px', sm: '16px'},
-                            color: 'text.secondary',
-                            justifyContent: 'flex-start',
-                            textAlign: 'left',
-                            fontWeight: 'bold'
-                        }}>
-                        Приватность:
-                    </Typography>
-                    <Typography sx={{
-                        fontSize: {xs: '10px', sm: '14px'},
-                        color: 'text.secondary',
-                        mt: 0.5,
-                        justifyContent: 'flex-start',
-                        textAlign: 'left',
-                    }}>
-                        {userData.privacyLevel}
-                    </Typography>
-                </Grid>
-
-                <Grid size={{xs: 5, sm: 5}}>
+                <Grid size={{xs: 4, sm: 2}}>
                     <Box sx={{
                         display: 'flex',
                         justifyContent: 'flex-end',
@@ -502,30 +452,56 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         )}
                     </Box>
                 </Grid>
+                {isOwner || !isPrivate ? (
+                        <Grid size={{xs: 6, sm: 3}}>
+                            <>
+                                <Typography sx={{
+                                    fontSize: {xs: '12px', sm: '16px'},
+                                    color: 'text.secondary',
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
+                                    fontWeight: 'bold'
+                                }}>
+                                    Статус:
+                                </Typography>
+                                <Typography sx={{
+                                    fontSize: {xs: '10px', sm: '14px'},
+                                    color: 'text.secondary',
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
+                                    mt: 0.5
+                                }}>
+                                    {userData.status}
+                                </Typography>
+                            </>
+                        </Grid>
+                    ) :
+                    null
+                }
+                <Grid size={{xs: isOwner || !isPrivate ? 6 : 12, sm: isOwner || !isPrivate ? 3 : 12}}>
+                    <Typography
+                        sx={{
+                            fontSize: {xs: '12px', sm: '16px'},
+                            color: 'text.secondary',
+                            justifyContent: 'flex-start',
+                            textAlign: 'left',
+                            fontWeight: 'bold'
+                        }}>
+                        Приватность:
+                    </Typography>
+                    <Typography sx={{
+                        fontSize: {xs: '10px', sm: '14px'},
+                        color: 'text.secondary',
+                        mt: 0.5,
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
+                    }}>
+                        {userData.privacyLevel}
+                    </Typography>
+                </Grid>
                 {isOwner || !isPrivate ?
                     (<>
-                            <Grid size={{xs: 5, sm: 3}}>
-                                <>
-                                    <Typography variant="body2" fontWeight="bold" sx={{
-                                        fontSize: {xs: '12px', sm: '16px'},
-                                        color: 'text.secondary',
-                                        justifyContent: 'flex-start',
-                                        textAlign: 'left',
-                                    }}>
-                                        День Рождения:
-                                    </Typography>
-                                    <Typography color="text.info" sx={{
-                                        fontSize: {xs: '10px', sm: '14px'},
-                                        color: 'text.secondary',
-                                        mt: 0.5,
-                                        justifyContent: 'flex-start',
-                                        textAlign: 'left',
-                                    }}>
-                                        {formatBirthDate(userData.birthDate)}
-                                    </Typography>
-                                </>
-                            </Grid>
-                            <Grid size={{xs: 2, sm: 2}}>
+                            <Grid size={{xs: 6, sm: 6}}>
                                 <>
                                     <Typography fontWeight="bold" sx={{
                                         fontSize: {xs: '12px', sm: '16px'},
@@ -546,7 +522,28 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                     </Typography>
                                 </>
                             </Grid>
-                            <Grid size={{xs: 5, sm: 7}}>
+                            <Grid size={{xs: 6, sm: 3}}>
+                                <>
+                                    <Typography variant="body2" fontWeight="bold" sx={{
+                                        fontSize: {xs: '12px', sm: '16px'},
+                                        color: 'text.secondary',
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        День Рождения:
+                                    </Typography>
+                                    <Typography color="text.info" sx={{
+                                        fontSize: {xs: '10px', sm: '14px'},
+                                        color: 'text.secondary',
+                                        mt: 0.5,
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        {formatBirthDate(userData.birthDate)}
+                                    </Typography>
+                                </>
+                            </Grid>
+                            <Grid size={{xs: 12, sm: 9}}>
                                 {(isOwner || !isPrivate) && (
                                     <Counters userData={userData} giftsCount={giftsCount}/>
                                 )}
