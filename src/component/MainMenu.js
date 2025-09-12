@@ -128,13 +128,14 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                       mb: {sm: 1},
                       minHeight: '32px'
                   }}>
-                {isMobile ?
-                    (
-                        <Divider orientation="vertical" sx={{width: '100%'}} flexItem/>
-                    ) :
-                    (
-                        <Divider orientation="horizontal" sx={{width: '100%', height: '100%'}} flexItem/>
-                    )}
+                <Divider
+                    orientation={isMobile ? "vertical" : "horizontal"}
+                    sx={{
+                        width: isMobile ? '1px' : '100%',
+                        height: isMobile ? '100%' : '100%'
+                    }}
+                    flexItem
+                />
             </Grid>
             {isOwner && (
                 <>
