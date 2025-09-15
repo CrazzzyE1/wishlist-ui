@@ -113,7 +113,6 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                         <Avatar
                             src={avatarSrc}
                             sx={{
-                                bgcolor: deepPurple[500],
                                 width: 56,
                                 height: 56,
                                 mr: 2

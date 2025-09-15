@@ -38,7 +38,8 @@ export const NotificationCard = ({ notification, onMarkAsRead }) => {
             onClick={handleMarkAsRead}
         >
             <CardContent sx={{ display: 'flex', alignItems: 'center' }}>
-                <Avatar sx={{ bgcolor: deepPurple[500], mr: 2 }}>
+                <Avatar sx={{
+                    mr: 2 }}>
                     {notification.text.charAt(0)}
                 </Avatar>
                 <Box sx={{ flexGrow: 1 }}>

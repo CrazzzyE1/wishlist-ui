@@ -102,7 +102,7 @@ function SearchLine() {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar sx={{bgcolor: deepPurple[500]}}>
+                                            <Avatar>
                                                 {user.fullName.charAt(0)}
                                             </Avatar>
                                         </ListItemAvatar>

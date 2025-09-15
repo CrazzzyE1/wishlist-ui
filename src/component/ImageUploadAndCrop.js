@@ -2,7 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Cropper from 'react-easy-crop';
-import { readFile, createImage } from './imageUtils';
+import { readFile, createImage } from './ImageUtils';
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import {Typography} from "@mui/material";
 import {useState, useRef} from "react";
@@ -78,7 +78,7 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
                 <>
                     <Box sx={{
                         position: 'relative',
-                        height: 200,
+                        height: 250,
                         width: '100%',
                         bgcolor: '#f5f5f5'
                     }}>
