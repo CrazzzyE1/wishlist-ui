@@ -77,6 +77,7 @@ export default function GiftCreator({ onGiftCreated, lists }) {
             setError(err.response?.data?.message || 'Произошла ошибка при создании подарка');
         } finally {
             setIsSubmitting(false);
+            handleClose();
         }
     };
 
