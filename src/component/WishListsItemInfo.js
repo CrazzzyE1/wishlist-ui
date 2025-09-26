@@ -4,10 +4,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
-import { green, pink, yellow } from "@mui/material/colors";
-import { httpClient } from "../http/HttpClient";
+import {green, pink, yellow} from "@mui/material/colors";
+import {httpClient} from "../http/HttpClient";
 
-function WishListsItemInfo({ onWishlistSelect, refreshKey, selectedWishlistId, onListGetting, userId }) {
+function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, onListGetting, userId}) {
     const [wishlists, setWishlists] = React.useState([]);
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState(null);
@@ -74,7 +74,7 @@ function WishListsItemInfo({ onWishlistSelect, refreshKey, selectedWishlistId, o
     if (error) return <Typography color="error">Ошибка: {error}</Typography>;
 
     const formatDate = (dateString) => {
-        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        const options = {day: 'numeric', month: 'long', year: 'numeric'};
         return dateString ? new Date(dateString).toLocaleDateString('ru-RU', options) : 'Без даты';
     };
 
@@ -83,8 +83,10 @@ function WishListsItemInfo({ onWishlistSelect, refreshKey, selectedWishlistId, o
             sx={{
                 width: '100%',
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(min(170px, 100%), 1fr))',
-                gap: 2,
+                gridTemplateColumns: {
+                    xs: 'repeat(auto-fill, minmax(min(75px, 100%), 1fr))',
+                    sm: 'repeat(auto-fill, minmax(min(160px, 100%), 1fr))'},
+                gap: {xs: 1, sm: 2},
             }}
         >
             {wishlists.map((wishlist) => {
@@ -117,13 +119,13 @@ function WishListsItemInfo({ onWishlistSelect, refreshKey, selectedWishlistId, o
                                 },
                             }}
                         >
-                            <CardContent sx={{ p: 2 }}>
+                            <CardContent sx={{p: {xs: 1, sm: 2}}}>
                                 <Typography
                                     variant="h6"
                                     component="div"
                                     sx={{
                                         fontWeight: 600,
-                                        fontSize: "1rem",
+                                        fontSize: {xs: '0.75rem', sm: '1rem'},
                                         lineHeight: 1.3,
                                         display: "-webkit-box",
                                         WebkitLineClamp: 2,
@@ -140,8 +142,9 @@ function WishListsItemInfo({ onWishlistSelect, refreshKey, selectedWishlistId, o
                                     <Typography
                                         variant="body2"
                                         sx={{
-                                            mt: 1,
+                                            mt: {xs: 0.5, sm: 1},
                                             color: isSelected ? "black" : "text.secondary",
+                                            fontSize: {xs: '0.75rem', sm: '1rem'},
                                             fontStyle: wishlist.eventDate ? "normal" : "italic",
                                         }}
                                     >
