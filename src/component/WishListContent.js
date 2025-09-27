@@ -85,7 +85,7 @@ function WishListContent({
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '12px', sm: '14px'},
+                            fontSize: {xs: '0.65rem', sm: '1rem'},
                             color: "text.secondary",
                             textAlign: "left",
                             pl: "10px",
@@ -96,7 +96,7 @@ function WishListContent({
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '10px', sm: '12px'},
+                            fontSize: {xs: '0.55rem', sm: '0.8rem'},
                             color: "text.secondary",
                             textAlign: "left",
                             pl: "10px",
@@ -111,7 +111,7 @@ function WishListContent({
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '12px', sm: '14px'},
+                            fontSize: {xs: '0.65rem', sm: '1rem'},
                             color: "text.secondary",
                             textAlign: "left",
                             pl: "0px",
@@ -122,7 +122,7 @@ function WishListContent({
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '10px', sm: '12px'},
+                            fontSize: {xs: '0.55rem', sm: '0.8rem'},
                             color: "text.secondary",
                             textAlign: "left",
                             pl: "0px",

@@ -15,7 +15,7 @@ function WishLists({onWishlistSelect, refreshKey, selectedWishlistId, onListGett
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '0.9rem', sm: '1.5rem'},
+                            fontSize: {xs: '0.65rem', sm: '1rem'},
                             color: 'text.secondary',
                             textAlign: 'left',
                             pl: '10px'
