@@ -209,7 +209,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
             >
 
                 <Box sx={{position: "relative"}}>
-                    {!imageLoading ? (
+                    {imageLoading ? (
                             <Skeleton
                                 variant="rectangular"
                                 sx={{
