@@ -168,8 +168,8 @@ export default function AccountSettingToggle({onProfileEdit}) {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: { xs: 36, sm: 56},
-                        height: { xs: 36, sm: 56},
+                        width: {xs: 36, sm: 56},
+                        height: {xs: 36, sm: 56},
                         borderRadius: '50%',
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
@@ -183,7 +183,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
                 >
                     <Badge badgeContent={unreadCount} color="error">
                         <NotificationsActiveOutlinedIcon sx={{
-                            fontSize: { xs: 28, sm: 40},
+                            fontSize: {xs: 28, sm: 40},
                             transition: 'color 0.5s ease'
                         }}/>
                     </Badge>
@@ -196,12 +196,19 @@ export default function AccountSettingToggle({onProfileEdit}) {
                     aria-haspopup="true"
                     onClick={handleProfileMenuOpen}
                     color="inherit"
-                    sx={{mr: {xs: 0, sm: 1}}}
+                    sx={{
+                        width: {xs: 36, sm: 56},
+                        height: {xs: 36, sm: 56},
+                        mr: {xs: 0, sm: 1}
+                    }}
                 >
                     <Avatar
-                        alt="Remy Sharp"
+                        alt="Avatar"
                         src={avatarSrc}
-                        sx={{width: { xs: 26, sm: 40}, height: { xs: 26, sm: 40}}}
+                        sx={{
+                            width: {xs: 26, sm: 40},
+                            height: {xs: 26, sm: 40}
+                        }}
                     />
                 </IconButton>
             </Box>
