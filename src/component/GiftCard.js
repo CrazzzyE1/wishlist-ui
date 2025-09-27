@@ -209,11 +209,14 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
             >
 
                 <Box sx={{position: "relative"}}>
-                    {imageLoading ? (
-                            <Skeleton variant="rectangular" width="100%">
-                                <div style={{paddingTop: '100%'}}/>
-                            </Skeleton>
-
+                    {!imageLoading ? (
+                            <Skeleton
+                                variant="rectangular"
+                                sx={{
+                                    width: {xs: 136, sm: 191},
+                                    height: {xs: 136, sm: 191},
+                                }}
+                            />
                         ) :
                         <CardMedia
                             component="img"
