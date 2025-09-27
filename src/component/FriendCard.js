@@ -6,14 +6,12 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
-import {deepPurple} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
@@ -80,11 +78,9 @@ export function FriendCard({friend, onFriendRemoved}) {
     };
 
     return (
-        <>
+        <Grid size={{xs: 12, sm: 6}}  key={friend.id}>
             <Card
                 sx={{
-                    minWidth: 275,
-                    mb: 2,
                     borderRadius: 2,
                     cursor: 'pointer',
                     '&:hover': {
@@ -95,19 +91,17 @@ export function FriendCard({friend, onFriendRemoved}) {
             >
                 <CardContent sx={{
                     width: '100%',
-                    p: 3
                 }}>
                     <Box sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        mb: 2,
                         width: '100%'
                     }}>
                         <Avatar
                             src={avatarSrc}
                             sx={{
-                                width: 56,
-                                height: 56,
+                                width: {xs: 26, sm: 56},
+                                height: {xs: 26, sm: 56},
                                 mr: 2
                             }}>
                         </Avatar>
@@ -115,10 +109,16 @@ export function FriendCard({friend, onFriendRemoved}) {
                             flexGrow: 1,
                             minWidth: 0
                         }}>
-                            <Typography noWrap variant="h6" component="div">
+                            <Typography noWrap variant="h6" component="div"
+                                        sx={{
+                                            fontSize: {xs: '0.75rem', sm: '1rem'},
+                                        }}>
                                 {friend.fullName}
                             </Typography>
-                            <Typography noWrap variant="body2" color="text.secondary">
+                            <Typography noWrap variant="body2" color="text.secondary"
+                                        sx={{
+                                            fontSize: {xs: '0.6rem', sm: '0.8rem'},
+                                        }}>
                                 {friend.status}
                             </Typography>
                         </Box>
@@ -129,46 +129,66 @@ export function FriendCard({friend, onFriendRemoved}) {
                             sx={{ml: 1}}
                             disabled={isDeleting}
                         >
-                            <PersonRemoveOutlinedIcon sx={{fontSize: '36px'}}/>
+                            <PersonRemoveOutlinedIcon sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
                         </IconButton>
                     </Box>
-                    <Divider sx={{my: 2}}/>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6} md={3}>
                             {!friend.isPublic && friend.birthDate === null ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Дата рождения:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Дата рождения:</strong> {new Date(friend.birthDate).toLocaleDateString()}
                                 </Typography>
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             {!friend.isPublic && friend.friendsCount === null ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Друзей:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Друзей:</strong> {friend.friendsCount}
                                 </Typography>
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             {!friend.isPublic && friend.favouritesCount === null ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Избранное:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Избранное:</strong> {friend.favouritesCount}
                                 </Typography>
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="body2">
+                            <Typography variant="body2"
+                                        sx={{
+                                            fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                        }}>
                                 <strong>Приватность:</strong> {friend.privacyLevel}
                             </Typography>
                         </Grid>
@@ -199,6 +219,6 @@ export function FriendCard({friend, onFriendRemoved}) {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Grid>
     );
 }

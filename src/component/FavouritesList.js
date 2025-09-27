@@ -69,7 +69,11 @@ export default function FavouritesList() {
     return (
         <Box sx={{ flexGrow: 1, p: 3 }}>
             {favourites.length === 0 ? (
-                <Typography variant="body1" sx={{ mt: 2 }}>
+                <Typography variant="body1"
+                            sx={{
+                                mt: 2,
+                                fontSize: {xs: '0.75rem', sm: '1rem'}
+                            }}>
                     У вас пока нет подписок
                 </Typography>
             ) : (

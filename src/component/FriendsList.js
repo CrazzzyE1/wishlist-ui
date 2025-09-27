@@ -69,17 +69,21 @@ export default function FriendsList() {
     return (
         <Box sx={{ flexGrow: 1, p: 3 }}>
             {friends.length === 0 ? (
-                <Typography variant="body1" sx={{ mt: 2 }}>
+                <Typography variant="body1"
+                            sx={{
+                                mt: 2,
+                                fontSize: {xs: '0.75rem', sm: '1rem'}
+                }}>
                     У вас пока нет друзей
                 </Typography>
             ) : (
-                <Grid container spacing={3}>
+                <Grid container spacing={2}>
                     {friends.map((friend) => (
-                        <Grid size={12} key={friend.id}>
+
                             <FriendCard key={friend.id}
                                         friend={friend}
                                         onFriendRemoved={handleFriendRemoved}  />
-                        </Grid>
+                        // </Grid>
                     ))}
                 </Grid>
             )}

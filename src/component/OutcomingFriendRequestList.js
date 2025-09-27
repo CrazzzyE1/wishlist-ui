@@ -78,13 +78,17 @@ export default function OutcomingFriendRequestList() {
     return (
         <Box sx={{flexGrow: 1, p: 3}}>
             {outComingRequests.length === 0 ? (
-                <Typography variant="body1" sx={{mt: 2}}>
+                <Typography variant="body1"
+                            sx={{
+                                mt: 2,
+                                fontSize: {xs: '0.75rem', sm: '1rem'}
+                            }}>>
                     У вас пока нет исходящих заявок
                 </Typography>
             ) : (
                 <Grid container spacing={3}>
                     {outComingRequests.map((request) => (
-                        <Grid size={{ xs: 12, sm: 12 }} key={request.requestId}>
+                        <Grid size={{xs: 12, sm: 12}} key={request.requestId}>
                             <OutcomingFriendRequest
                                 friend={request}
                                 requestId={request.requestId}
