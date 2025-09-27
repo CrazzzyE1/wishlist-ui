@@ -297,7 +297,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                 <CardActions
                     disableSpacing
                     sx={{
-                        px: 1.5,
+                        px: 1,
                         pb: 1.5,
                         display: "flex",
                         justifyContent: "space-between",
@@ -309,15 +309,20 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     onClick={handleUnlike}
                                     aria-label="like"
                                     sx={{
-                                        width: 38,
-                                        height: 38,
+                                        width: {xs: 24, sm: 40},
+                                        height: {xs: 24, sm: 40},
                                         color: "error.main",
                                         "&:hover .MuiSvgIcon-root": {
                                             color: "error.main",
                                         },
                                     }}
                                 >
-                                    <FavoriteOutlinedIcon/>
+                                    <FavoriteOutlinedIcon
+                                        sx={{
+                                            width: {xs: 20, sm: 24},
+                                            height: {xs: 20, sm: 24},
+                                        }}
+                                    />
                                 </IconButton>
                             ) :
                             (
@@ -325,17 +330,22 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     onClick={handleLike}
                                     aria-label="like"
                                     sx={{
-                                        width: 38,
-                                        height: 38,
+                                        width: {xs: 24, sm: 40},
+                                        height: {xs: 24, sm: 40},
                                         "&:hover .MuiSvgIcon-root": {
                                             color: "error.main",
                                         },
                                     }}
                                 >
-                                    <FavoriteBorderOutlinedIcon/>
+                                    <FavoriteBorderOutlinedIcon
+                                        sx={{
+                                            width: {xs: 20, sm: 24},
+                                            height: {xs: 20, sm: 24},
+                                        }}
+                                    />
                                 </IconButton>
                             )}
-                        {likesCount ? likesCount : null}
+                        {likesCount ? likesCount : ""}
                         <IconButton
                             aria-label="link"
                             onClick={() => {
@@ -345,14 +355,19 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                             }}
                             disabled={!data.link}
                             sx={{
-                                width: 38,
-                                height: 38,
+                                width: {xs: 24, sm: 40},
+                                height: {xs: 24, sm: 40},
                                 "&:hover .MuiSvgIcon-root": {
                                     color: data.link ? "primary.main" : "inherit",
                                 },
                             }}
                         >
-                            <InsertLinkOutlinedIcon/>
+                            <InsertLinkOutlinedIcon
+                                sx={{
+                                    width: {xs: 20, sm: 24},
+                                    height: {xs: 20, sm: 24},
+                                }}
+                            />
                         </IconButton>
 
                         {!isOwner && (
@@ -360,14 +375,19 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 aria-label="clone"
                                 onClick={handleOpenConfirmModal}
                                 sx={{
-                                    width: 38,
-                                    height: 38,
+                                    width: {xs: 24, sm: 40},
+                                    height: {xs: 24, sm: 40},
                                     "&:hover .MuiSvgIcon-root": {
                                         color: "success.main",
                                     },
                                 }}
                             >
-                                <AddToPhotosOutlinedIcon/>
+                                <AddToPhotosOutlinedIcon
+                                    sx={{
+                                        width: {xs: 20, sm: 24},
+                                        height: {xs: 20, sm: 24},
+                                    }}
+                                />
                             </IconButton>
                         )}
                     </Box>

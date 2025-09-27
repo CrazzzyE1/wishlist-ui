@@ -45,8 +45,6 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState(null);
 
     const handleCloseModal = () => setOpenModal(false);
 
@@ -56,7 +54,6 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
     };
 
     const handleEditGift = async (giftData) => {
-        setError(null);
         try {
             const giftResponse = await httpClient.patch(`/gifts/${giftData.id}`, {
                 name: giftData.name,
@@ -89,9 +86,6 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
             handleClose();
         } catch (err) {
             console.error('Ошибка создания подарка:', err);
-            setError(err.response?.data?.message || 'Произошла ошибка при редактировании подарка');
-        } finally {
-            setIsSubmitting(false);
         }
     };
 
@@ -138,6 +132,8 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                 aria-haspopup="true"
                 onClick={handleClick}
                 sx={{
+                    width: {xs: 24, sm: 40},
+                    height: {xs: 24, sm: 40},
                     '&:hover': {
                         '& .MuiSvgIcon-root': {
                             color: '#000000'
@@ -147,6 +143,8 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
             >
                 <MoreVertIcon
                     sx={{
+                        width: {xs: 20, sm: 24},
+                        height: {xs: 20, sm: 24},
                         transition: 'color 0.5s ease'
                     }}
                 />

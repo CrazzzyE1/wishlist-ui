@@ -71,7 +71,7 @@ export default function ProfilePage({userId}) {
     return (
         <React.Fragment>
             <CssBaseline/>
-            <Container sx={{pt: 2}}>
+            <Container sx={{pt: 2, pb: 2}}>
                 <Grid container spacing={3}>
                     <Grid size={{xs: 12, sm: 12}}>
                         <Item>
