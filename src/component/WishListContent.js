@@ -85,10 +85,9 @@ function WishListContent({
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '0.65rem', sm: '1rem'},
+                            fontSize: {xs: '0.75rem', sm: '1rem'},
                             color: "text.secondary",
-                            textAlign: "left",
-                            pl: "10px",
+                            textAlign: "left"
                         }}
                     >
                         {checkName(wishlistData.name)}
@@ -96,10 +95,9 @@ function WishListContent({
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '0.55rem', sm: '0.8rem'},
+                            fontSize: {xs: '0.6rem', sm: '0.8rem'},
                             color: "text.secondary",
-                            textAlign: "left",
-                            pl: "10px",
+                            textAlign: "left"
                         }}
                     >
                         {formatDate(wishlistData.eventDate)}
@@ -111,7 +109,7 @@ function WishListContent({
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '0.65rem', sm: '1rem'},
+                            fontSize: {xs: '0.75rem', sm: '1rem'},
                             color: "text.secondary",
                             textAlign: "left",
                             pl: "0px",
@@ -122,7 +120,7 @@ function WishListContent({
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '0.55rem', sm: '0.8rem'},
+                            fontSize: {xs: '0.6rem', sm: '0.8rem'},
                             color: "text.secondary",
                             textAlign: "left",
                             pl: "0px",

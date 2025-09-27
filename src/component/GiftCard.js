@@ -241,7 +241,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 variant="subtitle1"
                                 sx={{
                                     fontWeight: 600,
-                                    fontSize: {xs: '0.65rem', sm: '1rem'},
+                                    fontSize: {xs: '0.75rem', sm: '1rem'},
                                     textAlign: "left",
                                     lineHeight: 1.3,
                                     display: "-webkit-box",
@@ -271,7 +271,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     color: "text.secondary",
                                     textAlign: "left",
                                     fontWeight: 500,
-                                    fontSize: {xs: '0.55rem', sm: '0.8rem'},
+                                    fontSize: {xs: '0.6rem', sm: '0.8rem'},
                                 }}
                             >
                                 Цена: {data.price.amount} {data.price.currency}
@@ -415,7 +415,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         <Typography
                             variant="body2"
                             sx={{
-                                fontSize: {xs: '0.55rem', sm: '0.8rem'},
+                                fontSize: {xs: '0.6rem', sm: '0.8rem'},
                                 color: "text.secondary",
                                 textAlign: "left",
                                 whiteSpace: "pre-line",
@@ -509,7 +509,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
                             >
                                 <InsertLinkOutlinedIcon sx={{fontSize: "1.8rem"}}/>
-                                Ссылка на подарок
+                                Открыть ссылку
                             </a>
                         </Box>
                     )}

@@ -15,10 +15,9 @@ function WishLists({onWishlistSelect, refreshKey, selectedWishlistId, onListGett
                     <Typography
                         variant="body1"
                         sx={{
-                            fontSize: {xs: '0.65rem', sm: '1rem'},
+                            fontSize: {xs: '0.75rem', sm: '1rem'},
                             color: 'text.secondary',
-                            textAlign: 'left',
-                            pl: '10px'
+                            textAlign: 'left'
                         }}>
                         Списки:
                     </Typography>

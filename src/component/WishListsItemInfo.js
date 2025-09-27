@@ -125,7 +125,7 @@ function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, on
                                     component="div"
                                     sx={{
                                         fontWeight: 600,
-                                        fontSize: {xs: '0.65rem', sm: '1rem'},
+                                        fontSize: {xs: '0.75rem', sm: '1rem'},
                                         lineHeight: 1.3,
                                         display: "-webkit-box",
                                         WebkitLineClamp: 2,
@@ -144,7 +144,7 @@ function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, on
                                         sx={{
                                             mt: {xs: 0.5, sm: 1},
                                             color: isSelected ? "black" : "text.secondary",
-                                            fontSize: {xs: '0.55rem', sm: '0.8rem'},
+                                            fontSize: {xs: '0.6rem', sm: '0.8rem'},
                                             fontStyle: wishlist.eventDate ? "normal" : "italic",
                                         }}
                                     >
