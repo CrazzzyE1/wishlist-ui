@@ -196,8 +196,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         <>
             <Card
                 sx={{
-                    maxWidth: 191,
-                    minWidth: 191,
+                    maxWidth: {xs: 136, sm: 191},
                     borderRadius: 4,
                     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                     overflow: "hidden",
@@ -218,7 +217,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         ) :
                         <CardMedia
                             component="img"
-                            height="180"
                             image={imageUrl}
                             alt="Gift image"
                             onClick={handleOpenModal}
@@ -236,14 +234,14 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                 </Box>
 
                 <CardHeader
-                    sx={{p: 1.5}}
+                    sx={{pl: 1.5, pt: 1, pb: 1}}
                     title={
                         <Tooltip title={data.name} placement="top-start" arrow>
                             <Typography
                                 variant="subtitle1"
                                 sx={{
                                     fontWeight: 600,
-                                    fontSize: "1rem",
+                                    fontSize: {xs: '0.65rem', sm: '1rem'},
                                     textAlign: "left",
                                     lineHeight: 1.3,
                                     display: "-webkit-box",
@@ -260,7 +258,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     }
                 />
 
-                <CardContent sx={{p: 1.5, pt: 0}}>
+                <CardContent sx={{pl: 1.5, pt: 0, pb: 0}}>
                     {data.price.amount ? (
                         <Tooltip
                             title={`${data.price.amount} ${data.price.currency}`}
@@ -273,6 +271,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     color: "text.secondary",
                                     textAlign: "left",
                                     fontWeight: 500,
+                                    fontSize: {xs: '0.55rem', sm: '0.8rem'},
                                 }}
                             >
                                 Цена: {data.price.amount} {data.price.currency}
@@ -286,6 +285,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     color: "text.disabled",
                                     textAlign: "left",
                                     fontStyle: "italic",
+                                    fontSize: {xs: '0.55rem', sm: '0.8rem'},
                                 }}
                             >
                                 Цена не указана
