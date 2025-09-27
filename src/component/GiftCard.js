@@ -412,12 +412,10 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
 
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent sx={{px: 2, pb: 2}}>
-                        <Typography variant="subtitle2" sx={{mb: 1, fontWeight: 600}}>
-                            Описание
-                        </Typography>
                         <Typography
                             variant="body2"
                             sx={{
+                                fontSize: {xs: '0.55rem', sm: '0.8rem'},
                                 color: "text.secondary",
                                 textAlign: "left",
                                 whiteSpace: "pre-line",
