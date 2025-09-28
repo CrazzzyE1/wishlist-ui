@@ -67,7 +67,7 @@ export default function FavouritesList() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1, p: 3 }}>
+        <Box sx={{ flexGrow: 1}}>
             {favourites.length === 0 ? (
                 <Typography variant="body1"
                             sx={{
@@ -77,13 +77,11 @@ export default function FavouritesList() {
                     У вас пока нет подписок
                 </Typography>
             ) : (
-                <Grid container spacing={3}>
+                <Grid container spacing={2}>
                     {favourites.map((favourite) => (
-                        <Grid size={12} key={favourite.id}>
                             <FavouriteCard key={favourite.id}
                                            favourite={favourite}
                                            onFavouriteRemoved={handleFavouriteRemoved}  />
-                        </Grid>
                     ))}
                 </Grid>
             )}

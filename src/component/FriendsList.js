@@ -79,7 +79,6 @@ export default function FriendsList() {
             ) : (
                 <Grid container spacing={2}>
                     {friends.map((friend) => (
-
                             <FriendCard key={friend.id}
                                         friend={friend}
                                         onFriendRemoved={handleFriendRemoved}  />
