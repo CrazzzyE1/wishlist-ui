@@ -76,7 +76,7 @@ export default function OutcomingFriendRequestList() {
     }
 
     return (
-        <Box sx={{flexGrow: 1, p: 3}}>
+        <Box sx={{flexGrow: 1}}>
             {outComingRequests.length === 0 ? (
                 <Typography variant="body1"
                             sx={{
@@ -86,15 +86,13 @@ export default function OutcomingFriendRequestList() {
                     У вас пока нет исходящих заявок
                 </Typography>
             ) : (
-                <Grid container spacing={3}>
+                <Grid container spacing={2}>
                     {outComingRequests.map((request) => (
-                        <Grid size={{xs: 12, sm: 12}} key={request.requestId}>
                             <OutcomingFriendRequest
                                 friend={request}
                                 requestId={request.requestId}
                                 onOutcomingRequestRemoved={handleOutcomingRequestRemoved}
                             />
-                        </Grid>
                     ))}
                 </Grid>
             )}
