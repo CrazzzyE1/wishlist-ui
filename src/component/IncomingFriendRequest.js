@@ -14,7 +14,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import {deepPurple} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
@@ -109,7 +108,9 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
     };
 
     return (
-        <>
+        <Grid
+            size={{ xs: 12, sm: 6 }}
+            key={requestId}>
             <Card
                 sx={{
                     minWidth: 275,
@@ -124,30 +125,37 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
             >
                 <CardContent sx={{
                     width: '100%',
-                    p: 3
+                    padding: {xs: 1, sm: 2}
                 }}>
                     <Box sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        mb: 2,
-                        width: '100%'
+                        width: '100%',
+                        padding: 0
                     }}>
                         <Avatar
                             src={avatarSrc}
                             sx={{
-                                width: 56,
-                                height: 56,
+                                width: {xs: 40, sm: 56},
+                                height: {xs: 40, sm: 56},
                                 mr: 2
                             }}>
                         </Avatar>
                         <Box sx={{
                             flexGrow: 1,
-                            minWidth: 0
+                            minWidth: 0,
+                            padding: 0
                         }}>
-                            <Typography noWrap variant="h6" component="div">
+                            <Typography noWrap variant="h6" component="div"
+                                        sx={{
+                                            fontSize: {xs: '0.75rem', sm: '1rem'},
+                                        }}>
                                 {friend.fullName}
                             </Typography>
-                            <Typography noWrap variant="body2" color="text.secondary">
+                            <Typography noWrap variant="body2" color="text.secondary"
+                                        sx={{
+                                            fontSize: {xs: '0.6rem', sm: '0.8rem'},
+                                        }}>
                                 {friend.status}
                             </Typography>
                         </Box>
@@ -155,10 +163,13 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
                             aria-label="accept"
                             onClick={handleIncomingRequestAccepted}
                             color="green"
-                            sx={{ml: 1}}
+                            sx={{
+                                ml: 1,
+                                padding: 0
+                            }}
                             disabled={isDeleting}
                         >
-                            <CheckCircleOutlineOutlinedIcon sx={{fontSize: '36px', color: 'green'}}/>
+                            <CheckCircleOutlineOutlinedIcon  sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
                         </IconButton>
                         <IconButton
                             aria-label="delete"
@@ -167,46 +178,70 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
                             sx={{ml: 0}}
                             disabled={isDeleting}
                         >
-                            <HighlightOffOutlinedIcon sx={{fontSize: '36px'}}/>
+                            <HighlightOffOutlinedIcon  sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
                         </IconButton>
                     </Box>
-                    <Divider sx={{my: 2}}/>
-                    <Grid container spacing={2}>
-                        <Grid size={{ xs: 12, sm: 3 }}>
+                    <Grid container spacing={1}
+                          sx={{
+                              padding: 0
+                          }}
+                    >
+                        <Grid item xs={12} sm={6} md={3}>
                             {!friend.isPublic ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Дата рождения:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Дата рождения:</strong> {new Date(friend.birthDate).toLocaleDateString()}
                                 </Typography>
                             )}
                         </Grid>
-                        <Grid size={{ xs: 12, sm: 3 }}>
+                        <Grid item xs={12} sm={6} md={3}>
                             {!friend.isPublic ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Друзей:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Друзей:</strong> {friend.friendsCount}
                                 </Typography>
                             )}
                         </Grid>
-                        <Grid size={{ xs: 12, sm: 3 }}>
+                        <Grid item xs={12} sm={6} md={3}>
                             {!friend.isPublic ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Избранное:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Избранное:</strong> {friend.favouritesCount}
                                 </Typography>
                             )}
                         </Grid>
-                        <Grid size={{ xs: 12, sm: 3 }}>
-                            <Typography variant="body2">
+                        <Grid item xs={12} sm={6} md={3}>
+                            <Typography variant="body2"
+                                        sx={{
+                                            fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                        }}>
                                 <strong>Приватность:</strong> {friend.privacyLevel}
                             </Typography>
                         </Grid>
@@ -237,6 +272,6 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
                     </Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Grid>
     );
 }

@@ -81,7 +81,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
 
     return (
         <Grid
-            size={12}
+            size={{ xs: 12, sm: 6 }}
             key={favourite.id}
         >
             <Card

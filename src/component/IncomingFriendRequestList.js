@@ -80,7 +80,7 @@ export default function IncomingFriendRequestList() {
     }
 
     return (
-        <Box sx={{flexGrow: 1, p: 3}}>
+        <Box sx={{flexGrow: 1}}>
             {incomingRequests.length === 0 ? (
                 <Typography variant="body1"
                             sx={{
@@ -90,16 +90,14 @@ export default function IncomingFriendRequestList() {
                     У вас пока нет входящих заявок
                 </Typography>
             ) : (
-                <Grid container spacing={3}>
+                <Grid container spacing={2}>
                     {incomingRequests.map((request) => (
-                        <Grid size={{ xs: 12, sm: 12 }} key={request.requestId}>
                             <IncomingFriendRequest
                                 friend={request}
                                 requestId={request.requestId}
                                 onIncomingRequestRemoved={handleIncomingRequestRemoved}
                                 onIncomingRequestAccepted={handleIncomingRequestAccepted}
                             />
-                        </Grid>
                     ))}
                 </Grid>
             )}
