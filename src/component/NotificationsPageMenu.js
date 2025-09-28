@@ -29,6 +29,11 @@ export default function NotificationsPageMenu({onItemMenu}) {
                     padding: '6px 8px',
                     minWidth: 'auto',
                     margin: 0,
+                    fontSize: {
+                        xs: '0.75rem',
+                        sm: '0.75rem',
+                        md: '0.875rem'
+                    }
                 }
             }}
         >
