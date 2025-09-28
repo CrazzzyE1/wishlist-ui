@@ -67,7 +67,7 @@ export default function FriendsList() {
     }
 
     return (
-        <Box sx={{ flexGrow: 1, p: 3 }}>
+        <Box sx={{ flexGrow: 1 }}>
             {friends.length === 0 ? (
                 <Typography variant="body1"
                             sx={{
@@ -83,7 +83,6 @@ export default function FriendsList() {
                             <FriendCard key={friend.id}
                                         friend={friend}
                                         onFriendRemoved={handleFriendRemoved}  />
-                        // </Grid>
                     ))}
                 </Grid>
             )}

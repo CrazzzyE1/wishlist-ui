@@ -78,9 +78,13 @@ export function FriendCard({friend, onFriendRemoved}) {
     };
 
     return (
-        <Grid size={{xs: 12, sm: 6}}  key={friend.id}>
+        <Grid
+            size={{xs: 12, sm: 6}}
+            key={friend.id}
+        >
             <Card
                 sx={{
+                    padding: 0,
                     borderRadius: 2,
                     cursor: 'pointer',
                     '&:hover': {
@@ -91,23 +95,26 @@ export function FriendCard({friend, onFriendRemoved}) {
             >
                 <CardContent sx={{
                     width: '100%',
+                    padding: {xs: 1, sm: 2}
                 }}>
                     <Box sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        width: '100%'
+                        width: '100%',
+                        padding: 0
                     }}>
                         <Avatar
                             src={avatarSrc}
                             sx={{
-                                width: {xs: 26, sm: 56},
-                                height: {xs: 26, sm: 56},
+                                width: {xs: 40, sm: 56},
+                                height: {xs: 40, sm: 56},
                                 mr: 2
                             }}>
                         </Avatar>
                         <Box sx={{
                             flexGrow: 1,
-                            minWidth: 0
+                            minWidth: 0,
+                            padding: 0
                         }}>
                             <Typography noWrap variant="h6" component="div"
                                         sx={{
@@ -126,13 +133,20 @@ export function FriendCard({friend, onFriendRemoved}) {
                             aria-label="delete"
                             onClick={handleClickOpen}
                             color="gray"
-                            sx={{ml: 1}}
+                            sx={{
+                                ml: 1,
+                                padding: 0
+                            }}
                             disabled={isDeleting}
                         >
                             <PersonRemoveOutlinedIcon sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
                         </IconButton>
                     </Box>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={1}
+                          sx={{
+                              padding: 0
+                          }}
+                    >
                         <Grid item xs={12} sm={6} md={3}>
                             {!friend.isPublic && friend.birthDate === null ? (
                                 <Typography variant="body2"
