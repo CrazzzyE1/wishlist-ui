@@ -8,22 +8,63 @@ import NotificationsPage from "./component/NotificationsPage";
 import {NotificationsProvider} from "./component/NotificationsContext";
 import {LinearProgress} from "@mui/material";
 import './GlobalStyles.css';
+import InfoBanner from "./component/InfoBanner";
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
     const isRun = useRef(false);
 
-    useEffect(() => {
-        if (isRun.current) return;
-        isRun.current = true;
-        keycloak.init({onLoad: 'login-required'})
-            .then((auth) => {
-                if (auth) {
-                    setAuthenticated(true);
+        useEffect(() => {
+            if (isRun.current) return;
+            isRun.current = true;
+
+            const initializeKeycloak = async () => {
+                try {
+                    let auth = await keycloak.init({
+                        onLoad: 'check-sso',
+                        checkLoginIframe: false,
+                        pkceMethod: 'S256',
+                        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
+                    });
+
+                    if (auth) {
+                        setAuthenticated(true);
+                    } else {
+                        keycloak.login();
+                    }
+
+                    keycloak.onAuthSuccess = () => {
+                        setAuthenticated(true);
+                    };
+
+                    keycloak.onAuthRefreshSuccess = () => {
+                    };
+
+                    keycloak.onAuthLogout = () => {
+                        setAuthenticated(false);
+                    };
+
+                } catch (err) {
+                    console.error('Keycloak init error:', err);
+                    keycloak.login();
                 }
-            })
-            .catch(err => console.error('Keycloak init error:', err));
-    }, []);
+            };
+
+            initializeKeycloak();
+        }, []);
+
+
+    // useEffect(() => {
+    //     if (isRun.current) return;
+    //     isRun.current = true;
+    //     keycloak.init({onLoad: 'login-required'})
+    //         .then((auth) => {
+    //             if (auth) {
+    //                 setAuthenticated(true);
+    //             }
+    //         })
+    //         .catch(err => console.error('Keycloak init error:', err));
+    // }, []);
 
     useEffect(() => {
         if (authenticated) {
@@ -59,6 +100,7 @@ function App() {
     return (
         <NotificationsProvider>
             <Router>
+                <InfoBanner />
                 <Routes>
                     <Route path="/" element={<ProfilePage/>}/>
                     <Route path="/users" element={<FriendsPage/>}/>
