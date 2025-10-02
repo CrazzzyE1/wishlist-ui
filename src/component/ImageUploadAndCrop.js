@@ -10,6 +10,7 @@ import {useState, useRef} from "react";
 export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({ x: 0, y: 0 });
+    const [cropSize, setCropSize] = useState({ width: 250, height: 250 });
     const [zoom, setZoom] = useState(1);
     const inputRef = useRef();
 
@@ -90,6 +91,9 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
                             onCropChange={setCrop}
                             onCropComplete={onCropComplete}
                             onZoomChange={setZoom}
+                            objectFit="contain"
+                            restrictPosition={false}
+                            cropSize={cropSize}
                         />
                     </Box>
 
