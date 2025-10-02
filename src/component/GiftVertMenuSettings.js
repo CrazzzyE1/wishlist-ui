@@ -180,27 +180,62 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                 onClose={handleCloseConfirmDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        textAlign: 'center',
+                        p: 2,
+                        minWidth: 300
+                    }
+                }}
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 1,
+                    fontSize: {xs: '0.875rem', sm: '1.25rem'},
+                    fontWeight: 600,
+                    pb: 2
+                }}>
                     <HelpOutlineOutlinedIcon
                         sx={{
-                            fontSize: 40,
-                            color: red[500]
+                            fontSize: {xs: 24, sm: 40},
+                            color: 'error.main'
                         }}
-                    /> Подтверждение удаления
+                    />
+                    Подтверждение удаления
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                <DialogContent sx={{ textAlign: 'center' }}>
+                    <DialogContentText id="alert-dialog-description"
+                                       sx={{
+                                           mb: 1,
+                                           fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                                       }}>
                         Вы уверены, что хотите удалить этот подарок?
                     </DialogContentText>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description"
+                                       sx={{ mb: 1,
+                                           fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                                           fontWeight: 500 }}>
                         Это действие нельзя отменить.
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{
+                    justifyContent: 'center',
+                    gap: 2,
+                    pt: 1
+                }}>
                     <Button
                         onClick={handleCloseConfirmDialog}
                         disabled={isDeleting}
+                        variant="outlined"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            minWidth: 120
+                        }}
                     >
                         Отмена
                     </Button>
@@ -209,6 +244,17 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                         color="error"
                         disabled={isDeleting}
                         autoFocus
+                        variant="contained"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            minWidth: 120,
+                            backgroundColor: 'error.main',
+                            '&:hover': {
+                                backgroundColor: 'error.dark'
+                            }
+                        }}
                     >
                         {isDeleting ? 'Удаление...' : 'Удалить'}
                     </Button>

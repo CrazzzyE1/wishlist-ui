@@ -164,7 +164,7 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                         borderRadius: 3,
                         textAlign: 'center',
                         p: 2,
-                        minWidth: 400
+                        minWidth: 300
                     }
                 }}
             >
@@ -173,25 +173,29 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                     alignItems: 'center',
                     justifyContent: 'center',
                     gap: 1,
-                    fontSize: '1.25rem',
+                    fontSize: {xs: '0.875rem', sm: '1.25rem'},
                     fontWeight: 600
                 }}>
                     <HelpOutlineOutlinedIcon
                         sx={{
-                            fontSize: 40,
+                            fontSize: {xs: 24, sm: 40},
                             color: 'error.main'
                         }}
                     />
                     Подтверждение удаления
                 </DialogTitle>
-                <DialogContent sx={{ textAlign: 'center' }}>
-                    <DialogContentText id="alert-dialog-description" sx={{ mb: 1 }}>
+                <DialogContent sx={{textAlign: 'center'}}>
+                    <DialogContentText id="alert-dialog-description"
+                                       sx={{
+                                           mb: 1,
+                                           fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                                       }}>
                         Вы уверены, что хотите удалить этот список?
                     </DialogContentText>
-                    <DialogContentText id="alert-dialog-description" sx={{ mb: 1 }}>
+                    <DialogContentText id="alert-dialog-description" sx={{mb: 1, fontSize: {xs: '0.75rem', sm: '0.875rem'},}}>
                         Это так же приведет к удалению всех подарков из этого списка.
                     </DialogContentText>
-                    <DialogContentText id="alert-dialog-description" sx={{ mb: 1, fontWeight: 500 }}>
+                    <DialogContentText id="alert-dialog-description" sx={{mb: 1, fontSize: {xs: '0.75rem', sm: '0.875rem'}, fontWeight: 500}}>
                         Это действие нельзя отменить.
                     </DialogContentText>
                 </DialogContent>
