@@ -25,6 +25,7 @@ import InfoBanner from "./component/InfoBanner";
                         checkLoginIframe: false,
                         pkceMethod: 'S256',
                         redirectUri: window.location.origin,
+                        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
                     });
 
                     setAuthenticated(auth); // Set auth state based on init result
