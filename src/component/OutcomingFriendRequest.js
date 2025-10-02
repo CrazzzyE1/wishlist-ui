@@ -219,12 +219,38 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 onClick={(e) => e.stopPropagation()}
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        textAlign: 'center',
+                        p: 2,
+                        minWidth: 300
+                    }
+                }}
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" sx={{
+                    textAlign: 'center',
+                    fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                    pb: 2
+                }}>
                     {`Вы уверены, что хотите удалить заявку в друзья с ${friend.fullName}?`}
                 </DialogTitle>
-                <DialogActions>
-                    <Button onClick={handleClose} disabled={isDeleting}>
+                <DialogActions sx={{
+                    justifyContent: 'center',
+                    gap: 2,
+                    pt: 1
+                }}>
+                    <Button
+                        onClick={handleClose}
+                        disabled={isDeleting}
+                        variant="outlined"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            minWidth: 120,
+                            fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                        }}
+                    >
                         Отмена
                     </Button>
                     <Button
@@ -232,6 +258,17 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                         color="error"
                         autoFocus
                         disabled={isDeleting}
+                        variant="contained"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                            minWidth: 120,
+                            backgroundColor: 'error.main',
+                            '&:hover': {
+                                backgroundColor: 'error.dark'
+                            }
+                        }}
                     >
                         {isDeleting ? 'Удаление...' : 'Удалить'}
                     </Button>

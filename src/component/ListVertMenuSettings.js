@@ -159,31 +159,57 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                 onClose={handleCloseConfirmDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        textAlign: 'center',
+                        p: 2,
+                        minWidth: 400
+                    }
+                }}
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 1,
+                    fontSize: '1.25rem',
+                    fontWeight: 600
+                }}>
                     <HelpOutlineOutlinedIcon
                         sx={{
                             fontSize: 40,
-                            color: red[500]
+                            color: 'error.main'
                         }}
-                    /> Подтверждение удаления
+                    />
+                    Подтверждение удаления
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                <DialogContent sx={{ textAlign: 'center' }}>
+                    <DialogContentText id="alert-dialog-description" sx={{ mb: 1 }}>
                         Вы уверены, что хотите удалить этот список?
                     </DialogContentText>
-                    <DialogContentText id="alert-dialog-description">
-                        Это так же приведет к удалению всех подарков из
-                        этого списка.
+                    <DialogContentText id="alert-dialog-description" sx={{ mb: 1 }}>
+                        Это так же приведет к удалению всех подарков из этого списка.
                     </DialogContentText>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description" sx={{ mb: 1, fontWeight: 500 }}>
                         Это действие нельзя отменить.
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{
+                    justifyContent: 'center',
+                    gap: 2,
+                    pb: 3
+                }}>
                     <Button
                         onClick={handleCloseConfirmDialog}
                         disabled={isDeleting}
+                        variant="outlined"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            minWidth: 120
+                        }}
                     >
                         Отмена
                     </Button>
@@ -191,7 +217,18 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                         onClick={removeList}
                         color="error"
                         disabled={isDeleting}
+                        variant="contained"
                         autoFocus
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            minWidth: 120,
+                            backgroundColor: 'error.main',
+                            '&:hover': {
+                                backgroundColor: 'error.dark'
+                            }
+                        }}
                     >
                         {isDeleting ? 'Удаление...' : 'Удалить'}
                     </Button>
