@@ -182,7 +182,7 @@ export default function GiftEditBox({ gift, onEdit, onCancel, lists }) {
                         onClick={handleSubmit}
                         disabled={isSubmitDisabled}
                     >
-                        {isSubmitting ? 'Сохранение...' : 'Сохранить изменения'}
+                        {isSubmitting ? 'Сохранение...' : 'Сохранить'}
                     </Button>
                 </Box>
             </Box>

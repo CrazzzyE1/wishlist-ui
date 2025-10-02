@@ -297,7 +297,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
                         onClick={handleSubmit}
                         disabled={isSubmitDisabled}
                     >
-                        {isSubmitting ? 'Сохранение...' : 'Сохранить изменения'}
+                        {isSubmitting ? 'Сохранение...' : 'Сохранить'}
                     </Button>
                 </Box>
             </Box>
