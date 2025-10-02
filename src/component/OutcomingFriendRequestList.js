@@ -82,7 +82,7 @@ export default function OutcomingFriendRequestList() {
                             sx={{
                                 mt: 2,
                                 fontSize: {xs: '0.75rem', sm: '1rem'}
-                            }}>>
+                            }}>
                     У вас пока нет исходящих заявок
                 </Typography>
             ) : (
