@@ -471,7 +471,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                     textAlign: 'left',
                                     mt: 0.5
                                 }}>
-                                    {userData.status}
+                                    {userData.status === 'WAITING' ? 'Жду подарки' :
+                                        userData.status === 'NO_WAITING' ? 'Просто списки' : 'Не указан'}
                                 </Typography>
                             </>
                         </Grid>
@@ -496,7 +497,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         justifyContent: 'flex-start',
                         textAlign: 'left',
                     }}>
-                        {userData.privacyLevel}
+                        {userData.privacyLevel === 'PRIVATE' ? 'Приватный' :
+                            userData.privacyLevel === 'PUBLIC' ? 'Публичный' : 'Только друзья'}
                     </Typography>
                 </Grid>
                 {isOwner || !isPrivate ?
@@ -518,7 +520,9 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                         justifyContent: 'flex-start',
                                         textAlign: 'left',
                                     }}>
-                                        {userData.gender ? userData.gender : 'Не указан'}
+                                        {userData.gender === 'MALE' ? 'Мужской' :
+                                            userData.gender === 'FEMALE' ? 'Женский' :
+                                                'Не указан'}
                                     </Typography>
                                 </>
                             </Grid>

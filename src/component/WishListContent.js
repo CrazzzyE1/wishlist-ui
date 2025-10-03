@@ -126,7 +126,8 @@ function WishListContent({
                             pl: "0px",
                         }}
                     >
-                        {resolvePrivacyLevel(wishlistData)}
+                        {resolvePrivacyLevel(wishlistData) === 'PRIVATE' ? 'Приватный' :
+                            resolvePrivacyLevel(wishlistData) === 'PUBLIC' ? 'Публичный' : 'Только друзья'}
                     </Typography>
                 </Item>
             </Grid>
