@@ -141,18 +141,58 @@ export default function AccountSettingToggle({onProfileEdit}) {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
+            PaperProps={{
+                sx: {
+                    borderRadius: 2,
+                    minWidth: 180,
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                    mt: 1
+                }
+            }}
         >
-            <MenuItem onClick={handleProfileClick}>
-                <FaceRetouchingNaturalOutlinedIcon sx={{mr: '5px'}}/> Профиль
+            <MenuItem
+                onClick={handleProfileClick}
+                sx={{
+                    py: 1,
+                    fontSize: '0.9rem',
+                    '&:hover': {
+                        backgroundColor: 'action.hover'
+                    }
+                }}
+            >
+                <FaceRetouchingNaturalOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                Профиль
             </MenuItem>
             <MenuItem
                 onClick={handleMenuClose}
                 disabled={true}
+                sx={{
+                    py: 1,
+                    fontSize: '0.9rem',
+                    '&.Mui-disabled': {
+                        opacity: 0.5
+                    }
+                }}
             >
-                <TuneOutlinedIcon sx={{mr: '5px'}}/>Настройки
+                <TuneOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                Настройки
             </MenuItem>
-            <Divider variant="middle" component="li"/>
-            <MenuItem onClick={handleLogout}><LogoutOutlinedIcon sx={{mr: '5px'}}/>Выход</MenuItem>
+            <Divider
+                variant="middle"
+                component="li"
+                sx={{ my: 0.5 }}
+            />
+            <MenuItem
+                onClick={handleLogout}
+                sx={{
+                    py: 1,
+                    fontSize: '0.9rem',
+                    color: 'error.main',
+                }}
+            >
+                <LogoutOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                Выход
+            </MenuItem>
         </Menu>
     );
 

@@ -161,16 +161,38 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                             maxHeight: ITEM_HEIGHT * 4.5,
                             width: '19ch',
                         },
+                        sx: {
+                            borderRadius: 2,
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                            mt: 1
+                        }
                     },
                 }}
-                sx={{zIndex: 1300}}
+                sx={{ zIndex: 1300 }}
             >
-                <MenuItem onClick={handleEditClick}>
-                    <EditOutlinedIcon sx={{mr: 1}}/>
+                <MenuItem
+                    onClick={handleEditClick}
+                    sx={{
+                        py: 1,
+                        fontSize: '0.9rem',
+                        '&:hover': {
+                            backgroundColor: 'action.hover'
+                        }
+                    }}
+                >
+                    <EditOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
                     Редактировать
                 </MenuItem>
-                <MenuItem onClick={handleOpenConfirmDialog}>
-                    <DeleteOutlinedIcon sx={{mr: 1}}/>
+                <MenuItem
+                    onClick={handleOpenConfirmDialog}
+                    sx={{
+                        py: 1,
+                        fontSize: '0.9rem',
+                        color: 'error.main',
+
+                    }}
+                >
+                    <DeleteOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
                     Удалить
                 </MenuItem>
             </Menu>
