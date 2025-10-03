@@ -442,7 +442,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         borderRadius: 3,
                         boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
                         p: 3,
-                        maxWidth: 400,
+                        maxWidth: {xs: 348, sm: 548, md: 848},
                         width: "90%",
                         bgcolor: "background.paper",
                     }}
@@ -474,10 +474,10 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         ) : (
                             <CardMedia
                                 component="img"
-                                height="350"
                                 image={largeImageUrl || imageUrl}
                                 alt="Gift image"
                                 sx={{
+                                    height: {xs: 300, sm: 500,  md: 800},
                                     borderRadius: 2,
                                     objectFit: "cover",
                                     boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
