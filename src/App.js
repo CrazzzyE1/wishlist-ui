@@ -22,9 +22,8 @@ import InfoBanner from "./component/InfoBanner";
                 try {
                     let auth = await keycloak.init({
                         onLoad: 'check-sso',
-                        checkLoginIframe: false,
+                        checkLoginIframe: true,
                         pkceMethod: 'S256',
-                        redirectUri: window.location.origin,
                         silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
                     });
 
