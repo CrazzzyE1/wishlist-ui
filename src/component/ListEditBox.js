@@ -169,6 +169,7 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
                     value={value}
                     onChange={handleChange}
                     sx={{mt: 1}}
+                    row
                 >
                     <FormControlLabel
                         value="PUBLIC"
@@ -200,7 +201,7 @@ export default function ListEditBox({onEdit, onCancel, selectedWishlistId}) {
                         onClick={handleSubmit}
                         disabled={isSubmitting || listName.length < 3}
                     >
-                        {isSubmitting ? 'Сохранение...' : 'Сохранить изменения'}
+                        {isSubmitting ? 'Сохранение...' : 'Сохранить'}
                     </Button>
                 </Box>
             </Box>

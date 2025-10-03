@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {CssBaseline} from "@mui/material";
@@ -17,36 +16,33 @@ export default function NotificationsPage() {
         <React.Fragment>
             <CssBaseline/>
             <Container sx={{pt: 2}}>
-                <Box sx={{flexGrow: 1}}>
                     <Grid container spacing={3}>
-                        <Grid size={12}>
+                        <Grid size={{ xs: 12, sm: 12 }}>
                             <Item><TopMenu/></Item>
                         </Grid>
-                        <Grid container spacing={3} size={12}>
-                            <Grid size={1}>
+                        <Grid container spacing={3} size={{xs: 12, sm: 12}}>
+                            <Grid size={{ xs: 12, sm: 1 }}>
                                 <Item>
                                     <MainMenu/></Item>
                             </Grid>
-                            <Grid container spacing={3} size={11}>
-                                <Grid size={12}>
+                            <Grid container spacing={3} size={{ xs: 12, sm: 11 }}>
+                                <Grid size={{ xs: 12, sm: 12 }}>
                                     <Item >
-                                        <Grid size={12}>
+                                        <Grid size={{ xs: 12, sm: 12 }}>
                                             <Item noshadow>
                                                 <NotificationsPageMenu onItemMenu={setItemMenu}/>
                                             </Item>
                                         </Grid>
-                                        <Grid size={12}>
+                                        <Grid size={{ xs: 12, sm: 12 }}>
                                             <Item noshadow>
                                                 <NotificationsContent itemMenu={itemMenu}/>
                                             </Item>
                                         </Grid>
                                     </Item>
                                 </Grid>
-
                             </Grid>
                         </Grid>
                     </Grid>
-                </Box>
             </Container>
         </React.Fragment>
     );

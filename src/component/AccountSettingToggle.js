@@ -141,24 +141,64 @@ export default function AccountSettingToggle({onProfileEdit}) {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
+            PaperProps={{
+                sx: {
+                    borderRadius: 2,
+                    minWidth: 180,
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                    mt: 1
+                }
+            }}
         >
-            <MenuItem onClick={handleProfileClick}>
-                <FaceRetouchingNaturalOutlinedIcon sx={{mr: '5px'}}/> Профиль
+            <MenuItem
+                onClick={handleProfileClick}
+                sx={{
+                    py: 1,
+                    fontSize: '0.9rem',
+                    '&:hover': {
+                        backgroundColor: 'action.hover'
+                    }
+                }}
+            >
+                <FaceRetouchingNaturalOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                Профиль
             </MenuItem>
             <MenuItem
                 onClick={handleMenuClose}
                 disabled={true}
+                sx={{
+                    py: 1,
+                    fontSize: '0.9rem',
+                    '&.Mui-disabled': {
+                        opacity: 0.5
+                    }
+                }}
             >
-                <TuneOutlinedIcon sx={{mr: '5px'}}/>Настройки
+                <TuneOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                Настройки
             </MenuItem>
-            <Divider variant="middle" component="li"/>
-            <MenuItem onClick={handleLogout}><LogoutOutlinedIcon sx={{mr: '5px'}}/>Выход</MenuItem>
+            <Divider
+                variant="middle"
+                component="li"
+                sx={{ my: 0.5 }}
+            />
+            <MenuItem
+                onClick={handleLogout}
+                sx={{
+                    py: 1,
+                    fontSize: '0.9rem',
+                    color: 'error.main',
+                }}
+            >
+                <LogoutOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                Выход
+            </MenuItem>
         </Menu>
     );
 
     return (
         <Box sx={{flexGrow: 1}}>
-            <Box sx={{display: {xs: 'none', md: 'flex', justifyContent: 'flex-end', display: 'flex'}}}>
+            <Box sx={{display: {xs: 'flex', md: 'flex', justifyContent: 'flex-end', display: 'flex'}}}>
                 <IconButton
                     onClick={() => navigate('/notifications')}
                     size="large"
@@ -168,8 +208,8 @@ export default function AccountSettingToggle({onProfileEdit}) {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: 56,
-                        height: 56,
+                        width: {xs: 36, sm: 56},
+                        height: {xs: 36, sm: 56},
                         borderRadius: '50%',
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
@@ -183,7 +223,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
                 >
                     <Badge badgeContent={unreadCount} color="error">
                         <NotificationsActiveOutlinedIcon sx={{
-                            fontSize: 40,
+                            fontSize: {xs: 28, sm: 40},
                             transition: 'color 0.5s ease'
                         }}/>
                     </Badge>
@@ -196,12 +236,19 @@ export default function AccountSettingToggle({onProfileEdit}) {
                     aria-haspopup="true"
                     onClick={handleProfileMenuOpen}
                     color="inherit"
-                    sx={{mr: 1}}
+                    sx={{
+                        width: {xs: 36, sm: 56},
+                        height: {xs: 36, sm: 56},
+                        mr: {xs: 0, sm: 1}
+                    }}
                 >
                     <Avatar
-                        alt="Remy Sharp"
+                        alt="Avatar"
                         src={avatarSrc}
-                        sx={{width: 40, height: 40}}
+                        sx={{
+                            width: {xs: 26, sm: 40},
+                            height: {xs: 26, sm: 40}
+                        }}
                     />
                 </IconButton>
             </Box>

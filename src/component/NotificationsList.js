@@ -86,21 +86,22 @@ export default function NotificationsList({isUnread}) {
     }
 
     return (
-        <Box sx={{flexGrow: 1, p: 3}}>
+        <Box sx={{flexGrow: 1}}>
             {notifications.length === 0 ? (
-                <Typography variant="body1" sx={{mt: 2, textAlign: 'center'}}>
+                <Typography variant="body1" sx={{
+                    mt: 2,
+                    fontSize: {xs: '0.75rem', sm: '1rem'}
+                }}>
                     {isUnread ? 'Все сообщения прочитаны' : 'У вас пока нет сообщений'}
                 </Typography>
             ) : (
                 <Grid container spacing={2}>
                     {notifications.map((notification) => (
-                        <Grid size={12} key={notification.id}>
                             <NotificationCard
                                 notification={notification}
                                 onMarkAsRead={handleMarkAsRead}
                                 isLoading={markAsReadLoading}
                             />
-                        </Grid>
                     ))}
                 </Grid>
             )}

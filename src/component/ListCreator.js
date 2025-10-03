@@ -55,8 +55,8 @@ export default function ListCreator({onListCreated}) {
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    width: 42,
-                    height: 42,
+                    width: { xs: 32, sm: 42},
+                    height: { xs: 32, sm: 42},
                     borderRadius: '50%',
                     '&:hover': {
                         '& .MuiSvgIcon-root': {
@@ -68,7 +68,7 @@ export default function ListCreator({onListCreated}) {
                     }
                 }}>
                 <PostAddIcon sx={{
-                    fontSize: 32,
+                    fontSize: { xs: 24, sm: 32},
                     transition: 'color 0.5s ease'
                 }}/>
             </IconButton>

@@ -80,11 +80,13 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
     };
 
     return (
-        <>
+        <Grid
+            size={{ xs: 12, sm: 6 }}
+            key={favourite.id}
+        >
             <Card
                 sx={{
-                    minWidth: 275,
-                    mb: 2,
+                    padding: 0,
                     borderRadius: 2,
                     cursor: 'pointer',
                     '&:hover': {
@@ -95,31 +97,37 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
             >
                 <CardContent sx={{
                     width: '100%',
-                    p: 3
+                    padding: {xs: 1, sm: 2}
                 }}>
                     <Box sx={{
                         display: 'flex',
                         alignItems: 'center',
-                        mb: 2,
-                        width: '100%'
+                        width: '100%',
+                        padding: 0
                     }}>
                         <Avatar
                             src={avatarSrc}
                             sx={{
-                                bgcolor: deepPurple[500],
-                                width: 56,
-                                height: 56,
+                                width: {xs: 40, sm: 56},
+                                height: {xs: 40, sm: 56},
                                 mr: 2
                             }}>
                         </Avatar>
                         <Box sx={{
                             flexGrow: 1,
-                            minWidth: 0
+                            minWidth: 0,
+                            padding: 0
                         }}>
-                            <Typography noWrap variant="h6" component="div">
+                            <Typography noWrap variant="h6" component="div"
+                                        sx={{
+                                            fontSize: {xs: '0.75rem', sm: '1rem'},
+                                        }}>
                                 {favourite.fullName}
                             </Typography>
-                            <Typography noWrap variant="body2" color="text.secondary">
+                            <Typography noWrap variant="body2" color="text.secondary"
+                                        sx={{
+                                            fontSize: {xs: '0.6rem', sm: '0.8rem'},
+                                        }}>
                                 {favourite.status}
                             </Typography>
                         </Box>
@@ -127,49 +135,76 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                             aria-label="delete"
                             onClick={handleClickOpen}
                             color="gray"
-                            sx={{ml: 1}}
+                            sx={{
+                                ml: 1,
+                                padding: 0
+                            }}
                             disabled={isDeleting}
                         >
-                            <TurnedInOutlinedIcon sx={{fontSize: '36px'}}/>
+                            <TurnedInOutlinedIcon sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
                         </IconButton>
                     </Box>
-                    <Divider sx={{my: 2}}/>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={1}
+                          sx={{
+                              padding: 0
+                          }}
+                    >
                         <Grid item xs={12} sm={6} md={3}>
                             {!favourite.isPublic ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Дата рождения:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Дата рождения:</strong> {new Date(favourite.birthDate).toLocaleDateString()}
                                 </Typography>
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             {!favourite.isPublic ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Друзей:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Друзей:</strong> {favourite.friendsCount}
                                 </Typography>
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
                             {!favourite.isPublic ? (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Избранное:</strong> скрыто
                                 </Typography>
                             ) : (
-                                <Typography variant="body2">
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
                                     <strong>Избранное:</strong> {favourite.favouritesCount}
                                 </Typography>
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6} md={3}>
-                            <Typography variant="body2">
+                            <Typography variant="body2"
+                                        sx={{
+                                            fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                        }}>
                                 <strong>Приватность:</strong> {favourite.privacyLevel}
                             </Typography>
                         </Grid>
@@ -182,12 +217,38 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 onClick={(e) => e.stopPropagation()}
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        textAlign: 'center',
+                        p: 2,
+                        minWidth: 300
+                    }
+                }}
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" sx={{
+                    textAlign: 'center',
+                    fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                    pb: 2
+                }}>
                     {`Вы уверены, что хотите удалить ${favourite.fullName} из подписок?`}
                 </DialogTitle>
-                <DialogActions>
-                    <Button onClick={handleClose} disabled={isDeleting}>
+                <DialogActions sx={{
+                    justifyContent: 'center',
+                    gap: 2,
+                    pt: 1
+                }}>
+                    <Button
+                        onClick={handleClose}
+                        disabled={isDeleting}
+                        variant="outlined"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                            minWidth: 120
+                        }}
+                    >
                         Отмена
                     </Button>
                     <Button
@@ -195,11 +256,22 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                         color="error"
                         autoFocus
                         disabled={isDeleting}
+                        variant="contained"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                            minWidth: 120,
+                            backgroundColor: 'error.main',
+                            '&:hover': {
+                                backgroundColor: 'error.dark'
+                            }
+                        }}
                     >
                         {isDeleting ? 'Удаление...' : 'Удалить'}
                     </Button>
                 </DialogActions>
             </Dialog>
-        </>
+        </Grid>
     );
 }

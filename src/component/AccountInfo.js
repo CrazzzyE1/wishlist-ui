@@ -5,8 +5,7 @@ import {httpClient} from "../http/HttpClient";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import EventsInfoList from "./EventsInfoList";
-import {Typography} from "@mui/material";
-import Item from "./StyledItem";
+import {Typography, useMediaQuery, useTheme} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
@@ -30,6 +29,9 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     const [hasOutcomeFriendsRequest, setHasOutcomeFriendsRequest] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         const fetchGiftCount = async () => {
@@ -227,7 +229,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         );
     }
 
-
     const buttons = () => {
         if (userData.isOwner) {
             return;
@@ -235,36 +236,35 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
         if (isFriend) {
             return (
-                <Item noshadow>
-                    <IconButton
-                        onClick={handleClickRemoveFriend}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 48,
-                            height: 48,
-                            borderRadius: '50%',
-                            mr: 0,
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: red[500]
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                <IconButton
+                    onClick={handleClickRemoveFriend}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: isMobile ? 40 : 48,
+                        height: isMobile ? 40 : 48,
+                        borderRadius: '50%',
+                        mr: 0,
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: red[500]
                             }
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                        }
+                    }}
+                >
+                    <PersonRemoveOutlinedIcon
+                        sx={{
+                            fontSize: isMobile ? 32 : 40,
+                            transition: 'color 0.5s ease',
+                            color: 'inherit'
                         }}
-                    >
-                        <PersonRemoveOutlinedIcon
-                            sx={{
-                                fontSize: 40,
-                                transition: 'color 0.5s ease',
-                                color: 'inherit'
-                            }}
-                        />
-                    </IconButton>
-                </Item>)
+                    />
+                </IconButton>
+            )
         }
 
         if (isPrivate) {
@@ -273,277 +273,293 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
         if (hasOutcomeFriendsRequest) {
             return (
-                <Item noshadow>
-                    <IconButton
-                        onClick={handleCancelFriendRequest}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 48,
-                            height: 48,
-                            borderRadius: '50%',
-                            mr: 0,
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: red[500]
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                            }
-                        }}
-                    > <CancelOutlinedIcon
-                        sx={{
-                            fontSize: 40,
-                            transition: 'color 0.5s ease',
-                            color: 'inherit'
-                        }}
-                    />
-
-                    </IconButton>
-                </Item>)
-        }
-
-        if (hasIncomeFriendsRequest) {
-            return (
-                <Item noshadow>
-                    <IconButton
-                        onClick={handleAcceptFriendRequest}
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 48,
-                            height: 48,
-                            borderRadius: '50%',
-                            mr: 0,
-                            '&:hover': {
-                                '& .MuiSvgIcon-root': {
-                                    color: green[500]
-                                }
-                            },
-                            '&:active': {
-                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                            }
-                        }}
-                    > <AddTaskOutlinedIcon
-                        sx={{
-                            fontSize: 40,
-                            transition: 'color 0.5s ease',
-                            color: 'inherit'
-                        }}
-                    />
-
-                    </IconButton>
-                </Item>)
-        }
-
-        return (
-            <Item noshadow>
                 <IconButton
-                    onClick={handleClickAddFriend}
+                    onClick={handleCancelFriendRequest}
                     sx={{
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: 48,
-                        height: 48,
+                        width: isMobile ? 40 : 48,
+                        height: isMobile ? 40 : 48,
                         borderRadius: '50%',
                         mr: 0,
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
-                                color: !isFriend && 'PRIVATE' !== userData.privacyLevel
-                                    ? green[500]
-                                    : red[500]
+                                color: red[500]
                             }
                         },
                         '&:active': {
                             boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                         }
                     }}
-                >
-                    {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
-                        <PersonAddAltOutlinedIcon
-                            sx={{
-                                fontSize: 40,
-                                transition: 'color 0.5s ease',
-                                color: 'inherit'
-                            }}
-                        />
-                    ) : (
-                        <PersonRemoveOutlinedIcon
-                            sx={{
-                                fontSize: 40,
-                                transition: 'color 0.5s ease',
-                                color: 'inherit'
-                            }}
-                        />
-                    )}
+                > <CancelOutlinedIcon
+                    sx={{
+                        fontSize: isMobile ? 32 : 40,
+                        transition: 'color 0.5s ease',
+                        color: 'inherit'
+                    }}
+                />
+
                 </IconButton>
-            </Item>)
+            )
+        }
+
+        if (hasIncomeFriendsRequest) {
+            return (
+                <IconButton
+                    onClick={handleAcceptFriendRequest}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: isMobile ? 40 : 48,
+                        height: isMobile ? 40 : 48,
+                        borderRadius: '50%',
+                        mr: 0,
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: green[500]
+                            }
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                        }
+                    }}
+                > <AddTaskOutlinedIcon
+                    sx={{
+                        fontSize: isMobile ? 32 : 40,
+                        transition: 'color 0.5s ease',
+                        color: 'inherit'
+                    }}
+                />
+
+                </IconButton>
+            )
+        }
+
+        return (
+            <IconButton
+                onClick={handleClickAddFriend}
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: isMobile ? 40 : 48,
+                    height: isMobile ? 40 : 48,
+                    borderRadius: '50%',
+                    mr: 0,
+                    '&:hover': {
+                        '& .MuiSvgIcon-root': {
+                            color: !isFriend && 'PRIVATE' !== userData.privacyLevel
+                                ? green[500]
+                                : red[500]
+                        }
+                    },
+                    '&:active': {
+                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                    }
+                }}
+            >
+                {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
+                    <PersonAddAltOutlinedIcon
+                        sx={{
+                            fontSize: isMobile ? 32 : 40,
+                            transition: 'color 0.5s ease',
+                            color: 'inherit'
+                        }}
+                    />
+                ) : (
+                    <PersonRemoveOutlinedIcon
+                        sx={{
+                            fontSize: isMobile ? 32 : 40,
+                            transition: 'color 0.5s ease',
+                            color: 'inherit'
+                        }}
+                    />
+                )}
+            </IconButton>
+        )
     }
 
     return (
-        <Box sx={{flexGrow: 1, pl: 0}}>
-            <Grid container spacing={1}>
-                <Grid size={3}>
-                    <ProfileAvatar userId={userId}/>
+        <Grid container spacing={{xs: 1, sm: 2}}>
+            <Grid size={{xs: 3, sm: 2}}>
+                <ProfileAvatar userId={userId}/>
+            </Grid>
+            <Grid container spacing={{xs: 1, sm: 2}} size={{xs: 9, sm: 10}}>
+                <Grid container size={{xs: 8, sm: 10}}>
+                    <Typography
+                        variant="h6"
+                        sx={{
+                            fontSize: {xs: '0.9rem', sm: '1.7rem'},
+                            color: 'text.secondary',
+                            fontWeight: 'bold'
+                        }}>
+                        {userData.fullName}
+                    </Typography>
+                    {userData.isOwner && (
+                        <Typography
+                            variant="body2"
+                            sx={{
+                                fontSize: {xs: '0.5rem', sm: '0.75rem'},
+                                color: green[500],
+                                mt: 0.5
+                            }}>
+                            это Вы
+                        </Typography>
+                    )}
                 </Grid>
-                <Grid size={9}>
-                    <Grid container spacing={2}>
-                        <Grid size={5} container justifyContent="flex-start" sx={{paddingLeft: '22px'}}>
-                            <Typography
-                                variant="body1"
+                <Grid size={{xs: 4, sm: 2}}>
+                    <Box sx={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        gap: isMobile ? 0 : 1,
+                        mt: 0
+                    }}>
+                        {buttons()}
+                        {(!isOwner && !isFriend && userData.isPublic) && (
+                            <IconButton
+                                onClick={handleClickBookmark}
                                 sx={{
-                                    fontSize: '2rem',
-                                    color: 'text.secondary',
-                                    textAlign: 'left',
-                                    pl: '0px'
-                                }}>
-                                {userData.fullName}
-                            </Typography>
-                            <Typography
-                                variant="body1"
-                                sx={{
-                                    fontSize: '0.75rem',
-                                    color: green[500],
-                                    textAlign: 'left',
-                                    pl: '0px'
-                                }}>
-                                {userData.isOwner ? ('это Вы') : null}
-                            </Typography>
-                        </Grid>
-                        <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
-                            {isOwner || !isPrivate ? (
-                                <Item noshadow>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{
-                                            fontSize: '16px',
-                                            color: 'text.secondary',
-                                            textAlign: 'left',
-                                            pl: '0px'
-                                        }}>
-                                        Статус:
-                                    </Typography>
-                                    <Typography
-                                        variant="body1"
-                                        sx={{
-                                            fontSize: '12px',
-                                            color: 'text.secondary',
-                                            textAlign: 'left',
-                                            pl: '0px'
-                                        }}>
-                                        {userData.status}
-                                    </Typography>
-                                </Item>
-
-                            ) : null}
-                        </Grid>
-                        <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '0px'}}>
-                            <Item noshadow>
-                                <Typography
-                                    variant="body1"
-                                    sx={{
-                                        fontSize: '16px',
-                                        color: 'text.secondary',
-                                        textAlign: 'left',
-                                        pl: '0px'
-                                    }}>
-                                    Приватность:
-                                </Typography>
-                                <Typography
-                                    variant="body1"
-                                    sx={{
-                                        fontSize: '12px',
-                                        color: 'text.secondary',
-                                        textAlign: 'left',
-                                        pl: '0px'
-                                    }}>
-                                    {userData.privacyLevel}
-                                </Typography>
-                            </Item>
-                        </Grid>
-                        <Grid size={3} container justifyContent="flex-end" spacing={0}>
-                            {buttons()}
-                            {(!isOwner && !isFriend && userData.isPublic) && (
-                                <Item noshadow>
-                                    <IconButton
-                                        onClick={handleClickBookmark}
-                                        sx={{
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            width: 48,
-                                            height: 48,
-                                            borderRadius: '50%',
-                                            mr: 0,
-                                            '&:hover': {
-                                                '& .MuiSvgIcon-root': {
-                                                    color: '#FFD700'
-                                                }
-                                            },
-                                            '&:active': {
-                                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                            }
-                                        }}>
-                                        {isFavourites ?
-                                            <TurnedInOutlinedIcon sx={{
-                                                color: yellow[500],
-                                                fontSize: 40,
-                                                transition: 'color 0.5s ease'
-                                            }}/>
-                                            :
-                                            <BookmarkBorderIcon sx={{
-                                                fontSize: 40,
-                                                transition: 'color 0.5s ease'
-                                            }}/>
-                                        }
-                                    </IconButton>
-                                </Item>
-                            )}
-                        </Grid>
-                        <Grid size={3} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
-                            {isOwner || !isPrivate ? (
-                                <Box sx={{
                                     display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'flex-start'
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: isMobile ? 40 : 48,
+                                    height: isMobile ? 40 : 48,
+                                    borderRadius: '50%',
+                                    '&:hover': {
+                                        '& .MuiSvgIcon-root': {
+                                            color: '#FFD700'
+                                        }
+                                    },
+                                    '&:active': {
+                                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                    }
                                 }}>
-                                    <Typography variant="body1"><b>День Рождения:</b></Typography>
-                                    <Typography variant="body2" color="text.info">
+                                {isFavourites ?
+                                    <TurnedInOutlinedIcon sx={{
+                                        color: yellow[500],
+                                        fontSize: isMobile ? 32 : 40,
+                                        transition: 'color 0.5s ease'
+                                    }}/>
+                                    :
+                                    <BookmarkBorderIcon sx={{
+                                        fontSize: isMobile ? 32 : 40,
+                                        transition: 'color 0.5s ease'
+                                    }}/>
+                                }
+                            </IconButton>
+                        )}
+                    </Box>
+                </Grid>
+                {isOwner || !isPrivate ? (
+                        <Grid size={{xs: 6, sm: 3}}>
+                            <>
+                                <Typography sx={{
+                                    fontSize: {xs: '12px', sm: '16px'},
+                                    color: 'text.secondary',
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
+                                    fontWeight: 'bold'
+                                }}>
+                                    Статус:
+                                </Typography>
+                                <Typography sx={{
+                                    fontSize: {xs: '10px', sm: '14px'},
+                                    color: 'text.secondary',
+                                    justifyContent: 'flex-start',
+                                    textAlign: 'left',
+                                    mt: 0.5
+                                }}>
+                                    {userData.status === 'WAITING' ? 'Жду подарки' :
+                                        userData.status === 'NO_WAITING' ? 'Просто списки' : 'Не указан'}
+                                </Typography>
+                            </>
+                        </Grid>
+                    ) :
+                    null
+                }
+                <Grid size={{xs: isOwner || !isPrivate ? 6 : 12, sm: isOwner || !isPrivate ? 3 : 12}}>
+                    <Typography
+                        sx={{
+                            fontSize: {xs: '12px', sm: '16px'},
+                            color: 'text.secondary',
+                            justifyContent: 'flex-start',
+                            textAlign: 'left',
+                            fontWeight: 'bold'
+                        }}>
+                        Приватность:
+                    </Typography>
+                    <Typography sx={{
+                        fontSize: {xs: '10px', sm: '14px'},
+                        color: 'text.secondary',
+                        mt: 0.5,
+                        justifyContent: 'flex-start',
+                        textAlign: 'left',
+                    }}>
+                        {userData.privacyLevel === 'PRIVATE' ? 'Приватный' :
+                            userData.privacyLevel === 'PUBLIC' ? 'Публичный' : 'Только друзья'}
+                    </Typography>
+                </Grid>
+                {isOwner || !isPrivate ?
+                    (<>
+                            <Grid size={{xs: 6, sm: 6}}>
+                                <>
+                                    <Typography fontWeight="bold" sx={{
+                                        fontSize: {xs: '12px', sm: '16px'},
+                                        color: 'text.secondary',
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        Пол:
+                                    </Typography>
+                                    <Typography color="text.info" sx={{
+                                        fontSize: {xs: '10px', sm: '14px'},
+                                        color: 'text.secondary',
+                                        mt: 0.5,
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        {userData.gender === 'MALE' ? 'Мужской' :
+                                            userData.gender === 'FEMALE' ? 'Женский' :
+                                                'Не указан'}
+                                    </Typography>
+                                </>
+                            </Grid>
+                            <Grid size={{xs: 6, sm: 3}}>
+                                <>
+                                    <Typography variant="body2" fontWeight="bold" sx={{
+                                        fontSize: {xs: '12px', sm: '16px'},
+                                        color: 'text.secondary',
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
+                                        День Рождения:
+                                    </Typography>
+                                    <Typography color="text.info" sx={{
+                                        fontSize: {xs: '10px', sm: '14px'},
+                                        color: 'text.secondary',
+                                        mt: 0.5,
+                                        justifyContent: 'flex-start',
+                                        textAlign: 'left',
+                                    }}>
                                         {formatBirthDate(userData.birthDate)}
                                     </Typography>
-                                </Box>) : null}
-                        </Grid>
-                        <Grid size={2} container justifyContent="flex-start" sx={{paddingLeft: '22px'}} spacing={0}>
-                            {isOwner || !isPrivate ? (
-                                <Box sx={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'flex-start'
-                                }}>
-                                    <Typography variant="body1"><b>Пол:</b></Typography>
-                                    <Typography variant="body2" color="text.info">
-                                        {userData.gender ? userData.gender : 'Не указан'}
-                                    </Typography>
-                                </Box>) : null}
-                        </Grid>
-                        <Grid size={7} container justifyContent="flex-start">
-                            {isOwner || !isPrivate ? (
-                                <Counters userData={userData} giftsCount={giftsCount}/>
-                            ) : null}
-                        </Grid>
-                        <Grid size={12} container justifyContent="flex-start">
-                            {isOwner || !isPrivate ? (
+                                </>
+                            </Grid>
+                            <Grid size={{xs: 12, sm: 9}}>
+                                {(isOwner || !isPrivate) && (
+                                    <Counters userData={userData} giftsCount={giftsCount}/>
+                                )}
+                            </Grid>
+                            <Grid size={{xs: 12, sm: 12}}>
                                 <EventsInfoList events={events}/>
-                            ) : null}
-                        </Grid>
-                    </Grid>
-                </Grid>
+                            </Grid></>
+                    )
+                    : null
+                }
             </Grid>
-        </Box>
+        </Grid>
     );
 }
 

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {useEffect, useState} from 'react';
-import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {CssBaseline} from "@mui/material";
@@ -72,74 +71,73 @@ export default function ProfilePage({userId}) {
     return (
         <React.Fragment>
             <CssBaseline/>
-            <Container sx={{pt: 2}}>
-                <Box sx={{flexGrow: 1}}>
-                    <Grid container spacing={3}>
-                        <Grid size={12}>
-                            <Item><TopMenu
-                                onProfileEdit={onProfileEdit}
-                            /></Item>
+            <Container sx={{pt: 2, pb: 2}}>
+                <Grid container spacing={3}>
+                    <Grid size={{xs: 12, sm: 12}}>
+                        <Item>
+                            <TopMenu onProfileEdit={onProfileEdit}
+                            />
+                        </Item>
+                    </Grid>
+                    <Grid container spacing={3} size={{xs: 12, sm: 12}}>
+                        <Grid size={{xs: 12, sm: 1}}>
+                            <Item>
+                                <MainMenu
+                                    isOwner={isOwner}
+                                    onListCreated={onListCreated}
+                                    onGiftCreated={onGiftCreated}
+                                    lists={lists}
+                                />
+                            </Item>
                         </Grid>
-                        <Grid container spacing={3} size={12}>
-                            <Grid size={1}>
+                        <Grid container spacing={3} size={{xs: 12, sm: 11}}>
+                            <Grid size={{xs: 12, sm: 12}}>
                                 <Item>
-                                    <MainMenu
-                                        isOwner={isOwner}
-                                        onListCreated={onListCreated}
-                                        onGiftCreated={onGiftCreated}
-                                        lists={lists}
+                                    <AccountInfo
+                                        refreshCounterKey={refreshCounterKey}
+                                        profileRefreshKey={profileRefreshKey}
+                                        userId={userId}
+                                        events={lists}
+                                        onIsOwner={setIsOwner}
+                                        onPrivacyLevel={setPrivacyLevel}
+                                        onIsFriend={setIsFriend}
                                     />
                                 </Item>
                             </Grid>
-                            <Grid container spacing={3} size={11}>
-                                <Grid size={12}>
-                                    <Item>
-                                        <AccountInfo
-                                            refreshCounterKey={refreshCounterKey}
-                                            profileRefreshKey={profileRefreshKey}
-                                            userId={userId}
-                                            events={lists}
-                                            onIsOwner={setIsOwner}
-                                            onPrivacyLevel={setPrivacyLevel}
-                                            onIsFriend={setIsFriend}
-                                        />
-                                    </Item>
-                                </Grid>
-                                {isOwner || privacyLevel === 'PUBLIC' || (privacyLevel === 'FRIENDS_ONLY' && isFriend) ?
-                                    (<>
-                                        <Grid size={12}>
-                                            <Item>
-                                                <WishLists
-                                                    userId={userId}
-                                                    onListGetting={onListGetting}
-                                                    onWishlistSelect={setSelectedWishlistId}
-                                                    refreshKey={refreshKey}
-                                                    selectedWishlistId={selectedWishlistId}
-                                                />
-                                            </Item>
-                                        </Grid>
-                                        <Grid size={12}>
-                                            <Item>
-                                                <WishListContent selectedWishlistId={selectedWishlistId}
-                                                                 isOwner={isOwner}
-                                                                 editRefreshKey={editRefreshKey}
-                                                                 onListDeleted={onListDeleted}
-                                                                 onGiftDeleted={onGiftDeleted}
-                                                                 onGiftEdit={onGiftEdit}
-                                                                 onListEdit={onListEdit}
-                                                                 lists={lists}
-                                                                 userId={userId}
-                                                />
-                                            </Item>
-                                        </Grid>
-                                    </>)
-                                    :
-                                    null
-                                }
-                            </Grid>
+                            {isOwner || privacyLevel === 'PUBLIC' || (privacyLevel === 'FRIENDS_ONLY' && isFriend) ?
+                                (<>
+                                    <Grid size={{xs: 12, sm: 12}}>
+                                        <Item>
+                                            <WishLists
+                                                userId={userId}
+                                                onListGetting={onListGetting}
+                                                onWishlistSelect={setSelectedWishlistId}
+                                                refreshKey={refreshKey}
+                                                selectedWishlistId={selectedWishlistId}
+                                            />
+                                        </Item>
+                                    </Grid>
+                                    <Grid size={{xs: 12, sm: 12}}>
+                                        <Item>
+                                            <WishListContent selectedWishlistId={selectedWishlistId}
+                                                             isOwner={isOwner}
+                                                             editRefreshKey={editRefreshKey}
+                                                             onListDeleted={onListDeleted}
+                                                             onGiftDeleted={onGiftDeleted}
+                                                             onGiftEdit={onGiftEdit}
+                                                             onListEdit={onListEdit}
+                                                             lists={lists}
+                                                             userId={userId}
+                                            />
+                                        </Item>
+                                    </Grid>
+                                </>)
+                                :
+                                null
+                            }
                         </Grid>
                     </Grid>
-                </Box>
+                </Grid>
             </Container>
         </React.Fragment>
     );

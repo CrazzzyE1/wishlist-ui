@@ -196,8 +196,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
         <>
             <Card
                 sx={{
-                    maxWidth: 191,
-                    minWidth: 191,
+                    maxWidth: {xs: 136, sm: 191},
                     borderRadius: 4,
                     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                     overflow: "hidden",
@@ -211,14 +210,16 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
 
                 <Box sx={{position: "relative"}}>
                     {imageLoading ? (
-                            <Skeleton variant="rectangular" width="100%">
-                                <div style={{paddingTop: '100%'}}/>
-                            </Skeleton>
-
+                            <Skeleton
+                                variant="rectangular"
+                                sx={{
+                                    width: {xs: 136, sm: 191},
+                                    height: {xs: 136, sm: 191},
+                                }}
+                            />
                         ) :
                         <CardMedia
                             component="img"
-                            height="180"
                             image={imageUrl}
                             alt="Gift image"
                             onClick={handleOpenModal}
@@ -236,14 +237,14 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                 </Box>
 
                 <CardHeader
-                    sx={{p: 1.5}}
+                    sx={{pl: 1.5, pt: 1, pb: 1}}
                     title={
                         <Tooltip title={data.name} placement="top-start" arrow>
                             <Typography
                                 variant="subtitle1"
                                 sx={{
                                     fontWeight: 600,
-                                    fontSize: "1rem",
+                                    fontSize: {xs: '0.75rem', sm: '1rem'},
                                     textAlign: "left",
                                     lineHeight: 1.3,
                                     display: "-webkit-box",
@@ -260,7 +261,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     }
                 />
 
-                <CardContent sx={{p: 1.5, pt: 0}}>
+                <CardContent sx={{pl: 1.5, pt: 0, pb: 0}}>
                     {data.price.amount ? (
                         <Tooltip
                             title={`${data.price.amount} ${data.price.currency}`}
@@ -273,6 +274,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     color: "text.secondary",
                                     textAlign: "left",
                                     fontWeight: 500,
+                                    fontSize: {xs: '0.6rem', sm: '0.8rem'},
                                 }}
                             >
                                 Цена: {data.price.amount} {data.price.currency}
@@ -286,6 +288,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     color: "text.disabled",
                                     textAlign: "left",
                                     fontStyle: "italic",
+                                    fontSize: {xs: '0.55rem', sm: '0.8rem'},
                                 }}
                             >
                                 Цена не указана
@@ -297,7 +300,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                 <CardActions
                     disableSpacing
                     sx={{
-                        px: 1.5,
+                        px: 1,
                         pb: 1.5,
                         display: "flex",
                         justifyContent: "space-between",
@@ -309,15 +312,20 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     onClick={handleUnlike}
                                     aria-label="like"
                                     sx={{
-                                        width: 38,
-                                        height: 38,
+                                        width: {xs: 24, sm: 40},
+                                        height: {xs: 24, sm: 40},
                                         color: "error.main",
                                         "&:hover .MuiSvgIcon-root": {
                                             color: "error.main",
                                         },
                                     }}
                                 >
-                                    <FavoriteOutlinedIcon/>
+                                    <FavoriteOutlinedIcon
+                                        sx={{
+                                            width: {xs: 20, sm: 24},
+                                            height: {xs: 20, sm: 24},
+                                        }}
+                                    />
                                 </IconButton>
                             ) :
                             (
@@ -325,17 +333,22 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                     onClick={handleLike}
                                     aria-label="like"
                                     sx={{
-                                        width: 38,
-                                        height: 38,
+                                        width: {xs: 24, sm: 40},
+                                        height: {xs: 24, sm: 40},
                                         "&:hover .MuiSvgIcon-root": {
                                             color: "error.main",
                                         },
                                     }}
                                 >
-                                    <FavoriteBorderOutlinedIcon/>
+                                    <FavoriteBorderOutlinedIcon
+                                        sx={{
+                                            width: {xs: 20, sm: 24},
+                                            height: {xs: 20, sm: 24},
+                                        }}
+                                    />
                                 </IconButton>
                             )}
-                        {likesCount ? likesCount : null}
+                        {likesCount ? likesCount : ""}
                         <IconButton
                             aria-label="link"
                             onClick={() => {
@@ -345,14 +358,19 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                             }}
                             disabled={!data.link}
                             sx={{
-                                width: 38,
-                                height: 38,
+                                width: {xs: 24, sm: 40},
+                                height: {xs: 24, sm: 40},
                                 "&:hover .MuiSvgIcon-root": {
                                     color: data.link ? "primary.main" : "inherit",
                                 },
                             }}
                         >
-                            <InsertLinkOutlinedIcon/>
+                            <InsertLinkOutlinedIcon
+                                sx={{
+                                    width: {xs: 20, sm: 24},
+                                    height: {xs: 20, sm: 24},
+                                }}
+                            />
                         </IconButton>
 
                         {!isOwner && (
@@ -360,14 +378,19 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 aria-label="clone"
                                 onClick={handleOpenConfirmModal}
                                 sx={{
-                                    width: 38,
-                                    height: 38,
+                                    width: {xs: 24, sm: 40},
+                                    height: {xs: 24, sm: 40},
                                     "&:hover .MuiSvgIcon-root": {
                                         color: "success.main",
                                     },
                                 }}
                             >
-                                <AddToPhotosOutlinedIcon/>
+                                <AddToPhotosOutlinedIcon
+                                    sx={{
+                                        width: {xs: 20, sm: 24},
+                                        height: {xs: 20, sm: 24},
+                                    }}
+                                />
                             </IconButton>
                         )}
                     </Box>
@@ -392,12 +415,10 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
 
                 <Collapse in={expanded} timeout="auto" unmountOnExit>
                     <CardContent sx={{px: 2, pb: 2}}>
-                        <Typography variant="subtitle2" sx={{mb: 1, fontWeight: 600}}>
-                            Описание
-                        </Typography>
                         <Typography
                             variant="body2"
                             sx={{
+                                fontSize: {xs: '0.6rem', sm: '0.8rem'},
                                 color: "text.secondary",
                                 textAlign: "left",
                                 whiteSpace: "pre-line",
@@ -421,7 +442,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         borderRadius: 3,
                         boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
                         p: 3,
-                        maxWidth: 400,
+                        maxWidth: {xs: 348, sm: 548, md: 848},
                         width: "90%",
                         bgcolor: "background.paper",
                     }}
@@ -453,10 +474,10 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         ) : (
                             <CardMedia
                                 component="img"
-                                height="350"
                                 image={largeImageUrl || imageUrl}
                                 alt="Gift image"
                                 sx={{
+                                    height: {xs: 300, sm: 500,  md: 800},
                                     borderRadius: 2,
                                     objectFit: "cover",
                                     boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
@@ -491,7 +512,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 onMouseLeave={(e) => (e.currentTarget.style.color = "black")}
                             >
                                 <InsertLinkOutlinedIcon sx={{fontSize: "1.8rem"}}/>
-                                Ссылка на подарок
+                                Открыть ссылку
                             </a>
                         </Box>
                     )}

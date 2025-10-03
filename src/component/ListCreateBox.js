@@ -126,6 +126,7 @@ export default function ListCreateBox({onCreate, onCancel}) {
                     value={value}
                     onChange={handleChange}
                     sx={{mt: 1}}
+                    row
                 >
                     <FormControlLabel
                         value="PUBLIC"

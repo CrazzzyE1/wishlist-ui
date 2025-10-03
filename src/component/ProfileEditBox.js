@@ -240,6 +240,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
                     value={gender}
                     onChange={handleGenderChange}
                     sx={{mt: 1}}
+                    row
                 >
                     <FormControlLabel
                         value="MALE"
@@ -262,6 +263,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
                     value={privacyLevel}
                     onChange={handleChange}
                     sx={{mt: 1}}
+                    row
                 >
                     <FormControlLabel
                         value="PUBLIC"
@@ -297,7 +299,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
                         onClick={handleSubmit}
                         disabled={isSubmitDisabled}
                     >
-                        {isSubmitting ? 'Сохранение...' : 'Сохранить изменения'}
+                        {isSubmitting ? 'Сохранение...' : 'Сохранить'}
                     </Button>
                 </Box>
             </Box>

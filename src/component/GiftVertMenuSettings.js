@@ -45,8 +45,6 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [error, setError] = useState(null);
 
     const handleCloseModal = () => setOpenModal(false);
 
@@ -56,7 +54,6 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
     };
 
     const handleEditGift = async (giftData) => {
-        setError(null);
         try {
             const giftResponse = await httpClient.patch(`/gifts/${giftData.id}`, {
                 name: giftData.name,
@@ -89,9 +86,6 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
             handleClose();
         } catch (err) {
             console.error('Ошибка создания подарка:', err);
-            setError(err.response?.data?.message || 'Произошла ошибка при редактировании подарка');
-        } finally {
-            setIsSubmitting(false);
         }
     };
 
@@ -138,6 +132,8 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                 aria-haspopup="true"
                 onClick={handleClick}
                 sx={{
+                    width: {xs: 24, sm: 40},
+                    height: {xs: 24, sm: 40},
                     '&:hover': {
                         '& .MuiSvgIcon-root': {
                             color: '#000000'
@@ -147,6 +143,8 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
             >
                 <MoreVertIcon
                     sx={{
+                        width: {xs: 20, sm: 24},
+                        height: {xs: 20, sm: 24},
                         transition: 'color 0.5s ease'
                     }}
                 />
@@ -163,16 +161,38 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                             maxHeight: ITEM_HEIGHT * 4.5,
                             width: '19ch',
                         },
+                        sx: {
+                            borderRadius: 2,
+                            boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+                            mt: 1
+                        }
                     },
                 }}
-                sx={{zIndex: 1300}}
+                sx={{ zIndex: 1300 }}
             >
-                <MenuItem onClick={handleEditClick}>
-                    <EditOutlinedIcon sx={{mr: 1}}/>
+                <MenuItem
+                    onClick={handleEditClick}
+                    sx={{
+                        py: 1,
+                        fontSize: '0.9rem',
+                        '&:hover': {
+                            backgroundColor: 'action.hover'
+                        }
+                    }}
+                >
+                    <EditOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
                     Редактировать
                 </MenuItem>
-                <MenuItem onClick={handleOpenConfirmDialog}>
-                    <DeleteOutlinedIcon sx={{mr: 1}}/>
+                <MenuItem
+                    onClick={handleOpenConfirmDialog}
+                    sx={{
+                        py: 1,
+                        fontSize: '0.9rem',
+                        color: 'error.main',
+
+                    }}
+                >
+                    <DeleteOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
                     Удалить
                 </MenuItem>
             </Menu>
@@ -182,27 +202,62 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                 onClose={handleCloseConfirmDialog}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        textAlign: 'center',
+                        p: 2,
+                        minWidth: 300
+                    }
+                }}
             >
-                <DialogTitle id="alert-dialog-title">
+                <DialogTitle id="alert-dialog-title" sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: 1,
+                    fontSize: {xs: '0.875rem', sm: '1.25rem'},
+                    fontWeight: 600,
+                    pb: 2
+                }}>
                     <HelpOutlineOutlinedIcon
                         sx={{
-                            fontSize: 40,
-                            color: red[500]
+                            fontSize: {xs: 24, sm: 40},
+                            color: 'error.main'
                         }}
-                    /> Подтверждение удаления
+                    />
+                    Подтверждение удаления
                 </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
+                <DialogContent sx={{ textAlign: 'center' }}>
+                    <DialogContentText id="alert-dialog-description"
+                                       sx={{
+                                           mb: 1,
+                                           fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                                       }}>
                         Вы уверены, что хотите удалить этот подарок?
                     </DialogContentText>
-                    <DialogContentText id="alert-dialog-description">
+                    <DialogContentText id="alert-dialog-description"
+                                       sx={{ mb: 1,
+                                           fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                                           fontWeight: 500 }}>
                         Это действие нельзя отменить.
                     </DialogContentText>
                 </DialogContent>
-                <DialogActions>
+                <DialogActions sx={{
+                    justifyContent: 'center',
+                    gap: 2,
+                    pt: 1
+                }}>
                     <Button
                         onClick={handleCloseConfirmDialog}
                         disabled={isDeleting}
+                        variant="outlined"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            minWidth: 120
+                        }}
                     >
                         Отмена
                     </Button>
@@ -211,6 +266,17 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                         color="error"
                         disabled={isDeleting}
                         autoFocus
+                        variant="contained"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            minWidth: 120,
+                            backgroundColor: 'error.main',
+                            '&:hover': {
+                                backgroundColor: 'error.dark'
+                            }
+                        }}
                     >
                         {isDeleting ? 'Удаление...' : 'Удалить'}
                     </Button>

@@ -11,7 +11,6 @@ import {
     TextField,
     Typography
 } from '@mui/material';
-import {deepPurple} from '@mui/material/colors';
 import {httpClient} from '../http/HttpClient';
 import {useNavigate} from "react-router-dom";
 
@@ -78,7 +77,7 @@ function SearchLine() {
                     width: '100%',
                     maxHeight: 300,
                     overflow: 'auto',
-                    bgcolor: 'background.paper',
+                    backgroundColor: 'background.paper',
                     boxShadow: 3,
                     zIndex: 1,
                     mt: 1,
@@ -102,7 +101,7 @@ function SearchLine() {
                                         }}
                                     >
                                         <ListItemAvatar>
-                                            <Avatar sx={{bgcolor: deepPurple[500]}}>
+                                            <Avatar>
                                                 {user.fullName.charAt(0)}
                                             </Avatar>
                                         </ListItemAvatar>

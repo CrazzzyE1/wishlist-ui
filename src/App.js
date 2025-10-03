@@ -8,41 +8,93 @@ import NotificationsPage from "./component/NotificationsPage";
 import {NotificationsProvider} from "./component/NotificationsContext";
 import {LinearProgress} from "@mui/material";
 import './GlobalStyles.css';
+import InfoBanner from "./component/InfoBanner";
+    function App() {
+        const [authenticated, setAuthenticated] = useState(false);
+        const isRun = useRef(false);
 
-function App() {
-    const [authenticated, setAuthenticated] = useState(false);
-    const isRun = useRef(false);
+        // Keycloak Initialization
+        useEffect(() => {
+            if (isRun.current) return;
+            isRun.current = true;
 
-    useEffect(() => {
-        if (isRun.current) return;
-        isRun.current = true;
-        keycloak.init({onLoad: 'login-required'})
-            .then((auth) => {
-                if (auth) {
-                    setAuthenticated(true);
+            const initializeKeycloak = async () => {
+                try {
+                    let auth = await keycloak.init({
+                        onLoad: 'check-sso',
+                        checkLoginIframe: false,
+                        pkceMethod: 'S256',
+                        redirectUri: window.location.origin,
+                        silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
+                    });
+
+                    setAuthenticated(auth); // Set auth state based on init result
+
+                    if (!auth) {
+                        keycloak.login(); // Trigger login if not authenticated
+                    }
+
+                } catch (err) {
+                    console.error('Keycloak init error:', err);
+                    keycloak.login();
                 }
-            })
-            .catch(err => console.error('Keycloak init error:', err));
-    }, []);
+            };
 
-    useEffect(() => {
-        if (authenticated) {
-            const interval = setInterval(() => {
+            initializeKeycloak();
+        }, []);
+
+        // Keycloak Event Listeners
+        useEffect(() => {
+            keycloak.onAuthSuccess = () => setAuthenticated(true);
+            keycloak.onAuthLogout = () => setAuthenticated(false);
+        }, []); // Set stable event handlers
+
+        // Token Refresh Logic
+        useEffect(() => {
+            if (!authenticated) return;
+
+            const checkAndRefreshToken = () => {
+                // Refresh if token expires within 30 seconds
                 keycloak.updateToken(30)
                     .then(refreshed => {
                         if (refreshed) {
+                            console.log('Token was refreshed');
                             httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
                         }
                     })
-                    .catch(() => keycloak.login());
-            }, 30000);
-            return () => clearInterval(interval);
-        }
-    }, [authenticated]);
+                    .catch(() => {
+                        console.error('Failed to refresh token');
+                        keycloak.login();
+                    });
+            };
 
-    if (!authenticated) {
-        return <LinearProgress color="success"/>;
-    }
+            // Set up interval for token check
+            const interval = setInterval(checkAndRefreshToken, 30000);
+            return () => clearInterval(interval); // Cleanup on unmount or auth change
+        }, [authenticated]); // Re-run effect when authentication status changes
+
+        // API Authorization Call
+        useEffect(() => {
+            if (!authenticated) return;
+
+            const authorizeUser = async () => {
+                try {
+                    await httpClient.post(`/authorize`);
+                } catch (error) {
+                    if (error.response?.status === 500) {
+                        console.log('User already exists in database');
+                    } else {
+                        console.error('Authorization request failed:', error);
+                    }
+                }
+            };
+
+            authorizeUser();
+        }, [authenticated]); // Run only when user becomes authenticated
+
+        if (!authenticated) {
+            return <LinearProgress color="success" />;
+        }
 
     httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
 
@@ -59,6 +111,7 @@ function App() {
     return (
         <NotificationsProvider>
             <Router>
+                {/*<InfoBanner />*/}
                 <Routes>
                     <Route path="/" element={<ProfilePage/>}/>
                     <Route path="/users" element={<FriendsPage/>}/>
