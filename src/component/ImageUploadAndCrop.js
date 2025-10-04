@@ -6,6 +6,7 @@ import { readFile, createImage } from './ImageUtils';
 import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import {Typography} from "@mui/material";
 import {useState, useRef} from "react";
+import heic2any from "heic2any";
 
 export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
     const [imageSrc, setImageSrc] = useState(null);
@@ -16,7 +17,20 @@ export default function ImageUploadAndCrop({ onImageCropped, aspectRatio }) {
 
     const handleFileChange = async (e) => {
         if (e.target.files && e.target.files.length > 0) {
-            const file = e.target.files[0];
+            let file = e.target.files[0];
+
+            if (file.name.toLowerCase().endsWith('.heic') || file.type === 'image/heic') {
+                try {
+                    const conversionResult = await heic2any({
+                        blob: file,
+                        toType: 'image/jpeg',
+                    });
+                    file = new File([conversionResult], file.name.replace(/\.heic$/i, '.jpg'), { type: 'image/jpeg' });
+                } catch (conversionError) {
+                    console.error('Ошибка конвертации HEIC:', conversionError);
+                    return;
+                }
+            }
             const imageDataUrl = await readFile(file);
             setImageSrc(imageDataUrl);
         }
