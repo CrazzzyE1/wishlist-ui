@@ -1,27 +1,15 @@
 import React from 'react';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import {Box} from '@mui/material';
 
 function Logo() {
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-    const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
-
-    const getLogoSize = () => {
-        if (isMobile) return 32;
-        if (isTablet) return 50;
-        return 60;
-    };
-
-    const logoSize = getLogoSize();
-
     return (
         <Box
             sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: logoSize,
-                height: logoSize,
+                width: {xs: 30, sm: 40, md: 50},
+                height: {xs: 30, sm: 40, md: 50},
                 overflow: 'hidden',
                 backgroundColor: 'transparent',
                 transition: 'all 0.3s ease'
