@@ -97,6 +97,9 @@ export default function AccountSettingToggle({onProfileEdit}) {
             handleMenuClose();
         } catch (err) {
             console.error('Ошибка создания подарка:', err);
+        } finally {
+            handleProfileModalClose();
+            handleMenuClose();
         }
     };
 
