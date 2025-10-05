@@ -49,7 +49,8 @@ export default function ListSelector({data = [], onSelect, selectedListId, label
                         ? option
                         : option.eventDate
                             ? `${option.name} (${option.eventDate})`
-                            : option.name
+                            : option.name  === 'WAITING' ? 'Жду подарки' :
+                                option.name === 'NO_WAITING' ? 'Собираю идеи' : option.name
                 }
                 onChange={handleChange}
                 value={selectedItem}
@@ -81,7 +82,11 @@ export default function ListSelector({data = [], onSelect, selectedListId, label
                                 }
                             }}
                         >
-                            {option.eventDate ? `${option.name} (${option.eventDate})` : option.name}
+                            {option.eventDate ? `${option.name} (${option.eventDate})`
+                                :
+                                option.name  === 'WAITING' ? 'Жду подарки' :
+                                    option.name === 'NO_WAITING' ? 'Собираю идеи' : option.name
+                            }
                         </Box>
                     );
                 }}

@@ -218,6 +218,7 @@ export default function ProfileEditBox({onCancel, onEdit}) {
 
             <Box sx={{mt: 3}}>
                 <BasicDatePicker
+                    disabled
                     label="Дата Рождения"
                     value={birthDate}
                     onChange={handleDateChange}

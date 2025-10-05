@@ -472,7 +472,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                     mt: 0.5
                                 }}>
                                     {userData.status === 'WAITING' ? 'Жду подарки' :
-                                        userData.status === 'NO_WAITING' ? 'Просто списки' : 'Не указан'}
+                                        userData.status === 'NO_WAITING' ? 'Собираю идеи' : 'Не указан'}
                                 </Typography>
                             </>
                         </Grid>
