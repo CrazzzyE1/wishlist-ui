@@ -7,12 +7,10 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
 import {red} from "@mui/material/colors";
-import {useTheme} from "@mui/material";
 
 function MainMenu() {
     const navigate = useNavigate();
     const {unreadCount} = useNotifications();
-    const theme = useTheme();
     return (
         <Grid container spacing={0}>
             <Grid size={{xs: 2, sm: 12}}

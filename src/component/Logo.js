@@ -1,18 +1,28 @@
 import React from 'react';
-import {Box} from '@mui/material';
+import {useNavigate} from "react-router-dom";
+import IconButton from "@mui/material/IconButton";
 
 function Logo() {
+
+    const navigate = useNavigate();
+
     return (
-        <Box
+        <IconButton
+            onClick={() => navigate('/')}
             sx={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: {xs: 30, sm: 40, md: 50},
-                height: {xs: 30, sm: 40, md: 50},
+                width: {xs: 60, sm: 70, md: 70},
+                height: {xs: 60, sm: 70, md: 70},
                 overflow: 'hidden',
                 backgroundColor: 'transparent',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                    '& .MuiSvgIcon-hand': {
+                        color: '#000000'
+                    }
+                },
             }}
         >
             <img
@@ -24,7 +34,7 @@ function Logo() {
                     objectFit: 'contain'
                 }}
             />
-        </Box>
+        </IconButton>
     );
 }
 

@@ -7,11 +7,11 @@ import Logo from "./Logo";
 
 function TopMenu({onProfileEdit}) {
     return (
-        <Grid container size={{xs: 12, sm: 12}} spacing={0}>
-            <Grid size={{xs: 2, sm: 2}}>
-                <Item noshadow>
-                    <Logo/>
-                </Item>
+        <Grid container spacing={0}>
+            <Grid
+                size={{xs: 2, sm: 2}}
+            >
+                <Logo/>
             </Grid>
             <Grid size={{xs: 6, sm: 7}}>
                 <Item noshadow>
