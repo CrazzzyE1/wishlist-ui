@@ -293,7 +293,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
             >
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                        Редактировать подарок
+                        Редактировать желание
                     </Typography>
                     <GiftEditBox
                         gift={gift}

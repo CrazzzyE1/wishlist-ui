@@ -4,14 +4,12 @@ import Face6Icon from '@mui/icons-material/Face6';
 import IconButton from "@mui/material/IconButton";
 import Diversity3Icon from '@mui/icons-material/Diversity3';
 import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsActiveOutlined';
-import ListCreator from "./ListCreator";
-import GiftCreator from "./GiftCreator";
 import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
 import {red} from "@mui/material/colors";
 import {Divider, useMediaQuery, useTheme} from "@mui/material";
 
-function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
+function MainMenu() {
     const navigate = useNavigate();
     const {unreadCount} = useNotifications();
     const theme = useTheme();
@@ -137,20 +135,20 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                     flexItem
                 />
             </Grid>
-            {isOwner && (
-                <Grid size={{xs: 2, sm: 12}}
-                      sx={{
-                          display: 'flex',
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                          mb: {sm: 1}
-                      }}>
-                    <GiftCreator
-                        onGiftCreated={onGiftCreated}
-                        lists={lists}
-                    />
-                </Grid>
-            )}
+            {/*{isOwner && (*/}
+            {/*    <Grid size={{xs: 2, sm: 12}}*/}
+            {/*          sx={{*/}
+            {/*              display: 'flex',*/}
+            {/*              justifyContent: 'center',*/}
+            {/*              alignItems: 'center',*/}
+            {/*              mb: {sm: 1}*/}
+            {/*          }}>*/}
+            {/*        <GiftCreator*/}
+            {/*            onGiftCreated={onGiftCreated}*/}
+            {/*            lists={lists}*/}
+            {/*        />*/}
+            {/*    </Grid>*/}
+            {/*)}*/}
         </Grid>
     );
 }

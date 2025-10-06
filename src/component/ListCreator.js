@@ -73,7 +73,7 @@ export default function ListCreator({onListCreated}) {
                     sx={{
                         fontSize: {xs: '1rem', sm: '1.3rem'}
                     }}>
-                    Создать новый список
+                    Создать список
                 </Typography>
             </IconButton>
             <Modal
@@ -84,7 +84,7 @@ export default function ListCreator({onListCreated}) {
             >
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                        Создать новый список
+                        Создать список
                     </Typography>
                     <ListCreateBox
                         onCreate={handleCreateList}

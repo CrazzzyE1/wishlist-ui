@@ -30,6 +30,15 @@ export default function ProfilePage({userId}) {
         setSelectedWishlistId(newListId);
     };
 
+    const onGiftDeleted = () => {
+        setEditRefreshKey(prev => prev + 1);
+        setRefreshCounterKey(prev => prev + 1);
+    };
+
+    const onGiftEdit = () => {
+        setEditRefreshKey(prev => prev + 1);
+    };
+
     const onListCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
         setSelectedWishlistId(newListId);
@@ -47,15 +56,6 @@ export default function ProfilePage({userId}) {
         setRefreshKey(prev => prev + 1);
         setRefreshCounterKey(prev => prev + 1);
         setSelectedWishlistId(null);
-    };
-
-    const onGiftDeleted = () => {
-        setEditRefreshKey(prev => prev + 1);
-        setRefreshCounterKey(prev => prev + 1);
-    };
-
-    const onGiftEdit = () => {
-        setEditRefreshKey(prev => prev + 1);
     };
 
     const onListEdit = (newListId) => {
@@ -83,10 +83,6 @@ export default function ProfilePage({userId}) {
                         <Grid size={{xs: 12, sm: 1}}>
                             <Item>
                                 <MainMenu
-                                    isOwner={isOwner}
-                                    onListCreated={onListCreated}
-                                    onGiftCreated={onGiftCreated}
-                                    lists={lists}
                                 />
                             </Item>
                         </Grid>
@@ -130,6 +126,8 @@ export default function ProfilePage({userId}) {
                                                              onListEdit={onListEdit}
                                                              lists={lists}
                                                              userId={userId}
+                                                             onGiftCreated={onGiftCreated}
+                                                             refreshKey={refreshKey}
                                             />
                                         </Item>
                                     </Grid>

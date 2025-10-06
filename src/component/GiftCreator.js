@@ -7,6 +7,7 @@ import GiftCreateBox from "./GiftCreateBox";
 import { httpClient } from "../http/HttpClient";
 import LoupeIcon from "@mui/icons-material/Loupe";
 import { useState } from 'react';
+import Grid from "@mui/material/Grid";
 
 const modalStyle = {
     position: 'absolute',
@@ -27,9 +28,8 @@ const modalStyle = {
     overflow: 'auto',
 };
 
-export default function GiftCreator({ onGiftCreated, lists }) {
+export default function GiftCreator({ onGiftCreated, lists, selectedWishlistId }) {
     const [open, setOpen] = React.useState(false);
-    const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState(null);
 
     const handleOpen = () => setOpen(true);
@@ -39,7 +39,6 @@ export default function GiftCreator({ onGiftCreated, lists }) {
     };
 
     const handleCreateGift = async (giftData) => {
-        setIsSubmitting(true);
         setError(null);
 
         try {
@@ -69,42 +68,44 @@ export default function GiftCreator({ onGiftCreated, lists }) {
             }
 
             if (onGiftCreated) {
-                onGiftCreated();
+                onGiftCreated(giftData.listId);
             }
             handleClose();
         } catch (err) {
             console.error('Ошибка создания подарка:', err);
             setError(err.response?.data?.message || 'Произошла ошибка при создании подарка');
         } finally {
-            setIsSubmitting(false);
             handleClose();
         }
     };
 
     return (
-        <div>
+        <Grid size={{xs: 12, sm: 12}}>
             <IconButton
                 onClick={handleOpen}
+                disableRipple
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     alignItems: 'center',
-                    width: { xs: 32, sm: 42},
-                    height: { xs: 32, sm: 42},
+                    width: {xs: '100%', sm: '100%'},
+                    height: {xs: 48, sm: 48},
                     borderRadius: '50%',
                     '&:hover': {
                         '& .MuiSvgIcon-root': {
                             color: '#000000'
                         }
-                    },
-                    '&:active': {
-                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                     }
                 }}>
                 <LoupeIcon sx={{
-                    fontSize: { xs: 24, sm: 32},
+                    fontSize: {xs: 42, sm: 48},
                     transition: 'color 0.5s ease'
                 }}/>
+                <Typography
+                    sx={{
+                        fontSize: {xs: '1rem', sm: '1.3rem'}
+                    }}>
+                    Создать желание
+                </Typography>
             </IconButton>
             <Modal
                 open={open}
@@ -114,7 +115,7 @@ export default function GiftCreator({ onGiftCreated, lists }) {
             >
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
-                        Создать новый подарок
+                        Создать желание
                     </Typography>
                     {error && (
                         <Typography color="error" sx={{ mb: 2 }}>
@@ -122,12 +123,13 @@ export default function GiftCreator({ onGiftCreated, lists }) {
                         </Typography>
                     )}
                     <GiftCreateBox
+                        selectedWishlistId={selectedWishlistId}
                         lists={lists}
                         onCreate={handleCreateGift}
                         onCancel={handleClose}
                     />
                 </Box>
             </Modal>
-        </div>
+        </Grid>
     );
 }
