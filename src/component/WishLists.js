@@ -1,28 +1,25 @@
 import Grid from "@mui/material/Grid";
-import Item from "./StyledItem";
 import * as React from "react";
-import Typography from "@mui/material/Typography";
 import WishListsItemInfo from "./WishListsItemInfo";
+import ListCreator from "./ListCreator";
 
-function WishLists({onWishlistSelect, refreshKey, selectedWishlistId, onListGetting, userId}) {
+function WishLists({onWishlistSelect, refreshKey, selectedWishlistId, onListGetting, userId, isOwner, onListCreated}) {
     return (
         <Grid container
               sx={{flexGrow: 1}}
               spacing={{xs: 1, sm: 2}}
         >
-            <Grid size={{xs: 12, sm: 12}}>
-                <Item noshadow>
-                    <Typography
-                        variant="body1"
-                        sx={{
-                            fontSize: {xs: '0.75rem', sm: '1rem'},
-                            color: 'text.secondary',
-                            textAlign: 'left'
-                        }}>
-                        Списки:
-                    </Typography>
-                </Item>
-            </Grid>
+            {isOwner && (
+                    <Grid size={{xs: 12, sm: 12}}
+                          sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              mb: {sm: 1}
+                          }}>
+                        <ListCreator onListCreated={onListCreated}/>
+                    </Grid>
+            )}
             <Grid size={{xs: 12, sm: 12}}>
                 <WishListsItemInfo noshadow
                                    userId={userId}

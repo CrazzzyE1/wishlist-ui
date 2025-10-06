@@ -114,6 +114,8 @@ export default function ProfilePage({userId}) {
                                                 onWishlistSelect={setSelectedWishlistId}
                                                 refreshKey={refreshKey}
                                                 selectedWishlistId={selectedWishlistId}
+                                                isOwner={isOwner}
+                                                onListCreated={onListCreated}
                                             />
                                         </Item>
                                     </Grid>

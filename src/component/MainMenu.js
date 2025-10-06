@@ -138,29 +138,18 @@ function MainMenu({onListCreated, lists, isOwner, onGiftCreated}) {
                 />
             </Grid>
             {isOwner && (
-                <>
-                    <Grid size={{xs: 2, sm: 12}}
-                          sx={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              mb: {sm: 1}
-                          }}>
-                        <ListCreator onListCreated={onListCreated}/>
-                    </Grid>
-                    <Grid size={{xs: 2, sm: 12}}
-                          sx={{
-                              display: 'flex',
-                              justifyContent: 'center',
-                              alignItems: 'center',
-                              mb: {sm: 1}
-                          }}>
-                        <GiftCreator
-                            onGiftCreated={onGiftCreated}
-                            lists={lists}
-                        />
-                    </Grid>
-                </>
+                <Grid size={{xs: 2, sm: 12}}
+                      sx={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          mb: {sm: 1}
+                      }}>
+                    <GiftCreator
+                        onGiftCreated={onGiftCreated}
+                        lists={lists}
+                    />
+                </Grid>
             )}
         </Grid>
     );
