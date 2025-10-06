@@ -7,7 +7,7 @@ function WishLists({onWishlistSelect, refreshKey, selectedWishlistId, onListGett
     return (
         <Grid container
               sx={{flexGrow: 1}}
-              spacing={{xs: 1, sm: 2}}
+              spacing={{xs: 2, sm: 2}}
         >
             {isOwner && (
                     <Grid size={{xs: 12, sm: 12}}
