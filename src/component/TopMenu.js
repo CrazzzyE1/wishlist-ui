@@ -2,7 +2,6 @@ import SearchLine from "./SearchLine";
 import AccountSettingToggle from "./AccountSettingToggle";
 import * as React from "react";
 import Grid from "@mui/material/Grid";
-import Item from "./StyledItem";
 import Logo from "./Logo";
 
 function TopMenu({onProfileEdit}) {
@@ -13,17 +12,13 @@ function TopMenu({onProfileEdit}) {
             >
                 <Logo/>
             </Grid>
-            <Grid size={{xs: 6, sm: 7}}>
-                <Item noshadow>
+            <Grid size={{xs: 5, sm: 7}}>
                     <SearchLine/>
-                </Item>
             </Grid>
-            <Grid size={{xs: 4, sm: 3}}>
-                <Item noshadow>
+            <Grid size={{xs: 5, sm: 3}}>
                     <AccountSettingToggle
                         onProfileEdit={onProfileEdit}
                     />
-                </Item>
             </Grid>
         </Grid>
     );
