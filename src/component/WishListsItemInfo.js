@@ -84,7 +84,7 @@ function WishListsItemInfo({onWishlistSelect, refreshKey, selectedWishlistId, on
                 width: '100%',
                 display: 'grid',
                 gridTemplateColumns: {
-                    xs: 'repeat(auto-fill, minmax(min(75px, 100%), 1fr))',
+                    xs: 'repeat(auto-fill, minmax(min(100px, 100%), 1fr))',
                     sm: 'repeat(auto-fill, minmax(min(160px, 100%), 1fr))'},
                 gap: {xs: 1, sm: 2},
             }}

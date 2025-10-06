@@ -3,7 +3,6 @@ import {useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {CssBaseline} from "@mui/material";
-import MainMenu from "./MainMenu";
 import AccountInfo from "./AccountInfo";
 import TopMenu from "./TopMenu";
 import Item from "./StyledItem";
@@ -80,13 +79,7 @@ export default function ProfilePage({userId}) {
                         </Item>
                     </Grid>
                     <Grid container spacing={3} size={{xs: 12, sm: 12}}>
-                        <Grid size={{xs: 12, sm: 1}}>
-                            <Item>
-                                <MainMenu
-                                />
-                            </Item>
-                        </Grid>
-                        <Grid container spacing={3} size={{xs: 12, sm: 11}}>
+                        <Grid container spacing={3}>
                             <Grid size={{xs: 12, sm: 12}}>
                                 <Item>
                                     <AccountInfo
