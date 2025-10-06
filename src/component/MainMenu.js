@@ -7,13 +7,12 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
 import {red} from "@mui/material/colors";
-import {Divider, useMediaQuery, useTheme} from "@mui/material";
+import {useTheme} from "@mui/material";
 
 function MainMenu() {
     const navigate = useNavigate();
     const {unreadCount} = useNotifications();
     const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     return (
         <Grid container spacing={0}>
             <Grid size={{xs: 2, sm: 12}}
@@ -118,37 +117,6 @@ function MainMenu() {
                     }
                 </IconButton>
             </Grid>
-            <Grid size={{xs: 2, sm: 12}}
-                  sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      mb: {sm: 1},
-                      minHeight: '32px'
-                  }}>
-                <Divider
-                    orientation={isMobile ? "vertical" : "horizontal"}
-                    sx={{
-                        width: isMobile ? '1px' : '100%',
-                        height: isMobile ? '100%' : '100%'
-                    }}
-                    flexItem
-                />
-            </Grid>
-            {/*{isOwner && (*/}
-            {/*    <Grid size={{xs: 2, sm: 12}}*/}
-            {/*          sx={{*/}
-            {/*              display: 'flex',*/}
-            {/*              justifyContent: 'center',*/}
-            {/*              alignItems: 'center',*/}
-            {/*              mb: {sm: 1}*/}
-            {/*          }}>*/}
-            {/*        <GiftCreator*/}
-            {/*            onGiftCreated={onGiftCreated}*/}
-            {/*            lists={lists}*/}
-            {/*        />*/}
-            {/*    </Grid>*/}
-            {/*)}*/}
         </Grid>
     );
 }
