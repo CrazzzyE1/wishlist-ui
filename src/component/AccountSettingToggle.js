@@ -43,7 +43,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
     const [profileModalOpen, setProfileModalOpen] = useState(false);
     const isMenuOpen = Boolean(anchorEl);
     const navigate = useNavigate();
-    const {unreadCount} = useNotifications();
+    const {unreadCount, incomingFriendsRequestCount} = useNotifications();
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -205,7 +205,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
             <Box sx={{display: {xs: 'flex', md: 'flex', justifyContent: 'flex-end', display: 'flex'}}}>
 
                 <IconButton
-                    onClick={() => navigate('/users')}
+                    onClick={() => navigate('/friends')}
                     sx={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -222,7 +222,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
                             boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                         }
                     }}>
-                    <Badge badgeContent={unreadCount} color="success">
+                    <Badge badgeContent={incomingFriendsRequestCount} color="success">
                         <Diversity3Icon sx={{
                             fontSize: {
                                 xs: 28, sm: 40,

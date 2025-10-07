@@ -1,14 +1,25 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Badge from '@mui/material/Badge';
 import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
 import OutputOutlinedIcon from '@mui/icons-material/OutputOutlined';
 import InputOutlinedIcon from '@mui/icons-material/InputOutlined';
 import TurnedInNotOutlinedIcon from '@mui/icons-material/TurnedInNotOutlined';
 import {Box} from "@mui/material";
+import {useNotifications} from "./NotificationsContext";
+import {useEffect} from "react";
 
 export default function FriendsPageMenu({onItemMenu}) {
     const [value, setValue] = React.useState(0);
+    const {incomingFriendsRequestCount} = useNotifications();
+
+    useEffect(() => {
+        if (incomingFriendsRequestCount > 0) {
+            setValue(2);
+            onItemMenu(2);
+        }
+    }, []);
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
@@ -50,7 +61,11 @@ export default function FriendsPageMenu({onItemMenu}) {
                 label={value === 1 ? "Подписки" : <Box sx={{display: {xs: 'none', sm: 'inline'}}}>Подписки</Box>}
             />
             <Tab
-                icon={<InputOutlinedIcon sx={{fontSize: '24px'}}/>}
+                icon={
+                    <Badge badgeContent={incomingFriendsRequestCount} color="success">
+                        <InputOutlinedIcon sx={{fontSize: '24px'}} />
+                    </Badge>
+                }
                 iconPosition="start"
                 label={value === 2 ? "Входящие" : <Box sx={{display: {xs: 'none', sm: 'inline'}}}>Входящие заявки</Box>}
             />
