@@ -21,7 +21,7 @@ export default function ProfilePage({userId}) {
     const [editRefreshKey, setEditRefreshKey] = useState(0);
     const [lists, setLists] = useState();
     const [isFriend, setIsFriend] = useState(null);
-    const {fetchUnreadCount} = useNotifications();
+    const {fetchUnreadCount, fetchIncomingFriendsRequestCount} = useNotifications();
 
     const onGiftCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
@@ -65,7 +65,8 @@ export default function ProfilePage({userId}) {
 
     useEffect(() => {
         fetchUnreadCount();
-    }, [fetchUnreadCount]);
+        fetchIncomingFriendsRequestCount();
+    }, [fetchUnreadCount, fetchIncomingFriendsRequestCount]);
 
     return (
         <React.Fragment>
