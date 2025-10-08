@@ -72,8 +72,8 @@ export default function GiftCreator({ onGiftCreated, lists, selectedWishlistId }
             }
             handleClose();
         } catch (err) {
-            console.error('Ошибка создания подарка:', err);
-            setError(err.response?.data?.message || 'Произошла ошибка при создании подарка');
+            console.error('Ошибка создания желания:', err);
+            setError(err.response?.data?.message || 'Произошла ошибка при создании желания');
         } finally {
             handleClose();
         }

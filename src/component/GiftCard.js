@@ -124,7 +124,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
             });
             setOpenConfirmModal(false);
         } catch (error) {
-            console.error('Ошибка при копировании подарка:', error);
+            console.error('Ошибка при копировании желания:', error);
             setOpenConfirmModal(false);
         }
     };
@@ -580,11 +580,11 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     }}
                 >
                     <Typography id="confirm-copy-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                        Копирование подарка
+                        Копирование желания
                     </Typography>
 
                     <Typography id="confirm-copy-modal-description" sx={{mb: 3}}>
-                        Вы точно хотите добавить подарок "{data.name}" в свою коллекцию?
+                        Вы точно хотите добавить желание "{data.name}" в свою коллекцию?
                     </Typography>
 
                     <Box sx={{display: 'flex', justifyContent: 'center', gap: 2}}>

@@ -88,7 +88,7 @@ export default function ListCreateBox({onCreate, onCancel}) {
             <Box sx={{mt: 0}}>
                 <TextField
                     id="list-name"
-                    label="Название списка"
+                    label="Название списка (обязательное поле)"
                     variant="standard"
                     value={listName}
                     onChange={handleListNameChange}

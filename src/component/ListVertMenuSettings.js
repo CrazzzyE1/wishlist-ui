@@ -217,7 +217,7 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                         Вы уверены, что хотите удалить этот список?
                     </DialogContentText>
                     <DialogContentText id="alert-dialog-description" sx={{mb: 1, fontSize: {xs: '0.75rem', sm: '0.875rem'},}}>
-                        Это так же приведет к удалению всех подарков из этого списка.
+                        Это так же приведет к удалению всех желаний из этого списка.
                     </DialogContentText>
                     <DialogContentText id="alert-dialog-description" sx={{mb: 1, fontSize: {xs: '0.75rem', sm: '0.875rem'}, fontWeight: 500}}>
                         Это действие нельзя отменить.

@@ -97,7 +97,7 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
             <Box sx={{mt: 0}}>
                 <TextField
                     id="gift-name"
-                    label="Название подарка"
+                    label="Название желания (обязательное поле)"
                     variant="standard"
                     value={listName}
                     onChange={handleListNameChange}
@@ -110,7 +110,7 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
             <Box sx={{mt: 0}}>
                 <ListSelector
                     selectedListId={selectedWishlistId}
-                    label="Выберите список для подарка"
+                    label="Выберите список для желания"
                     data={lists}
                     onSelect={handleSelectedListId}
                 />
@@ -177,7 +177,7 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
                         onClick={handleSubmit}
                         disabled={isSubmitDisabled}
                     >
-                        {isSubmitting ? 'Сохранение...' : 'Создать подарок'}
+                        {isSubmitting ? 'Сохранение...' : 'Создать желание'}
                     </Button>
                 </Box>
             </Box>
