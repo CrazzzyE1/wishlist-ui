@@ -34,7 +34,6 @@ export const NotificationsProvider = ({ children }) => {
     const fetchIncomingFriendsRequestCount = async () => {
         try {
             const response = await httpClient.get('/friends/requests/count');
-            console.log(response.data)
             setIncomingFriendsRequestCount(response.data || 0);
         } catch (err) {
             console.error('Ошибка загрузки счетчика входящих заявок:', err);
