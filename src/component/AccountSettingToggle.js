@@ -15,6 +15,7 @@ import {httpClient} from "../http/HttpClient";
 import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
 import ProfileEditBox from "./ProfileEditBox";
+import Diversity3Icon from "@mui/icons-material/Diversity3";
 
 
 const modalStyle = {
@@ -42,7 +43,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
     const [profileModalOpen, setProfileModalOpen] = useState(false);
     const isMenuOpen = Boolean(anchorEl);
     const navigate = useNavigate();
-    const {unreadCount} = useNotifications();
+    const {unreadCount, incomingFriendsRequestCount} = useNotifications();
 
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
@@ -96,7 +97,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
             handleProfileModalClose();
             handleMenuClose();
         } catch (err) {
-            console.error('Ошибка создания подарка:', err);
+            console.error('Ошибка создания желания:', err);
         } finally {
             handleProfileModalClose();
             handleMenuClose();
@@ -163,7 +164,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
                     }
                 }}
             >
-                <FaceRetouchingNaturalOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                <FaceRetouchingNaturalOutlinedIcon sx={{mr: 1, fontSize: 20}}/>
                 Профиль
             </MenuItem>
             <MenuItem
@@ -177,13 +178,13 @@ export default function AccountSettingToggle({onProfileEdit}) {
                     }
                 }}
             >
-                <TuneOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                <TuneOutlinedIcon sx={{mr: 1, fontSize: 20}}/>
                 Настройки
             </MenuItem>
             <Divider
                 variant="middle"
                 component="li"
-                sx={{ my: 0.5 }}
+                sx={{my: 0.5}}
             />
             <MenuItem
                 onClick={handleLogout}
@@ -193,7 +194,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
                     color: 'error.main',
                 }}
             >
-                <LogoutOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                <LogoutOutlinedIcon sx={{mr: 1, fontSize: 20}}/>
                 Выход
             </MenuItem>
         </Menu>
@@ -202,6 +203,36 @@ export default function AccountSettingToggle({onProfileEdit}) {
     return (
         <Box sx={{flexGrow: 1}}>
             <Box sx={{display: {xs: 'flex', md: 'flex', justifyContent: 'flex-end', display: 'flex'}}}>
+
+                <IconButton
+                    onClick={() => navigate('/friends')}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: {xs: 45, sm: 56},
+                        height: {xs: 45, sm: 56},
+                        borderRadius: '50%',
+                        '&:hover': {
+                            '& .MuiSvgIcon-root': {
+                                color: '#000000'
+                            }
+                        },
+                        '&:active': {
+                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                        }
+                    }}>
+                    <Badge badgeContent={incomingFriendsRequestCount} color="success">
+                        <Diversity3Icon sx={{
+                            fontSize: {
+                                xs: 28, sm: 40,
+                                transition: 'color 0.5s ease'
+                            }
+                        }}
+                        />
+                    </Badge>
+                </IconButton>
+
                 <IconButton
                     onClick={() => navigate('/notifications')}
                     size="large"
@@ -211,8 +242,8 @@ export default function AccountSettingToggle({onProfileEdit}) {
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: {xs: 36, sm: 56},
-                        height: {xs: 36, sm: 56},
+                        width: {xs: 45, sm: 56},
+                        height: {xs: 45, sm: 56},
                         borderRadius: '50%',
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
@@ -240,8 +271,8 @@ export default function AccountSettingToggle({onProfileEdit}) {
                     onClick={handleProfileMenuOpen}
                     color="inherit"
                     sx={{
-                        width: {xs: 36, sm: 56},
-                        height: {xs: 36, sm: 56},
+                        width: {xs: 45, sm: 56},
+                        height: {xs: 45, sm: 56},
                         mr: {xs: 0, sm: 1}
                     }}
                 >

@@ -9,12 +9,14 @@ import {
     ListItemAvatar,
     ListItemText,
     TextField,
-    Typography
+    Typography, useMediaQuery, useTheme
 } from '@mui/material';
 import {httpClient} from '../http/HttpClient';
 import {useNavigate} from "react-router-dom";
 
 function SearchLine() {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const [searchTerm, setSearchTerm] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -54,7 +56,7 @@ function SearchLine() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 id="standard-search"
-                label="Поиск друзей ..."
+                label= {isMobile ? "Поиск ..." : "Поиск друзей ..."}
                 type="search"
                 variant="standard"
                 fullWidth

@@ -3,7 +3,6 @@ import {useEffect, useState} from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {CssBaseline} from "@mui/material";
-import MainMenu from "./MainMenu";
 import AccountInfo from "./AccountInfo";
 import TopMenu from "./TopMenu";
 import Item from "./StyledItem";
@@ -22,12 +21,21 @@ export default function ProfilePage({userId}) {
     const [editRefreshKey, setEditRefreshKey] = useState(0);
     const [lists, setLists] = useState();
     const [isFriend, setIsFriend] = useState(null);
-    const {fetchUnreadCount} = useNotifications();
+    const {fetchUnreadCount, fetchIncomingFriendsRequestCount} = useNotifications();
 
     const onGiftCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
         setRefreshCounterKey(prev => prev + 1);
         setSelectedWishlistId(newListId);
+    };
+
+    const onGiftDeleted = () => {
+        setEditRefreshKey(prev => prev + 1);
+        setRefreshCounterKey(prev => prev + 1);
+    };
+
+    const onGiftEdit = () => {
+        setEditRefreshKey(prev => prev + 1);
     };
 
     const onListCreated = (newListId) => {
@@ -49,15 +57,6 @@ export default function ProfilePage({userId}) {
         setSelectedWishlistId(null);
     };
 
-    const onGiftDeleted = () => {
-        setEditRefreshKey(prev => prev + 1);
-        setRefreshCounterKey(prev => prev + 1);
-    };
-
-    const onGiftEdit = () => {
-        setEditRefreshKey(prev => prev + 1);
-    };
-
     const onListEdit = (newListId) => {
         setRefreshKey(prev => prev + 1);
         setEditRefreshKey(prev => prev + 1);
@@ -66,7 +65,8 @@ export default function ProfilePage({userId}) {
 
     useEffect(() => {
         fetchUnreadCount();
-    }, [fetchUnreadCount]);
+        fetchIncomingFriendsRequestCount();
+    }, [fetchUnreadCount, fetchIncomingFriendsRequestCount]);
 
     return (
         <React.Fragment>
@@ -80,17 +80,7 @@ export default function ProfilePage({userId}) {
                         </Item>
                     </Grid>
                     <Grid container spacing={3} size={{xs: 12, sm: 12}}>
-                        <Grid size={{xs: 12, sm: 1}}>
-                            <Item>
-                                <MainMenu
-                                    isOwner={isOwner}
-                                    onListCreated={onListCreated}
-                                    onGiftCreated={onGiftCreated}
-                                    lists={lists}
-                                />
-                            </Item>
-                        </Grid>
-                        <Grid container spacing={3} size={{xs: 12, sm: 11}}>
+                        <Grid container spacing={3}>
                             <Grid size={{xs: 12, sm: 12}}>
                                 <Item>
                                     <AccountInfo
@@ -114,6 +104,8 @@ export default function ProfilePage({userId}) {
                                                 onWishlistSelect={setSelectedWishlistId}
                                                 refreshKey={refreshKey}
                                                 selectedWishlistId={selectedWishlistId}
+                                                isOwner={isOwner}
+                                                onListCreated={onListCreated}
                                             />
                                         </Item>
                                     </Grid>
@@ -128,6 +120,8 @@ export default function ProfilePage({userId}) {
                                                              onListEdit={onListEdit}
                                                              lists={lists}
                                                              userId={userId}
+                                                             onGiftCreated={onGiftCreated}
+                                                             refreshKey={refreshKey}
                                             />
                                         </Item>
                                     </Grid>

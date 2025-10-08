@@ -113,7 +113,7 @@ import InfoBanner from "./component/InfoBanner";
                 {/*<InfoBanner />*/}
                 <Routes>
                     <Route path="/" element={<ProfilePage/>}/>
-                    <Route path="/users" element={<FriendsPage/>}/>
+                    <Route path="/friends" element={<FriendsPage/>}/>
                     <Route path="/users/:userId" element={<ProfilePageWithParams/>}/>
                     <Route path="/notifications" element={<NotificationsPage/>}/>
                 </Routes>

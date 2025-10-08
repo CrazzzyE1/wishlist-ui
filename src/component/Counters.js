@@ -49,7 +49,7 @@ function Counters({userData, giftsCount}) {
                     justifyContent: 'flex-start',
                     textAlign: 'left',
                 }}>
-                    Подписки:
+                    Подписок:
                 </Typography>
                 <Typography variant="body1" fontWeight="bold" sx={{
                     fontSize: {xs: '12px', sm: '16px'},

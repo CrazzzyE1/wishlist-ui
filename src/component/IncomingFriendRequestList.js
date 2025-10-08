@@ -6,18 +6,22 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import {httpClient} from "../http/HttpClient";
 import {IncomingFriendRequest} from "./IncomingFriendRequest";
+import {useNotifications} from "./NotificationsContext";
 
 export default function IncomingFriendRequestList() {
     const [incomingRequests, setIncomingRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const {decrementIncomingFriendsRequestCount} = useNotifications();
 
     const handleIncomingRequestRemoved = (requestId) => {
         setIncomingRequests(prev => prev.filter(req => req.requestId !== requestId));
+        decrementIncomingFriendsRequestCount();
     };
 
     const handleIncomingRequestAccepted = (requestId) => {
         setIncomingRequests(prev => prev.filter(req => req.requestId !== requestId));
+        decrementIncomingFriendsRequestCount();
     };
 
     const fetchIncomingRequests = useCallback(async () => {

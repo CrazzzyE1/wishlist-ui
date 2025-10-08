@@ -102,7 +102,7 @@ export default function GiftEditBox({ gift, onEdit, onCancel, lists }) {
             <Box sx={{ mt: 0 }}>
                 <TextField
                     id="gift-name"
-                    label="Название подарка"
+                    label="Название желания"
                     variant="standard"
                     value={giftName}
                     onChange={handleListNameChange}
@@ -114,7 +114,7 @@ export default function GiftEditBox({ gift, onEdit, onCancel, lists }) {
 
             <Box sx={{ mt: 0 }}>
                 <ListSelector
-                    label="Выберите список для подарка"
+                    label="Выберите список для желания"
                     data={lists}
                     selectedListId={selectedListId}
                     onSelect={handleSelectedListId}

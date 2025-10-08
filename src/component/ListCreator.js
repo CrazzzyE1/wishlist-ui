@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import ListCreateBox from "./ListCreateBox";
 import {httpClient} from "../http/HttpClient";
+import Grid from "@mui/material/Grid";
 
 const modalStyle = {
     position: 'absolute',
@@ -48,31 +49,33 @@ export default function ListCreator({onListCreated}) {
     };
 
     return (
-        <div>
+        <Grid size={{xs: 12, sm: 12}}>
             <IconButton
                 onClick={handleOpen}
+                disableRipple
                 sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'flex-start',
                     alignItems: 'center',
-                    width: { xs: 32, sm: 42},
-                    height: { xs: 32, sm: 42},
+                    width: {xs: '100%', sm: '100%'},
+                    height: {xs: 48, sm: 48},
                     borderRadius: '50%',
                     '&:hover': {
                         '& .MuiSvgIcon-root': {
                             color: '#000000'
                         }
                     },
-                    '&:active': {
-                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                    }
                 }}>
                 <PostAddIcon sx={{
-                    fontSize: { xs: 24, sm: 32},
+                    fontSize: {xs: 42, sm: 48},
                     transition: 'color 0.5s ease'
                 }}/>
+                <Typography
+                    sx={{
+                        fontSize: {xs: '1rem', sm: '1.3rem'}
+                    }}>
+                    Создать список
+                </Typography>
             </IconButton>
-
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -81,7 +84,7 @@ export default function ListCreator({onListCreated}) {
             >
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                        Создать новый список
+                        Создать список
                     </Typography>
                     <ListCreateBox
                         onCreate={handleCreateList}
@@ -89,6 +92,6 @@ export default function ListCreator({onListCreated}) {
                     />
                 </Box>
             </Modal>
-        </div>
+        </Grid>
     );
 }

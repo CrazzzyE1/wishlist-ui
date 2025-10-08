@@ -1,12 +1,13 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import FormControl from '@mui/material/FormControl';
-import { Box, TextField } from "@mui/material";
+import {Box, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import SelectTextFields from "./CurrencySelect";
 import ListSelector from "./ListSelector";
 import ImageUploadAndCrop from "./ImageUploadAndCrop";
 
-export default function GiftCreateBox({ onCreate, onCancel, lists }) {
+export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, lists}) {
     const [listName, setListName] = React.useState('');
     const [errorName, setErrorName] = React.useState(false);
     const [descriptionName, setDescriptionName] = React.useState('');
@@ -17,6 +18,10 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
     const [image, setImage] = React.useState(null);
     const [selectedListId, setSelectedListId] = React.useState(null);
     const [currency, setCurrency] = React.useState(null);
+
+    useEffect(() => {
+        setSelectedListId('default' !== selectedWishlistId ? selectedWishlistId : null)
+    }, []);
 
     const handleSelectedListId = (id) => {
         setSelectedListId(id);
@@ -83,16 +88,16 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
         errorDescription;
 
     return (
-        <FormControl sx={{ gap: 2, width: '100%' }}>
+        <FormControl sx={{gap: 2, width: '100%'}}>
             <ImageUploadAndCrop
                 onImageCropped={setImage}
                 aspectRatio={400 / 400}
             />
 
-            <Box sx={{ mt: 0 }}>
+            <Box sx={{mt: 0}}>
                 <TextField
                     id="gift-name"
-                    label="Название подарка"
+                    label="Название желания (обязательное поле)"
                     variant="standard"
                     value={listName}
                     onChange={handleListNameChange}
@@ -102,9 +107,10 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                 />
             </Box>
 
-            <Box sx={{ mt: 0 }}>
+            <Box sx={{mt: 0}}>
                 <ListSelector
-                    label="Выберите список для подарка"
+                    selectedListId={selectedWishlistId}
+                    label="Выберите список для желания"
                     data={lists}
                     onSelect={handleSelectedListId}
                 />
@@ -122,12 +128,12 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                     variant="standard"
                     value={price}
                     onChange={handlePriceChange}
-                    sx={{ flex: 1 }}
+                    sx={{flex: 1}}
                 />
                 <SelectTextFields onCurrency={handleCurrency}/>
             </Box>
 
-            <Box sx={{ mt: 0 }}>
+            <Box sx={{mt: 0}}>
                 <TextField
                     id="gift-link"
                     label="Ссылка"
@@ -140,7 +146,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                 />
             </Box>
 
-            <Box sx={{ mt: 0 }}>
+            <Box sx={{mt: 0}}>
                 <TextField
                     id="gift-description"
                     label="Описание"
@@ -155,8 +161,8 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                 />
             </Box>
 
-            <Box sx={{ mt: 2 }}>
-                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+            <Box sx={{mt: 2}}>
+                <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
                     <Button
                         variant="outlined"
                         color="black"
@@ -171,7 +177,7 @@ export default function GiftCreateBox({ onCreate, onCancel, lists }) {
                         onClick={handleSubmit}
                         disabled={isSubmitDisabled}
                     >
-                        {isSubmitting ? 'Сохранение...' : 'Создать подарок'}
+                        {isSubmitting ? 'Сохранение...' : 'Создать желание'}
                     </Button>
                 </Box>
             </Box>

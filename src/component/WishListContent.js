@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import ListVertMenuSettings from "./ListVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
 import {LinearProgress} from "@mui/material";
+import GiftCreator from "./GiftCreator";
 
 function WishListContent({
                              selectedWishlistId,
@@ -17,6 +18,8 @@ function WishListContent({
                              onGiftDeleted,
                              lists,
                              userId,
+                             onGiftCreated,
+                             refreshKey,
                          }) {
     const [wishlistData, setWishlistData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -26,7 +29,7 @@ function WishListContent({
         if (selectedWishlistId) {
             fetchWishlistData();
         }
-    }, [selectedWishlistId, editRefreshKey]);
+    }, [selectedWishlistId, editRefreshKey, refreshKey]);
 
     const fetchWishlistData = async () => {
         let response;
@@ -79,7 +82,24 @@ function WishListContent({
     };
 
     return (
-        <Grid container spacing={3} sx={{flexGrow: 1}}>
+        <Grid container spacing={2} sx={{flexGrow: 1}}>
+            {isOwner ? (
+                    <Grid size={{xs: 12, sm: 12}}
+                          sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              alignItems: 'center',
+                              mb: {sm: 1}
+                          }}>
+                        <GiftCreator
+                            onGiftCreated={onGiftCreated}
+                            lists={lists}
+                            selectedWishlistId={selectedWishlistId}
+                        />
+                    </Grid>
+                )
+                : null
+            }
             <Grid size={{xs: 5, sm: 9}}>
                 <Item noshadow>
                     <Typography

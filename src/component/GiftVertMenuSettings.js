@@ -84,7 +84,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
             }
             handleClose();
         } catch (err) {
-            console.error('Ошибка редактирования подарка:', err);
+            console.error('Ошибка редактирования желания:', err);
         } finally {
             handleClose();
         }
@@ -116,7 +116,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
             await httpClient.delete(`/gifts/${giftId}`);
             onGiftDeleted?.();
         } catch (error) {
-            console.error('Ошибка при удалении подарка:', error);
+            console.error('Ошибка при удалении желания:', error);
         } finally {
             setIsDeleting(false);
             handleCloseConfirmDialog();
@@ -235,7 +235,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
                                            mb: 1,
                                            fontSize: {xs: '0.75rem', sm: '0.875rem'},
                                        }}>
-                        Вы уверены, что хотите удалить этот подарок?
+                        Вы уверены, что хотите удалить это желание?
                     </DialogContentText>
                     <DialogContentText id="alert-dialog-description"
                                        sx={{
@@ -293,7 +293,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
             >
                 <Box sx={modalStyle}>
                     <Typography id="modal-modal-title" variant="h6" component="h2" sx={{mb: 2}}>
-                        Редактировать подарок
+                        Редактировать желание
                     </Typography>
                     <GiftEditBox
                         gift={gift}
