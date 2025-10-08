@@ -11,13 +11,14 @@ import './GlobalStyles.css';
 
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
+    const [isAuthorized, setIsAuthorized] = useState(false);
     const isRun = useRef(false);
 
     useEffect(() => {
         if (isRun.current) return;
         isRun.current = true;
 
-        const initKeycloak = async () => {
+        const initializeKeycloak = async () => {
             try {
                 const auth = await keycloak.init({
                     onLoad: 'check-sso',
@@ -39,76 +40,41 @@ function App() {
             }
         };
 
-        initKeycloak();
-    }, []);
-
-    useEffect(() => {
-        keycloak.onAuthSuccess = () => {
-            setAuthenticated(true);
-            httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
-        };
-
-        keycloak.onAuthLogout = () => setAuthenticated(false);
+        initializeKeycloak();
     }, []);
 
     useEffect(() => {
         if (!authenticated) return;
 
-        keycloak.onTokenExpired = async () => {
-            console.log('Token expired — refreshing...');
-            try {
-                await keycloak.updateToken(70);
-                console.log('Token refreshed!');
-                httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
-            } catch (err) {
-                console.error('Token refresh failed, re-login');
-                keycloak.login();
-            }
-        };
-    }, [authenticated]);
-
-    useEffect(() => {
-        const interceptor = httpClient.interceptors.request.use(async (config) => {
-            try {
-                await keycloak.updateToken(30);
-                config.headers.Authorization = `Bearer ${keycloak.token}`;
-            } catch (err) {
-                console.error('Token refresh in interceptor failed');
-                keycloak.login();
-            }
-            return config;
-        });
-
-        return () => httpClient.interceptors.request.eject(interceptor);
-    }, [authenticated]);
-
-    useEffect(() => {
-        if (!authenticated) return;
-        (async () => {
+        const authorizeUser = async () => {
             try {
                 await httpClient.post(`/authorize`);
+                setIsAuthorized(true);
             } catch (error) {
                 if (error.response?.status === 500) {
                     console.log('User already exists in database');
+                    setIsAuthorized(true);
                 } else {
                     console.error('Authorization request failed:', error);
                 }
             }
-        })();
+        };
+
+        authorizeUser();
     }, [authenticated]);
 
-    if (!authenticated) {
-        return <LinearProgress color="success"/>;
+    if (!authenticated || !isAuthorized) {
+        return <LinearProgress color="success" />;
     }
 
     return (
         <NotificationsProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={<ProfilePage/>}/>
-                    <Route path="/friends" element={<FriendsPage/>}/>
-                    <Route path="/users/:userId" element={<ProfilePageWithParams/>}/>
-                    <Route path="/notifications" element={<NotificationsPage/>}/>
+                    <Route path="/" element={<ProfilePage />} />
+                    <Route path="/friends" element={<FriendsPage />} />
+                    <Route path="/users/:userId" element={<ProfilePageWithParams />} />
+                    <Route path="/notifications" element={<NotificationsPage />} />
                 </Routes>
             </Router>
         </NotificationsProvider>
