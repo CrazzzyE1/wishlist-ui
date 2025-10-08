@@ -3,16 +3,30 @@ import {BrowserRouter as Router, Route, Routes, useParams} from 'react-router-do
 import keycloak from './keycloak/Keycloak';
 import ProfilePage from "./component/ProfilePage";
 import FriendsPage from "./component/FriendsPage";
+import {httpClient} from './http/HttpClient';
 import NotificationsPage from "./component/NotificationsPage";
 import {NotificationsProvider} from "./component/NotificationsContext";
 import {LinearProgress} from "@mui/material";
-import {httpClient} from './http/HttpClient';
 import './GlobalStyles.css';
-
+import InfoBanner from "./component/InfoBanner";
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(false);
     const isRun = useRef(false);
+
+    const checkAndRefreshToken = () => {
+        keycloak.updateToken(65)
+            .then(refreshed => {
+                if (refreshed) {
+                    console.log('Token was refreshed ' + new Date());
+                    httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
+                }
+            })
+            .catch(() => {
+                console.error('Failed to refresh token');
+                keycloak.login();
+            });
+    };
 
     useEffect(() => {
         if (isRun.current) return;
@@ -44,46 +58,18 @@ function App() {
     }, []);
 
     useEffect(() => {
-        keycloak.onAuthSuccess = () => {
-            console.log('initKeycloak 1');
-            setAuthenticated(true);
-            httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
-        };
-        console.log('initKeycloak 2');
+        keycloak.onAuthSuccess = () => {setAuthenticated(true)};
         keycloak.onAuthLogout = () => setAuthenticated(false);
+        keycloak.onTokenExpired = () => {
+            checkAndRefreshToken();
+        }
     }, []);
 
     useEffect(() => {
-        console.log('authenticated: ' + authenticated);
         if (!authenticated) return;
-        console.log('initKeycloak 3');
-        keycloak.onTokenExpired = async () => {
-            console.log('Token expired — refreshing...' + new Date());
-            try {
-                await keycloak.updateToken(70);
-                console.log('Token refreshed!');
-                httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
-            } catch (err) {
-                console.error('Token refresh failed, re-login');
-                keycloak.login();
-            }
-        };
-    }, [authenticated]);
 
-    useEffect(() => {
-        const interceptor = httpClient.interceptors.request.use(async (config) => {
-            try {
-                console.log('interceptors: ' + authenticated);
-                await keycloak.updateToken(30);
-                config.headers.Authorization = `Bearer ${keycloak.token}`;
-            } catch (err) {
-                console.error('Token refresh in interceptor failed');
-                keycloak.login();
-            }
-            return config;
-        });
-
-        return () => httpClient.interceptors.request.eject(interceptor);
+        const interval = setInterval(checkAndRefreshToken, 30000);
+        return () => clearInterval(interval);
     }, [authenticated]);
 
     useEffect(() => {
@@ -113,6 +99,7 @@ function App() {
     return (
         <NotificationsProvider>
             <Router>
+                {/*<InfoBanner />*/}
                 <Routes>
                     <Route path="/" element={<ProfilePage/>}/>
                     <Route path="/friends" element={<FriendsPage/>}/>
