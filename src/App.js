@@ -18,7 +18,7 @@ function App() {
         if (isRun.current) return;
         isRun.current = true;
 
-        const initializeKeycloak = async () => {
+        const initKeycloak = async () => {
             try {
                 const auth = await keycloak.init({
                     onLoad: 'check-sso',
@@ -40,8 +40,51 @@ function App() {
             }
         };
 
-        initializeKeycloak();
+        initKeycloak();
     }, []);
+
+    useEffect(() => {
+        keycloak.onAuthSuccess = () => {
+            console.log('initKeycloak 1');
+            setAuthenticated(true);
+            httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
+        };
+        console.log('initKeycloak 2');
+        keycloak.onAuthLogout = () => setAuthenticated(false);
+    }, []);
+
+    useEffect(() => {
+        console.log('authenticated: ' + authenticated);
+        if (!authenticated) return;
+        console.log('initKeycloak 3');
+        keycloak.onTokenExpired = async () => {
+            console.log('Token expired — refreshing...' + new Date());
+            try {
+                await keycloak.updateToken(70);
+                console.log('Token refreshed!');
+                httpClient.defaults.headers.common['Authorization'] = `Bearer ${keycloak.token}`;
+            } catch (err) {
+                console.error('Token refresh failed, re-login');
+                keycloak.login();
+            }
+        };
+    }, [authenticated]);
+
+    useEffect(() => {
+        const interceptor = httpClient.interceptors.request.use(async (config) => {
+            try {
+                console.log('interceptors: ' + authenticated);
+                await keycloak.updateToken(30);
+                config.headers.Authorization = `Bearer ${keycloak.token}`;
+            } catch (err) {
+                console.error('Token refresh in interceptor failed');
+                keycloak.login();
+            }
+            return config;
+        });
+
+        return () => httpClient.interceptors.request.eject(interceptor);
+    }, [authenticated]);
 
     useEffect(() => {
         if (!authenticated) return;
@@ -64,17 +107,17 @@ function App() {
     }, [authenticated]);
 
     if (!authenticated || !isAuthorized) {
-        return <LinearProgress color="success" />;
+        return <LinearProgress color="success"/>;
     }
 
     return (
         <NotificationsProvider>
             <Router>
                 <Routes>
-                    <Route path="/" element={<ProfilePage />} />
-                    <Route path="/friends" element={<FriendsPage />} />
-                    <Route path="/users/:userId" element={<ProfilePageWithParams />} />
-                    <Route path="/notifications" element={<NotificationsPage />} />
+                    <Route path="/" element={<ProfilePage/>}/>
+                    <Route path="/friends" element={<FriendsPage/>}/>
+                    <Route path="/users/:userId" element={<ProfilePageWithParams/>}/>
+                    <Route path="/notifications" element={<NotificationsPage/>}/>
                 </Routes>
             </Router>
         </NotificationsProvider>
