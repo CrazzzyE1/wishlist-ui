@@ -155,7 +155,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
             }}
         >
             <MenuItem
-                onClick={handleProfileClick}
+                onClick={() => navigate('/')}
                 sx={{
                     py: 1,
                     fontSize: '0.9rem',
@@ -168,13 +168,12 @@ export default function AccountSettingToggle({onProfileEdit}) {
                 Профиль
             </MenuItem>
             <MenuItem
-                onClick={handleMenuClose}
-                disabled={true}
+                onClick={handleProfileClick}
                 sx={{
                     py: 1,
                     fontSize: '0.9rem',
-                    '&.Mui-disabled': {
-                        opacity: 0.5
+                    '&:hover': {
+                        backgroundColor: 'action.hover'
                     }
                 }}
             >
