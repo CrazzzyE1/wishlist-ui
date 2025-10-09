@@ -193,10 +193,13 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
     };
 
     return (
-        <>
+        <Box>
             <Card
                 sx={{
-                    maxWidth: {xs: 136, sm: 191},
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: { xs: 200, sm: 300 },
+                    minWidth: { xs: 100, sm: 191 },
                     borderRadius: 4,
                     boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
                     overflow: "hidden",
@@ -207,7 +210,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     },
                 }}
             >
-
                 <Box sx={{position: "relative"}}>
                     {imageLoading ? (
                             <Skeleton
@@ -233,7 +235,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                             }}
                         />
                     }
-
                 </Box>
 
                 <CardHeader
@@ -617,6 +618,6 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                     </Box>
                 </Box>
             </Modal>
-        </>
+        </Box>
     );
 }

@@ -1,4 +1,5 @@
 import GiftCard from "./GiftCard";
+import {Box} from "@mui/material";
 
 function WishList({data, isOwner, onGiftDeleted, onGiftEdit, lists}) {
 
@@ -7,11 +8,17 @@ function WishList({data, isOwner, onGiftDeleted, onGiftEdit, lists}) {
     if (data.length === 0) return <div>Список пуст</div>;
 
     return (
-        <div style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '16px',
-            justifyContent: 'flex-start'
+
+        <Box sx={{
+            display: 'grid',
+            gridTemplateColumns: {
+                xs: 'repeat(auto-fill, minmax(140px, 1fr))',
+                sm: 'repeat(auto-fill, minmax(170px, 1fr))',
+                md: 'repeat(auto-fill, minmax(200px, 1fr))'
+            },
+            gap: 1,
+            padding: 0,
+            width: '100%'
         }}>
             {data.map((item, index) => (
                 <GiftCard
@@ -23,7 +30,7 @@ function WishList({data, isOwner, onGiftDeleted, onGiftEdit, lists}) {
                     lists={lists}
                 />
             ))}
-        </div>
+        </Box>
     );
 }
 
