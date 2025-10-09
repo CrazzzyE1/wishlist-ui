@@ -5,7 +5,7 @@ import {httpClient} from "../http/HttpClient";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import EventsInfoList from "./EventsInfoList";
-import {Tooltip, Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Tooltip, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
@@ -29,9 +29,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     const [hasOutcomeFriendsRequest, setHasOutcomeFriendsRequest] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         const fetchGiftCount = async () => {
@@ -435,7 +432,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     <Box sx={{
                         display: 'flex',
                         justifyContent: 'flex-end',
-                        gap: isMobile ? 0 : 1,
+                        gap: {xs: 0, sm: 1},
                         mt: 0
                     }}>
                         {buttons()}
