@@ -13,18 +13,19 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import {httpClient} from "../http/HttpClient";
-import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
 import {green, red} from "@mui/material/colors";
 import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
 import {Tooltip} from "@mui/material";
+import {useNotifications} from "./NotificationsContext";
 
-export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncomingRequestAccepted, requestId}) {
+export function IncomingFriendRequest({friend, onIncomingRequestRemoved, requestId}) {
     const [open, setOpen] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
-    const {enqueueSnackbar} = useSnackbar();
+    const [isAccepted, setIsAccepted] = React.useState(false);
     const [avatarSrc, setAvatarSrc] = useState(null);
     const navigate = useNavigate();
+    const {decrementIncomingFriendsRequestCount} = useNotifications();
 
     useEffect(() => {
         const fetchAvatar = async () => {
@@ -71,11 +72,9 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
             if (response.status !== 200 && response.status !== 204) {
                 throw new Error('Не удалось отменить заявку');
             }
-
-            enqueueSnackbar(`Заявка в друзья с ${friend.fullName} отменена`, {variant: 'success'});
-            onIncomingRequestAccepted(requestId);
+            onIncomingRequestRemoved(requestId);
+            decrementIncomingFriendsRequestCount();
         } catch (error) {
-            enqueueSnackbar(error.response?.data?.message || error.message, {variant: 'error'});
             console.error('Ошибка отмены заявки:', error);
         } finally {
             setIsDeleting(false);
@@ -93,11 +92,9 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
             if (response.status !== 200 && response.status !== 204) {
                 throw new Error('Не удалось отменить заявку');
             }
-
-            enqueueSnackbar(`Заявка в друзья с ${friend.fullName} подтверждена`, {variant: 'success'});
-            onIncomingRequestRemoved(requestId);
+            setIsAccepted(true);
+            decrementIncomingFriendsRequestCount();
         } catch (error) {
-            enqueueSnackbar(error.response?.data?.message || error.message, {variant: 'error'});
             console.error('Ошибка подтверждения заявки:', error);
         } finally {
 
@@ -160,72 +157,91 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
                                 {friend.status}
                             </Typography>
                         </Box>
-                        <IconButton
-                            aria-label="accept"
-                            onClick={handleIncomingRequestAccepted}
-                            sx={{
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: {xs: 40, sm: 48},
-                                height: {xs: 40, sm: 48},
-                                borderRadius: '50%',
-                                padding: 0,
-                                '&:hover': {
-                                    '& .MuiSvgIcon-root': {
-                                        color: green[700]
-                                    }
-                                },
-                                '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                }
-                            }}
-                            disabled={isDeleting}
-                        >
-                            <Tooltip title="Принять заявку в друзья" placement="top-start" arrow>
-                                <AddTaskOutlinedIcon
+                        {isAccepted ? null :
+                            (
+                                <IconButton
+                                    aria-label="accept"
+                                    onClick={handleIncomingRequestAccepted}
                                     sx={{
-                                        fontSize: {
-                                            xs: '28px', sm: '40px',
-                                            color: green[400],
-                                            transition: 'color 0.5s ease'
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        width: {xs: 40, sm: 48},
+                                        height: {xs: 40, sm: 48},
+                                        borderRadius: '50%',
+                                        padding: 0,
+                                        '&:hover': {
+                                            '& .MuiSvgIcon-root': {
+                                                color: green[700]
+                                            }
+                                        },
+                                        '&:active': {
+                                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                         }
                                     }}
-                                />
-                            </Tooltip>
-                        </IconButton>
-                        <IconButton
-                            aria-label="delete"
-                            onClick={handleClickOpen}
-                            sx={{
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                width: {xs: 40, sm: 48},
-                                height: {xs: 40, sm: 48},
-                                borderRadius: '50%',
-                                padding: 0,
-                                '&:hover': {
-                                    '& .MuiSvgIcon-root': {
-                                        color: red[700]
-                                    }
-                                },
-                                '&:active': {
-                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                }
-                            }}
-                            disabled={isDeleting}
-                        >
-                            <Tooltip title="Отменить заявку в друзья" placement="top-start" arrow>
-                                <HighlightOffOutlinedIcon
+                                    disabled={isDeleting}
+                                >
+                                    <Tooltip title="Принять заявку в друзья" placement="top-start" arrow>
+                                        <AddTaskOutlinedIcon
+                                            sx={{
+                                                fontSize: {
+                                                    xs: '28px', sm: '40px',
+                                                    color: green[400],
+                                                    transition: 'color 0.5s ease'
+                                                }
+                                            }}
+                                        />
+                                    </Tooltip>
+                                </IconButton>
+                            )}
+                        {isAccepted ?
+                            (
+                                <Box display="flex" justifyContent="space-between" alignItems="center">
+                                    <Typography variant="body1"
+                                                sx={{
+                                                    fontSize: {xs: '0.75rem', sm: '1rem'},
+                                                    color: green[500],
+                                                    textAlign: "left"
+                                                }}>Добавлен в друзья</Typography>
+
+                                </Box>
+                            )
+                            :
+                            (
+                                <IconButton
+                                    aria-label="delete"
+                                    onClick={handleClickOpen}
                                     sx={{
-                                        fontSize: {
-                                            xs: '28px', sm: '40px',
-                                            color: red[400],
-                                            transition: 'color 0.5s ease'
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        width: {xs: 40, sm: 48},
+                                        height: {xs: 40, sm: 48},
+                                        borderRadius: '50%',
+                                        padding: 0,
+                                        '&:hover': {
+                                            '& .MuiSvgIcon-root': {
+                                                color: red[700]
+                                            }
+                                        },
+                                        '&:active': {
+                                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                         }
                                     }}
-                                />
-                            </Tooltip>
-                        </IconButton>
+                                    disabled={isDeleting}
+                                >
+                                    <Tooltip title="Отменить заявку в друзья" placement="top-start" arrow>
+                                        <HighlightOffOutlinedIcon
+                                            sx={{
+                                                fontSize: {
+                                                    xs: '28px', sm: '40px',
+                                                    color: red[400],
+                                                    transition: 'color 0.5s ease'
+                                                }
+                                            }}
+                                        />
+                                    </Tooltip>
+                                </IconButton>
+                            )
+                        }
                     </Box>
                     <Grid container spacing={1}
                           sx={{
