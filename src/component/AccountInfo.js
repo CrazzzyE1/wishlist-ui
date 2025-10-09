@@ -17,6 +17,11 @@ import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
 import {green, red, yellow} from "@mui/material/colors";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import * as React from "react";
 
 function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefreshKey, onPrivacyLevel, onIsFriend}) {
     const [userData, setUserData] = useState(null);
@@ -29,6 +34,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     const [hasOutcomeFriendsRequest, setHasOutcomeFriendsRequest] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [open, setOpen] = React.useState(false);
+    const [isDeleting, setIsDeleting] = React.useState(false);
 
     useEffect(() => {
         const fetchGiftCount = async () => {
@@ -109,6 +116,16 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         }
     }, [userId, userData, onIsFriend]);
 
+    const handleClose = (e) => {
+        e?.stopPropagation();
+        setOpen(false);
+    };
+
+    const handleClickOpen = (e) => {
+        e.stopPropagation();
+        setOpen(true);
+    };
+
     const handleClickBookmark = () => {
         try {
             if (isFavourites) {
@@ -138,13 +155,18 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         }
     };
 
-    const handleClickRemoveFriend = async () => {
+    const handleClickRemoveFriend = async (e) => {
+        e?.stopPropagation();
+        setIsDeleting(true);
         try {
             await httpClient.delete(`/friends/${userId}`);
             setIsFriend(false);
             setHasOutcomeFriendsRequest(false);
         } catch (error) {
             console.error('Ошибка при удалении друга:', error);
+        } finally {
+            setIsDeleting(false);
+            handleClose();
         }
     };
 
@@ -235,7 +257,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         if (isFriend) {
             return (
                 <IconButton
-                    onClick={handleClickRemoveFriend}
+                    // onClick={handleClickRemoveFriend}
+                    onClick={handleClickOpen}
                     sx={{
                         display: 'flex',
                         justifyContent: 'center',
@@ -573,6 +596,67 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     : null
                 }
             </Grid>
+            <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+                onClick={(e) => e.stopPropagation()}
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        textAlign: 'center',
+                        p: 2,
+                        minWidth: 300
+                    }
+                }}
+            >
+                <DialogTitle id="alert-dialog-title" sx={{
+                    textAlign: 'center',
+                    fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                    pb: 2
+                }}>
+                    {`Вы уверены, что хотите удалить ${userData.fullName} из друзей?`}
+                </DialogTitle>
+                <DialogActions sx={{
+                    justifyContent: 'center',
+                    gap: 2,
+                    pt: 1
+                }}>
+                    <Button
+                        onClick={handleClose}
+                        disabled={isDeleting}
+                        variant="outlined"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                            minWidth: 120
+                        }}
+                    >
+                        Отмена
+                    </Button>
+                    <Button
+                        onClick={handleClickRemoveFriend}
+                        color="error"
+                        autoFocus
+                        disabled={isDeleting}
+                        variant="contained"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontSize: {xs: '0.75rem', sm: '0.875rem'},
+                            minWidth: 120,
+                            backgroundColor: 'error.main',
+                            '&:hover': {
+                                backgroundColor: 'error.dark'
+                            }
+                        }}
+                    >
+                        {isDeleting ? 'Удаление...' : 'Удалить'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Grid>
     );
 }
