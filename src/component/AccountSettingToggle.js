@@ -7,7 +7,7 @@ import NotificationsActiveOutlinedIcon from '@mui/icons-material/NotificationsAc
 import FaceRetouchingNaturalOutlinedIcon from '@mui/icons-material/FaceRetouchingNaturalOutlined';
 import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-import {Avatar, Divider, Modal, Typography} from "@mui/material";
+import {Avatar, Divider, Modal, Tooltip, Typography} from "@mui/material";
 import keycloak from "../keycloak/Keycloak";
 import * as React from "react";
 import {useEffect, useState} from "react";
@@ -16,6 +16,7 @@ import {useNavigate} from "react-router-dom";
 import {useNotifications} from './NotificationsContext';
 import ProfileEditBox from "./ProfileEditBox";
 import Diversity3Icon from "@mui/icons-material/Diversity3";
+import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 
 
 const modalStyle = {
@@ -177,6 +178,20 @@ export default function AccountSettingToggle({onProfileEdit}) {
                     }
                 }}
             >
+                <CreateOutlinedIcon sx={{mr: 1, fontSize: 20}}/>
+                Редактировать
+            </MenuItem>
+            <MenuItem
+                // onClick={handleProfileClick}
+                disabled={true}
+                sx={{
+                    py: 1,
+                    fontSize: '0.9rem',
+                    '&:hover': {
+                        backgroundColor: 'action.hover'
+                    }
+                }}
+            >
                 <TuneOutlinedIcon sx={{mr: 1, fontSize: 20}}/>
                 Настройки
             </MenuItem>
@@ -222,13 +237,15 @@ export default function AccountSettingToggle({onProfileEdit}) {
                         }
                     }}>
                     <Badge badgeContent={incomingFriendsRequestCount} color="success">
-                        <Diversity3Icon sx={{
-                            fontSize: {
-                                xs: 28, sm: 40,
-                                transition: 'color 0.5s ease'
-                            }
-                        }}
-                        />
+                        <Tooltip title="Друзья" placement="top-start" arrow>
+                            <Diversity3Icon sx={{
+                                fontSize: {
+                                    xs: 28, sm: 40,
+                                    transition: 'color 0.5s ease'
+                                }
+                            }}
+                            />
+                        </Tooltip>
                     </Badge>
                 </IconButton>
 
@@ -255,10 +272,12 @@ export default function AccountSettingToggle({onProfileEdit}) {
                     }}
                 >
                     <Badge badgeContent={unreadCount} color="error">
-                        <NotificationsActiveOutlinedIcon sx={{
-                            fontSize: {xs: 28, sm: 40},
-                            transition: 'color 0.5s ease'
-                        }}/>
+                        <Tooltip title="Уведомления" placement="top-start" arrow>
+                            <NotificationsActiveOutlinedIcon sx={{
+                                fontSize: {xs: 28, sm: 40},
+                                transition: 'color 0.5s ease'
+                            }}/>
+                        </Tooltip>
                     </Badge>
                 </IconButton>
                 <IconButton
