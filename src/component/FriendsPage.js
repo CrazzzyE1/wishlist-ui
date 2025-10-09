@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import {CssBaseline} from "@mui/material";
@@ -6,10 +7,17 @@ import TopMenu from "./TopMenu";
 import Item from "./StyledItem";
 import FriendsPageMenu from "./FriendsPageMenu";
 import FriendsContent from "./FriendsContent";
+import {useNotifications} from "./NotificationsContext";
 
 export default function FriendsPage() {
 
     const [itemMenu, setItemMenu] = React.useState(0);
+    const {fetchUnreadCount, fetchIncomingFriendsRequestCount} = useNotifications();
+
+    useEffect(() => {
+        fetchUnreadCount();
+        fetchIncomingFriendsRequestCount();
+    }, [fetchUnreadCount, fetchIncomingFriendsRequestCount]);
 
     return (
         <React.Fragment>

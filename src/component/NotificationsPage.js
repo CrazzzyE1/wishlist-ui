@@ -6,10 +6,19 @@ import TopMenu from "./TopMenu";
 import Item from "./StyledItem";
 import NotificationsPageMenu from "./NotificationsPageMenu";
 import NotificationsContent from "./NotificationsContent";
+import {useNotifications} from "./NotificationsContext";
+import {useEffect} from "react";
 
 export default function NotificationsPage() {
 
     const [itemMenu, setItemMenu] = React.useState(0);
+
+    const {fetchUnreadCount, fetchIncomingFriendsRequestCount} = useNotifications();
+
+    useEffect(() => {
+        fetchUnreadCount();
+        fetchIncomingFriendsRequestCount();
+    }, [fetchUnreadCount, fetchIncomingFriendsRequestCount]);
 
     return (
         <React.Fragment>
