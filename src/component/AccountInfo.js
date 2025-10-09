@@ -5,7 +5,7 @@ import {httpClient} from "../http/HttpClient";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import EventsInfoList from "./EventsInfoList";
-import {Typography, useMediaQuery, useTheme} from "@mui/material";
+import {Tooltip, Typography, useMediaQuery, useTheme} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
@@ -194,6 +194,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             }
 
             setHasIncomeFriendsRequest(false);
+            setIsFriend(true)
         } catch (error) {
             console.error('Ошибка подтверждения заявки:', error);
         }
@@ -242,13 +243,13 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: isMobile ? 40 : 48,
-                        height: isMobile ? 40 : 48,
+                        width: {xs: 40, sm: 48},
+                        height: {xs: 40, sm: 48},
                         borderRadius: '50%',
                         mr: 0,
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
-                                color: red[500]
+                                color: red[700]
                             }
                         },
                         '&:active': {
@@ -256,13 +257,17 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         }
                     }}
                 >
-                    <PersonRemoveOutlinedIcon
-                        sx={{
-                            fontSize: isMobile ? 32 : 40,
-                            transition: 'color 0.5s ease',
-                            color: 'inherit'
-                        }}
-                    />
+                    <Tooltip title="Удалить из друзей" placement="top-start" arrow>
+                        <PersonRemoveOutlinedIcon
+                            sx={{
+                                color: red[400],
+                                fontSize: {
+                                    xs: 28, sm: 40
+                                },
+                                transition: 'color 0.5s ease'
+                            }}
+                        />
+                    </Tooltip>
                 </IconButton>
             )
         }
@@ -279,26 +284,31 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: isMobile ? 40 : 48,
-                        height: isMobile ? 40 : 48,
+                        width: {xs: 40, sm: 48},
+                        height: {xs: 40, sm: 48},
                         borderRadius: '50%',
                         mr: 0,
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
-                                color: red[500]
+                                color: red[700]
                             }
                         },
                         '&:active': {
                             boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                         }
                     }}
-                > <CancelOutlinedIcon
-                    sx={{
-                        fontSize: isMobile ? 32 : 40,
-                        transition: 'color 0.5s ease',
-                        color: 'inherit'
-                    }}
-                />
+                >
+                    <Tooltip title="Отменить заявку в друзья" placement="top-start" arrow>
+                        <CancelOutlinedIcon
+                            sx={{
+                                color: red[400],
+                                fontSize: {
+                                    xs: 28, sm: 40
+                                },
+                                transition: 'color 0.5s ease'
+                            }}
+                        />
+                    </Tooltip>
 
                 </IconButton>
             )
@@ -312,27 +322,31 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        width: isMobile ? 40 : 48,
-                        height: isMobile ? 40 : 48,
+                        width: {xs: 40, sm: 48},
+                        height: {xs: 40, sm: 48},
                         borderRadius: '50%',
                         mr: 0,
                         '&:hover': {
                             '& .MuiSvgIcon-root': {
-                                color: green[500]
+                                color: green[700]
                             }
                         },
                         '&:active': {
                             boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                         }
                     }}
-                > <AddTaskOutlinedIcon
-                    sx={{
-                        fontSize: isMobile ? 32 : 40,
-                        transition: 'color 0.5s ease',
-                        color: 'inherit'
-                    }}
-                />
-
+                >
+                    <Tooltip title="Принять заявку в друзья" placement="top-start" arrow>
+                        <AddTaskOutlinedIcon
+                            sx={{
+                                color: green[400],
+                                fontSize: {
+                                    xs: 28, sm: 40
+                                },
+                                transition: 'color 0.5s ease'
+                            }}
+                        />
+                    </Tooltip>
                 </IconButton>
             )
         }
@@ -344,15 +358,15 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    width: isMobile ? 40 : 48,
-                    height: isMobile ? 40 : 48,
+                    width: {xs: 40, sm: 48},
+                    height: {xs: 40, sm: 48},
                     borderRadius: '50%',
                     mr: 0,
                     '&:hover': {
                         '& .MuiSvgIcon-root': {
                             color: !isFriend && 'PRIVATE' !== userData.privacyLevel
-                                ? green[500]
-                                : red[500]
+                                ? green[700]
+                                : red[700]
                         }
                     },
                     '&:active': {
@@ -361,21 +375,29 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                 }}
             >
                 {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
-                    <PersonAddAltOutlinedIcon
-                        sx={{
-                            fontSize: isMobile ? 32 : 40,
-                            transition: 'color 0.5s ease',
-                            color: 'inherit'
-                        }}
-                    />
+                    <Tooltip title="Добавить в друзья" placement="top-start" arrow>
+                        <PersonAddAltOutlinedIcon
+                            sx={{
+                                color: green[400],
+                                fontSize: {
+                                    xs: 28, sm: 40
+                                },
+                                transition: 'color 0.5s ease'
+                            }}
+                        />
+                    </Tooltip>
                 ) : (
-                    <PersonRemoveOutlinedIcon
-                        sx={{
-                            fontSize: isMobile ? 32 : 40,
-                            transition: 'color 0.5s ease',
-                            color: 'inherit'
-                        }}
-                    />
+                    <Tooltip title="Удалить из друзей" placement="top-start" arrow>
+                        <PersonRemoveOutlinedIcon
+                            sx={{
+                                color: red[400],
+                                fontSize: {
+                                    xs: 28, sm: 40
+                                },
+                                transition: 'color 0.5s ease'
+                            }}
+                        />
+                    </Tooltip>
                 )}
             </IconButton>
         )
@@ -424,12 +446,12 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                     display: 'flex',
                                     justifyContent: 'center',
                                     alignItems: 'center',
-                                    width: isMobile ? 40 : 48,
-                                    height: isMobile ? 40 : 48,
+                                    width: {xs: 40, sm: 48},
+                                    height: {xs: 40, sm: 48},
                                     borderRadius: '50%',
                                     '&:hover': {
                                         '& .MuiSvgIcon-root': {
-                                            color: '#FFD700'
+                                            color: yellow[700]
                                         }
                                     },
                                     '&:active': {
@@ -437,16 +459,25 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                     }
                                 }}>
                                 {isFavourites ?
-                                    <TurnedInOutlinedIcon sx={{
-                                        color: yellow[500],
-                                        fontSize: isMobile ? 32 : 40,
-                                        transition: 'color 0.5s ease'
-                                    }}/>
+                                    <Tooltip title="Отписаться" placement="top-start" arrow>
+                                        <TurnedInOutlinedIcon sx={{
+                                            color: yellow[400],
+                                            fontSize: {
+                                                xs: 28, sm: 40
+                                            },
+                                            transition: 'color 0.5s ease'
+                                        }}/>
+                                    </Tooltip>
                                     :
-                                    <BookmarkBorderIcon sx={{
-                                        fontSize: isMobile ? 32 : 40,
-                                        transition: 'color 0.5s ease'
-                                    }}/>
+                                    <Tooltip title="Подписаться" placement="top-start" arrow>
+                                        <BookmarkBorderIcon sx={{
+                                            color: yellow[400],
+                                            fontSize: {
+                                                xs: 28, sm: 40
+                                            },
+                                            transition: 'color 0.5s ease'
+                                        }}/>
+                                    </Tooltip>
                                 }
                             </IconButton>
                         )}
