@@ -212,14 +212,15 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
             >
                 <Box sx={{position: "relative"}}>
                     {imageLoading ? (
-                            <Skeleton
-                                variant="rectangular"
-                                sx={{
-                                    width: {xs: 136, sm: 191},
-                                    height: {xs: 136, sm: 191},
-                                }}
-                            />
-                        ) :
+                        <Skeleton
+                            variant="rectangular"
+                            sx={{
+                                width: '100%',
+                                height: {xs: 136, sm: 191},
+                                aspectRatio: '1 / 1',
+                            }}
+                        />
+                    ) : (
                         <CardMedia
                             component="img"
                             image={imageUrl}
@@ -228,13 +229,15 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                             sx={{
                                 cursor: "pointer",
                                 objectFit: "cover",
+                                width: '100%',
+                                height: {xs: 136, sm: 191},
                                 transition: "0.3s ease",
                                 "&:hover": {
                                     filter: "brightness(0.9)",
                                 },
                             }}
                         />
-                    }
+                    )}
                 </Box>
 
                 <CardHeader
