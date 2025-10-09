@@ -15,6 +15,8 @@ import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
+import {red} from "@mui/material/colors";
+import {Tooltip} from "@mui/material";
 
 export function FriendCard({friend, onFriendRemoved}) {
     const [open, setOpen] = React.useState(false);
@@ -111,11 +113,12 @@ export function FriendCard({friend, onFriendRemoved}) {
                                 mr: 2
                             }}>
                         </Avatar>
-                        <Box sx={{
-                            flexGrow: 1,
-                            minWidth: 0,
-                            padding: 0
-                        }}>
+                        <Box
+                            sx={{
+                                flexGrow: 1,
+                                minWidth: 0,
+                                padding: 0
+                            }}>
                             <Typography noWrap variant="h6" component="div"
                                         sx={{
                                             fontSize: {xs: '0.75rem', sm: '1rem'},
@@ -132,14 +135,37 @@ export function FriendCard({friend, onFriendRemoved}) {
                         <IconButton
                             aria-label="delete"
                             onClick={handleClickOpen}
-                            color="gray"
-                            sx={{
-                                ml: 1,
-                                padding: 0
-                            }}
                             disabled={isDeleting}
+                            sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: {xs: 40, sm: 48},
+                                height: {xs: 40, sm: 48},
+                                borderRadius: '50%',
+                                ml: 1,
+                                padding: 0,
+                                '&:hover': {
+                                    '& .MuiSvgIcon-root': {
+                                        color: red[700]
+                                    }
+                                },
+                                '&:active': {
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                }
+                            }}
                         >
-                            <PersonRemoveOutlinedIcon sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
+                            <Tooltip title="Удалить из друзей" placement="top-start" arrow>
+                                <PersonRemoveOutlinedIcon
+                                    sx={{
+                                        fontSize: {
+                                            xs: '28px', sm: '40px',
+                                            color: red[400],
+                                            transition: 'color 0.5s ease'
+                                        }
+                                    }}
+                                />
+                            </Tooltip>
                         </IconButton>
                     </Box>
                     <Grid container spacing={1}

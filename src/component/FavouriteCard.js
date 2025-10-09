@@ -6,17 +6,17 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
-import {deepPurple} from '@mui/material/colors';
+import {yellow} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
+import {Tooltip} from "@mui/material";
 
 export function FavouriteCard({favourite, onFavouriteRemoved}) {
     const [open, setOpen] = React.useState(false);
@@ -81,7 +81,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
 
     return (
         <Grid
-            size={{ xs: 12, sm: 6 }}
+            size={{xs: 12, sm: 6}}
             key={favourite.id}
         >
             <Card
@@ -134,14 +134,37 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                         <IconButton
                             aria-label="delete"
                             onClick={handleClickOpen}
-                            color="gray"
                             sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: {xs: 40, sm: 48},
+                                height: {xs: 40, sm: 48},
+                                borderRadius: '50%',
                                 ml: 1,
-                                padding: 0
+                                padding: 0,
+                                '&:hover': {
+                                    '& .MuiSvgIcon-root': {
+                                        color: yellow[700]
+                                    }
+                                },
+                                '&:active': {
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                }
                             }}
                             disabled={isDeleting}
                         >
-                            <TurnedInOutlinedIcon sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
+                            <Tooltip title="Отписаться" placement="top-start" arrow>
+                                <TurnedInOutlinedIcon
+                                    sx={{
+                                        fontSize: {
+                                            xs: '28px', sm: '40px',
+                                            color: yellow[400],
+                                            transition: 'color 0.5s ease'
+                                        }
+                                    }}
+                                />
+                            </Tooltip>
                         </IconButton>
                     </Box>
                     <Grid container spacing={1}

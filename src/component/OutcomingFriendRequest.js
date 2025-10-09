@@ -6,7 +6,6 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -16,6 +15,8 @@ import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
+import {red} from "@mui/material/colors";
+import {Tooltip} from "@mui/material";
 
 export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, requestId}) {
     const [open, setOpen] = React.useState(false);
@@ -139,12 +140,36 @@ export function OutcomingFriendRequest({friend, onOutcomingRequestRemoved, reque
                             onClick={handleClickOpen}
                             color="gray"
                             sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: {xs: 40, sm: 48},
+                                height: {xs: 40, sm: 48},
+                                borderRadius: '50%',
                                 ml: 1,
-                                padding: 0
+                                padding: 0,
+                                '&:hover': {
+                                    '& .MuiSvgIcon-root': {
+                                        color: red[700]
+                                    }
+                                },
+                                '&:active': {
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                }
                             }}
                             disabled={isDeleting}
                         >
-                            <HighlightOffOutlinedIcon sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
+                            <Tooltip title="Отменить заявку в друзья" placement="top-start" arrow>
+                                <HighlightOffOutlinedIcon
+                                    sx={{
+                                        fontSize: {
+                                            xs: '28px', sm: '40px',
+                                            color: red[400],
+                                            transition: 'color 0.5s ease'
+                                        }
+                                    }}
+                                />
+                            </Tooltip>
                         </IconButton>
                     </Box>
                     <Grid container spacing={1}

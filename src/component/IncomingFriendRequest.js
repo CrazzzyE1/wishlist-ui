@@ -6,17 +6,18 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Avatar from '@mui/material/Avatar';
-import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import HighlightOffOutlinedIcon from '@mui/icons-material/HighlightOffOutlined';
-import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
 import {useNavigate} from 'react-router-dom';
+import {green, red} from "@mui/material/colors";
+import AddTaskOutlinedIcon from "@mui/icons-material/AddTaskOutlined";
+import {Tooltip} from "@mui/material";
 
 export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncomingRequestAccepted, requestId}) {
     const [open, setOpen] = React.useState(false);
@@ -109,7 +110,7 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
 
     return (
         <Grid
-            size={{ xs: 12, sm: 6 }}
+            size={{xs: 12, sm: 6}}
             key={requestId}>
             <Card
                 sx={{
@@ -162,23 +163,68 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, onIncom
                         <IconButton
                             aria-label="accept"
                             onClick={handleIncomingRequestAccepted}
-                            color="green"
                             sx={{
-                                ml: 1,
-                                padding: 0
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: {xs: 40, sm: 48},
+                                height: {xs: 40, sm: 48},
+                                borderRadius: '50%',
+                                padding: 0,
+                                '&:hover': {
+                                    '& .MuiSvgIcon-root': {
+                                        color: green[700]
+                                    }
+                                },
+                                '&:active': {
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                }
                             }}
                             disabled={isDeleting}
                         >
-                            <CheckCircleOutlineOutlinedIcon  sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
+                            <Tooltip title="Принять заявку в друзья" placement="top-start" arrow>
+                                <AddTaskOutlinedIcon
+                                    sx={{
+                                        fontSize: {
+                                            xs: '28px', sm: '40px',
+                                            color: green[400],
+                                            transition: 'color 0.5s ease'
+                                        }
+                                    }}
+                                />
+                            </Tooltip>
                         </IconButton>
                         <IconButton
                             aria-label="delete"
                             onClick={handleClickOpen}
-                            color="gray"
-                            sx={{ml: 0}}
+                            sx={{
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                width: {xs: 40, sm: 48},
+                                height: {xs: 40, sm: 48},
+                                borderRadius: '50%',
+                                padding: 0,
+                                '&:hover': {
+                                    '& .MuiSvgIcon-root': {
+                                        color: red[700]
+                                    }
+                                },
+                                '&:active': {
+                                    boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                }
+                            }}
                             disabled={isDeleting}
                         >
-                            <HighlightOffOutlinedIcon  sx={{fontSize: {xs: '24px', sm: '40px'}}}/>
+                            <Tooltip title="Отменить заявку в друзья" placement="top-start" arrow>
+                                <HighlightOffOutlinedIcon
+                                    sx={{
+                                        fontSize: {
+                                            xs: '28px', sm: '40px',
+                                            color: red[400],
+                                            transition: 'color 0.5s ease'
+                                        }
+                                    }}
+                                />
+                            </Tooltip>
                         </IconButton>
                     </Box>
                     <Grid container spacing={1}
