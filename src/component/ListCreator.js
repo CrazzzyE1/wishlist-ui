@@ -66,11 +66,12 @@ export default function ListCreator({onListCreated}) {
                     },
                 }}>
                 <PostAddIcon sx={{
-                    fontSize: {xs: 42, sm: 48},
+                    fontSize: {xs: 28, sm: 40},
                     transition: 'color 0.5s ease'
                 }}/>
                 <Typography
                     sx={{
+                        pl: 1,
                         fontSize: {xs: '1rem', sm: '1.3rem'}
                     }}>
                     Создать список

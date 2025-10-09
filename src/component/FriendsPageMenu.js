@@ -6,13 +6,15 @@ import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
 import OutputOutlinedIcon from '@mui/icons-material/OutputOutlined';
 import InputOutlinedIcon from '@mui/icons-material/InputOutlined';
 import TurnedInNotOutlinedIcon from '@mui/icons-material/TurnedInNotOutlined';
-import {Box} from "@mui/material";
+import {Box, useMediaQuery, useTheme} from "@mui/material";
 import {useNotifications} from "./NotificationsContext";
 import {useEffect} from "react";
 
 export default function FriendsPageMenu({onItemMenu}) {
     const [value, setValue] = React.useState(0);
     const {incomingFriendsRequestCount} = useNotifications();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
         if (incomingFriendsRequestCount > 0) {
@@ -67,12 +69,12 @@ export default function FriendsPageMenu({onItemMenu}) {
                     </Badge>
                 }
                 iconPosition="start"
-                label={value === 2 ? "Входящие" : <Box sx={{display: {xs: 'none', sm: 'inline'}}}>Входящие заявки</Box>}
+                label={value === 2 ? isMobile ? "Входящие" : "Входящие заявки" : <Box sx={{display: {xs: 'none', sm: 'inline'}}}>Входящие заявки</Box>}
             />
             <Tab
                 icon={<OutputOutlinedIcon sx={{fontSize: '24px'}}/>}
                 iconPosition="start"
-                label={value === 3 ? "Исходящие" :
+                label={value === 3 ? isMobile ? "Исходящие" : "Исходящие заявки" :
                     <Box sx={{display: {xs: 'none', sm: 'inline'}}}>Исходящие заявки</Box>}
             />
         </Tabs>

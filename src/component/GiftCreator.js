@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import GiftCreateBox from "./GiftCreateBox";
 import { httpClient } from "../http/HttpClient";
 import LoupeIcon from "@mui/icons-material/Loupe";
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { useState } from 'react';
 import Grid from "@mui/material/Grid";
 
@@ -96,12 +97,13 @@ export default function GiftCreator({ onGiftCreated, lists, selectedWishlistId }
                         }
                     }
                 }}>
-                <LoupeIcon sx={{
-                    fontSize: {xs: 42, sm: 48},
+                <AddCircleOutlineOutlinedIcon sx={{
+                    fontSize: {xs: 28, sm: 40},
                     transition: 'color 0.5s ease'
                 }}/>
                 <Typography
                     sx={{
+                        pl: 1,
                         fontSize: {xs: '1rem', sm: '1.3rem'}
                     }}>
                     Создать желание
