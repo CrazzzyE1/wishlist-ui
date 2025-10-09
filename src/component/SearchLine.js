@@ -76,8 +76,8 @@ function SearchLine() {
             {openResults && (
                 <Box sx={{
                     position: 'absolute',
-                    width: '100%',
-                    maxHeight: 300,
+                    width: {xs: '175%', sm: '100%'},
+                    maxHeight: 500,
                     overflow: 'auto',
                     backgroundColor: 'background.paper',
                     boxShadow: 3,
@@ -108,8 +108,25 @@ function SearchLine() {
                                             </Avatar>
                                         </ListItemAvatar>
                                         <ListItemText
-                                            primary={user.fullName}
-                                            secondary={user.privacyLevel}
+                                            primary={
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: {xs: '0.75rem', sm: '1rem'}
+                                                    }}
+                                                >
+                                                    {user.fullName}
+                                                </Typography>
+                                            }
+                                            secondary={
+                                                <Typography
+                                                    sx={{
+                                                        fontSize: {xs: '0.65rem', sm: '0.875rem'}
+                                                    }}
+                                                >
+                                                    {user.privacyLevel === 'PRIVATE' ? 'Приватный' :
+                                                        user.privacyLevel === 'PUBLIC' ? 'Публичный' : 'Только друзья'}
+                                                </Typography>
+                                            }
                                         />
                                     </ListItem>
                                     <Divider component="li"/>
@@ -118,7 +135,13 @@ function SearchLine() {
                         </List>
                     ) : (
                         <Box sx={{p: 2, textAlign: 'center'}}>
-                            <Typography variant="body2" color="text.secondary">
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{
+                                    fontSize: {xs: '0.65rem', sm: '0.875rem'}
+                                }}
+                            >
                                 Ничего не найдено
                             </Typography>
                         </Box>
