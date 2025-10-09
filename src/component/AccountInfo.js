@@ -371,31 +371,17 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     }
                 }}
             >
-                {(!isFriend && 'PRIVATE' !== userData.privacyLevel) ? (
-                    <Tooltip title="Добавить в друзья" placement="top-start" arrow>
-                        <PersonAddAltOutlinedIcon
-                            sx={{
-                                color: green[400],
-                                fontSize: {
-                                    xs: 28, sm: 40
-                                },
-                                transition: 'color 0.5s ease'
-                            }}
-                        />
-                    </Tooltip>
-                ) : (
-                    <Tooltip title="Удалить из друзей" placement="top-start" arrow>
-                        <PersonRemoveOutlinedIcon
-                            sx={{
-                                color: red[400],
-                                fontSize: {
-                                    xs: 28, sm: 40
-                                },
-                                transition: 'color 0.5s ease'
-                            }}
-                        />
-                    </Tooltip>
-                )}
+                <Tooltip title="Добавить в друзья" placement="top-start" arrow>
+                    <PersonAddAltOutlinedIcon
+                        sx={{
+                            color: green[400],
+                            fontSize: {
+                                xs: 28, sm: 40
+                            },
+                            transition: 'color 0.5s ease'
+                        }}
+                    />
+                </Tooltip>
             </IconButton>
         )
     }
