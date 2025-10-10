@@ -74,7 +74,7 @@ export default function SubscribersList() {
                                 mt: 2,
                                 fontSize: {xs: '0.75rem', sm: '1rem'}
                             }}>
-                    У вас пока нет подписок
+                    У вас пока нет подписчиков
                 </Typography>
             ) : (
                 <Grid container spacing={2}>
