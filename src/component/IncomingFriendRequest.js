@@ -154,7 +154,8 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, request
                                         sx={{
                                             fontSize: {xs: '0.6rem', sm: '0.8rem'},
                                         }}>
-                                {friend.status}
+                                {friend.status === 'WAITING' ? 'Жду подарки' :
+                                    friend.status === 'NO_WAITING' ? 'Собираю идеи' : ''}
                             </Typography>
                         </Box>
                         {isAccepted ? null :
@@ -288,14 +289,31 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, request
                                             sx={{
                                                 fontSize: {xs: '0.75rem', sm: '0.8rem'},
                                             }}>
-                                    <strong>Избранное:</strong> скрыто
+                                    <strong>Подписчиков:</strong> скрыто
                                 </Typography>
                             ) : (
                                 <Typography variant="body2"
                                             sx={{
                                                 fontSize: {xs: '0.75rem', sm: '0.8rem'},
                                             }}>
-                                    <strong>Избранное:</strong> {friend.favouritesCount}
+                                    <strong>Подписчиков:</strong> {friend.subscribersCount}
+                                </Typography>
+                            )}
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3}>
+                            {!friend.isPublic ? (
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
+                                    <strong>Подписок:</strong> скрыто
+                                </Typography>
+                            ) : (
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
+                                    <strong>Подписок:</strong> {friend.favouritesCount}
                                 </Typography>
                             )}
                         </Grid>
@@ -304,7 +322,9 @@ export function IncomingFriendRequest({friend, onIncomingRequestRemoved, request
                                         sx={{
                                             fontSize: {xs: '0.75rem', sm: '0.8rem'},
                                         }}>
-                                <strong>Приватность:</strong> {friend.privacyLevel}
+                                <strong>Приватность: </strong>
+                                {friend.privacyLevel === 'PRIVATE' ? 'Приватный' :
+                                    friend.privacyLevel === 'PUBLIC' ? 'Публичный' : 'Только друзья'}
                             </Typography>
                         </Grid>
                     </Grid>

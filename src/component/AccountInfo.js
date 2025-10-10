@@ -53,6 +53,27 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
         fetchGiftCount();
     }, [refreshCounterKey]);
+    //
+    // useEffect(() => {
+    //     const fetchGiftCount = async () => {
+    //         try {
+    //             const id = userId ? userId : getUserIdFromToken(keycloak.token);
+    //
+    //
+    //             const url = `/gifts/user/${id}/count`;
+    //
+    //
+    //             const response = await httpClient.get(url);
+    //             setSubscriberCount(response.data.giftsCount);
+    //         } catch (err) {
+    //             setError(err.message);
+    //             console.error('Ошибка загрузки данных:', err);
+    //         } finally {
+    //         }
+    //     };
+    //
+    //     fetchGiftCount();
+    // }, [refreshCounterKey]);
 
     useEffect(() => {
         const fetchUserDataWithRetry = async (retryCount = 0) => {
@@ -586,7 +607,10 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                             </Grid>
                             <Grid size={{xs: 12, sm: 9}}>
                                 {(isOwner || !isPrivate) && (
-                                    <Counters userData={userData} giftsCount={giftsCount}/>
+                                    <Counters
+                                        userData={userData}
+                                        giftsCount={giftsCount}
+                                    />
                                 )}
                             </Grid>
                             <Grid size={{xs: 12, sm: 12}}>

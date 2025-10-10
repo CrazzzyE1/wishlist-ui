@@ -128,7 +128,8 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                                         sx={{
                                             fontSize: {xs: '0.6rem', sm: '0.8rem'},
                                         }}>
-                                {favourite.status}
+                                {favourite.status === 'WAITING' ? 'Жду подарки' :
+                                    favourite.status === 'NO_WAITING' ? 'Собираю идеи' : ''}
                             </Typography>
                         </Box>
                         <IconButton
@@ -212,14 +213,31 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                                             sx={{
                                                 fontSize: {xs: '0.75rem', sm: '0.8rem'},
                                             }}>
-                                    <strong>Избранное:</strong> скрыто
+                                    <strong>Подписчиков:</strong> скрыто
                                 </Typography>
                             ) : (
                                 <Typography variant="body2"
                                             sx={{
                                                 fontSize: {xs: '0.75rem', sm: '0.8rem'},
                                             }}>
-                                    <strong>Избранное:</strong> {favourite.favouritesCount}
+                                    <strong>Подписчиков:</strong> {favourite.subscribersCount}
+                                </Typography>
+                            )}
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={3}>
+                            {!favourite.isPublic ? (
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
+                                    <strong>Подписок:</strong> скрыто
+                                </Typography>
+                            ) : (
+                                <Typography variant="body2"
+                                            sx={{
+                                                fontSize: {xs: '0.75rem', sm: '0.8rem'},
+                                            }}>
+                                    <strong>Подписок:</strong> {favourite.favouritesCount}
                                 </Typography>
                             )}
                         </Grid>
@@ -228,7 +246,9 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                                         sx={{
                                             fontSize: {xs: '0.75rem', sm: '0.8rem'},
                                         }}>
-                                <strong>Приватность:</strong> {favourite.privacyLevel}
+                                <strong>Приватность: </strong>
+                                {favourite.privacyLevel === 'PRIVATE' ? 'Приватный' :
+                                    favourite.privacyLevel === 'PUBLIC' ? 'Публичный' : 'Только друзья'}
                             </Typography>
                         </Grid>
                     </Grid>

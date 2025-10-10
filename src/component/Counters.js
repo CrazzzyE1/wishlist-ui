@@ -3,10 +3,9 @@ import * as React from "react";
 import {Typography} from "@mui/material";
 
 function Counters({userData, giftsCount}) {
-
     return (
         <Grid container spacing={0}>
-            <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
+            <Grid size={{xs: 5, sm: 2}} container justifyContent="flex-start">
                 <Typography variant="body1" sx={{
                     fontSize: {xs: '12px', sm: '16px'},
                     color: 'text.secondary',
@@ -24,7 +23,25 @@ function Counters({userData, giftsCount}) {
                 }}>{giftsCount}
                 </Typography>
             </Grid>
-            <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
+            <Grid size={{xs: 7, sm: 10}} container justifyContent="flex-start">
+                <Typography variant="body1" sx={{
+                    fontSize: {xs: '12px', sm: '16px'},
+                    color: 'text.secondary',
+                    justifyContent: 'flex-start',
+                    textAlign: 'left',
+                }}>
+                    Подписчиков:
+                </Typography>
+                <Typography variant="body1" fontWeight="bold" sx={{
+                    fontSize: {xs: '12px', sm: '16px'},
+                    color: 'text.secondary',
+                    justifyContent: 'flex-start',
+                    textAlign: 'left',
+                    ml: 1
+                }}>{userData.subscribersCount}
+                </Typography>
+            </Grid>
+            <Grid size={{xs: 5, sm: 2}} container justifyContent="flex-start">
                 <Typography variant="body1" sx={{
                     fontSize: {xs: '12px', sm: '16px'},
                     color: 'text.secondary',
@@ -42,7 +59,7 @@ function Counters({userData, giftsCount}) {
                 }}>{userData.friendsCount}
                 </Typography>
             </Grid>
-            <Grid size={{xs: 12, sm: 12}} container justifyContent="flex-start">
+            <Grid size={{xs: 7, sm: 10}} container justifyContent="flex-start">
                 <Typography variant="body1" sx={{
                     fontSize: {xs: '12px', sm: '16px'},
                     color: 'text.secondary',
