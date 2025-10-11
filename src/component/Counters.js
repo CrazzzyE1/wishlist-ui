@@ -7,6 +7,10 @@ function Counters({isPublic, isFriendsOnly, isOwner, isFriend, userData, giftsCo
     const navigate = useNavigate();
 
     const handleClick = () => {
+        if (isOwner) {
+            navigate(`/users`);
+            return;
+        }
         navigate(`/users/${userData.id}/friends`);
     };
 
@@ -87,7 +91,7 @@ function Counters({isPublic, isFriendsOnly, isOwner, isFriend, userData, giftsCo
         </Grid>
     );
 
-    if (!isOwner && (isPublic || (isFriendsOnly && isFriend))) {
+    if (isPublic || (isFriendsOnly && isFriend)) {
         return (
             <Box
                 onClick={handleClick}
