@@ -1,9 +1,16 @@
 import Grid from "@mui/material/Grid";
 import * as React from "react";
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
-function Counters({userData, giftsCount}) {
-    return (
+function Counters({isPublic, isFriendsOnly, isOwner, isFriend, userData, giftsCount}) {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate(`/users/${userData.id}/friends`);
+    };
+
+    const content = (
         <Grid container spacing={0}>
             <Grid size={{xs: 5, sm: 2}} container justifyContent="flex-start">
                 <Typography variant="body1" sx={{
@@ -79,6 +86,23 @@ function Counters({userData, giftsCount}) {
             </Grid>
         </Grid>
     );
+
+    if (!isOwner && (isPublic || (isFriendsOnly && isFriend))) {
+        return (
+            <Box
+                onClick={handleClick}
+                sx={{
+                    cursor: 'pointer',
+                    '&:hover': {
+                        opacity: 0.8
+                    }
+                }}
+            >
+                {content}
+            </Box>
+        );
+    }
+    return content;
 }
 
 export default Counters;

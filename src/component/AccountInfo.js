@@ -1,3 +1,4 @@
+import * as React from 'react';
 import {useEffect, useState} from 'react';
 import ProfileAvatar from "./ProfileAvatar";
 import Counters from "./Counters";
@@ -21,13 +22,14 @@ import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
-import * as React from "react";
 
 function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefreshKey, onPrivacyLevel, onIsFriend}) {
     const [userData, setUserData] = useState(null);
     const [giftsCount, setGiftsCount] = useState(0);
     const [isFriend, setIsFriend] = useState(null);
     const [isPrivate, setIsPrivate] = useState(null);
+    const [isFriendsOnly, setIsFriendsOnly] = useState(null);
+    const [isPublic, setIsPublic] = useState(null);
     const [isOwner, setIsOwner] = useState(null);
     const [isFavourites, setIsFavourites] = useState(null);
     const [hasIncomeFriendsRequest, setHasIncomeFriendsRequest] = useState(null);
@@ -53,27 +55,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
 
         fetchGiftCount();
     }, [refreshCounterKey]);
-    //
-    // useEffect(() => {
-    //     const fetchGiftCount = async () => {
-    //         try {
-    //             const id = userId ? userId : getUserIdFromToken(keycloak.token);
-    //
-    //
-    //             const url = `/gifts/user/${id}/count`;
-    //
-    //
-    //             const response = await httpClient.get(url);
-    //             setSubscriberCount(response.data.giftsCount);
-    //         } catch (err) {
-    //             setError(err.message);
-    //             console.error('Ошибка загрузки данных:', err);
-    //         } finally {
-    //         }
-    //     };
-    //
-    //     fetchGiftCount();
-    // }, [refreshCounterKey]);
 
     useEffect(() => {
         const fetchUserDataWithRetry = async (retryCount = 0) => {
@@ -92,6 +73,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                 if (onPrivacyLevel) {
                     onPrivacyLevel(response.data.privacyLevel);
                     setIsPrivate(response.data.privacyLevel === 'PRIVATE');
+                    setIsFriendsOnly(response.data.privacyLevel === 'FRIENDS_ONLY');
+                    setIsPublic(response.data.privacyLevel === 'PUBLIC');
                 }
                 setLoading(false);
             } catch (err) {
@@ -606,12 +589,16 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                 </>
                             </Grid>
                             <Grid size={{xs: 12, sm: 9}}>
-                                {(isOwner || !isPrivate) && (
+                                {(isOwner || isPublic || (isFriendsOnly && isFriend)) ? (
                                     <Counters
+                                        isPublic={isPublic}
+                                        isFriendsOnly={isFriendsOnly}
+                                        isOwner={isOwner}
+                                        isFriend={isFriend}
                                         userData={userData}
                                         giftsCount={giftsCount}
                                     />
-                                )}
+                                ) : null}
                             </Grid>
                             <Grid size={{xs: 12, sm: 12}}>
                                 <EventsInfoList events={events}/>
