@@ -102,13 +102,13 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     me: me,
                     friend: userId
                 });
+                setIsFavourites(response.data.isFavourites);
+                setHasIncomeFriendsRequest(response.data.hasIncomeFriendsRequest);
+                setHasOutcomeFriendsRequest(response.data.hasOutcomeFriendsRequest);
                 setIsFriend(response.data.isFriends);
                 if (onIsFriend) {
                     onIsFriend(response.data.isFriends);
                 }
-                setIsFavourites(response.data.isFavourites);
-                setHasIncomeFriendsRequest(response.data.hasIncomeFriendsRequest);
-                setHasOutcomeFriendsRequest(response.data.hasOutcomeFriendsRequest);
             } catch (err) {
                 setError(err.message);
                 console.error('Ошибка загрузки данных:', err);
@@ -258,10 +258,17 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             return;
         }
 
+        if (loading || isFriend === null || isPrivate === null) {
+            return (
+                <Box sx={{ width: 48, height: 48, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <CircularProgress size={24} />
+                </Box>
+            );
+        }
+
         if (isFriend) {
             return (
                 <IconButton
-                    // onClick={handleClickRemoveFriend}
                     onClick={handleClickOpen}
                     sx={{
                         display: 'flex',
@@ -333,7 +340,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                             }}
                         />
                     </Tooltip>
-
                 </IconButton>
             )
         }
