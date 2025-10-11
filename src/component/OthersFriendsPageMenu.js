@@ -2,7 +2,7 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
-import {Box} from "@mui/material";
+import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 
 export default function OthersFriendsPageMenu({onItemMenu}) {
     const [value, setValue] = React.useState(0);
@@ -25,7 +25,7 @@ export default function OthersFriendsPageMenu({onItemMenu}) {
                 },
                 '& .MuiTab-root': {
                     minHeight: '48px',
-                    padding: '6px 4px',
+                    padding: '6px 8px',
                     minWidth: 'auto',
                     margin: 0,
                     fontSize: {
@@ -39,13 +39,13 @@ export default function OthersFriendsPageMenu({onItemMenu}) {
             <Tab
                 icon={<Diversity3OutlinedIcon sx={{fontSize: '24px'}}/>}
                 iconPosition="start"
-                label={value === 0 ? "Друзья" : <Box sx={{display: {xs: 'none', sm: 'inline'}}}>Друзья</Box>}
+                label="Друзья"
             />
-            {/*<Tab*/}
-            {/*    icon={<TurnedInNotOutlinedIcon sx={{fontSize: '24px'}}/>}*/}
-            {/*    iconPosition="start"*/}
-            {/*    label={value === 1 ? "Подписки" : <Box sx={{display: {xs: 'none', sm: 'inline'}}}>Подписки</Box>}*/}
-            {/*/>*/}
+            <Tab
+                icon={<AutoAwesomeOutlinedIcon sx={{fontSize: '24px'}}/>}
+                iconPosition="start"
+                label="Подписчики"
+            />
         </Tabs>
     );
 }
