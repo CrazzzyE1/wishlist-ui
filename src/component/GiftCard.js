@@ -216,7 +216,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                             variant="rectangular"
                             sx={{
                                 width: '100%',
-                                height: {xs: 136, sm: 191},
+                                height: {xs: 136, sm: 200},
                                 aspectRatio: '1 / 1',
                             }}
                         />
@@ -230,7 +230,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 cursor: "pointer",
                                 objectFit: "cover",
                                 width: '100%',
-                                height: {xs: 136, sm: 191},
+                                height: {xs: 136, sm: 200},
                                 transition: "0.3s ease",
                                 "&:hover": {
                                     filter: "brightness(0.9)",
