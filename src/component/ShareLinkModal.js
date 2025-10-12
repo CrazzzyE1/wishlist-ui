@@ -20,6 +20,9 @@ export default function ShareLinkModal({id, sublink, open, onClose}) {
         try {
             await navigator.clipboard.writeText(shareLink);
             setShowNotification(true);
+            if (onClose){
+                onClose();
+            }
         } catch (error) {
             console.error('Ошибка при копировании:', error);
             const textArea = document.createElement('textarea');
@@ -43,22 +46,27 @@ export default function ShareLinkModal({id, sublink, open, onClose}) {
                     sx: {
                         borderRadius: 3,
                         textAlign: 'center',
-                        p: 2,
-                        minWidth: 400
+                        pb: 2,
+                        minWidth: 300
                     }
                 }}
             >
                 <DialogTitle
                     sx={{
                         textAlign: 'center',
-                        fontSize: '1.25rem',
-                        pb: 2
+                        fontSize: {xs: '0.875rem', sm: '1.25rem'},
+                        fontWeight: 600
                     }}
                 >
                     Поделиться ссылкой
                 </DialogTitle>
-                <DialogContent>
-                    <Box sx={{mt: 2, mb: 2}}>
+                <DialogContent sx={{textAlign: 'center'}}>
+                    <Box
+                        sx={{
+                            mt: 2,
+                            // mb: 2
+                    }}
+                    >
                         <TextField
                             label="Ссылка"
                             value={shareLink}
@@ -69,6 +77,12 @@ export default function ShareLinkModal({id, sublink, open, onClose}) {
                             sx={{
                                 '& .MuiOutlinedInput-root': {
                                     borderRadius: 2,
+                                },
+                                '& .MuiInputLabel-root': {
+                                    fontSize: {xs: '0.75rem', sm: '0.875rem'}
+                                },
+                                '& .MuiInputBase-input': {
+                                    fontSize: {xs: '0.75rem', sm: '0.875rem'}
                                 }
                             }}
                         />
@@ -76,8 +90,7 @@ export default function ShareLinkModal({id, sublink, open, onClose}) {
                 </DialogContent>
                 <DialogActions sx={{
                     justifyContent: 'center',
-                    gap: 2,
-                    pt: 1
+                    gap: 2
                 }}>
                     <Button
                         onClick={onClose}
@@ -86,27 +99,27 @@ export default function ShareLinkModal({id, sublink, open, onClose}) {
                             borderRadius: 2,
                             textTransform: 'none',
                             fontWeight: 500,
-                            minWidth: 120
+                            fontSize: {xs: '0.75rem', sm: '0.875rem'}
                         }}
                     >
                         Закрыть
                     </Button>
                     <Button
                         onClick={handleCopyLink}
-                        startIcon={<ContentCopyIcon/>}
+                        startIcon={<ContentCopyIcon sx={{fontSize: {xs: 18, sm: 20}}} />}
                         variant="contained"
                         sx={{
                             borderRadius: 2,
                             textTransform: 'none',
                             fontWeight: 500,
-                            minWidth: 160,
+                            fontSize: {xs: '0.75rem', sm: '0.875rem'},
                             backgroundColor: 'primary.main',
                             '&:hover': {
                                 backgroundColor: 'primary.dark'
                             }
                         }}
                     >
-                        Копировать ссылку
+                        Копировать
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -121,7 +134,8 @@ export default function ShareLinkModal({id, sublink, open, onClose}) {
                     severity="success"
                     sx={{
                         borderRadius: 2,
-                        fontWeight: 500
+                        fontWeight: 500,
+                        fontSize: {xs: '0.75rem', sm: '0.875rem'}
                     }}
                 >
                     Ссылка скопирована в буфер обмена!
