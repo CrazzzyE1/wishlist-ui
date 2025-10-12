@@ -526,7 +526,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                         boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
                                     }
                                 }}>
-                                <Tooltip title="Поделиться" placement="top-start" arrow>
+                                <Tooltip title="Поделиться страницей" placement="top-start" arrow>
                                     <ShareOutlinedIcon sx={{
                                         color: blue[400],
                                         fontSize: {

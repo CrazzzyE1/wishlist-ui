@@ -69,7 +69,7 @@ function WishListContent({
 
     if (loading) return <LinearProgress color="success"/>;
     if (error) return <Typography color="error">Ошибка: {error}</Typography>;
-    if (!wishlistData) return <Typography>Выберите список</Typography>;
+    if (!wishlistData) return <Typography>Список доступен для просмотра только друзьям или не был выбран.</Typography>;
 
     const formatDate = (dateString) => {
         const options = {day: "numeric", month: "long", year: "numeric"};
@@ -90,6 +90,8 @@ function WishListContent({
     };
 
     const resolveItemList = (wishlistData) => {
+        // if (wishlistData)
+        console.log(wishlistData)
         if (selectedWishlistId === "default") {
             return wishlistData;
         }
@@ -138,7 +140,7 @@ function WishListContent({
                                             }
                                         }}
                                     >
-                                        <Tooltip title="Поделиться" placement="top-start" arrow>
+                                        <Tooltip title="Поделиться списком" placement="top-start" arrow>
                                             <ShareOutlinedIcon sx={{
                                                 color: grey[600],
                                                 fontSize: {
