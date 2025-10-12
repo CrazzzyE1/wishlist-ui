@@ -118,6 +118,8 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
             }
         };
 
+        console.log(userData);
+
         if (userData && !userData.isOwner) {
             fetchRelations();
         }

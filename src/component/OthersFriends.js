@@ -10,15 +10,11 @@ import {httpClient} from "../http/HttpClient";
 import Box from "@mui/material/Box";
 import CircularProgress from "@mui/material/CircularProgress";
 import OthersFriendsContent from "./OthersFriendsContent";
-import {useParams} from "react-router-dom";
 
-export default function OthersFriends() {
-
+export default function OthersFriends({userId}) {
     const [itemMenu, setItemMenu] = React.useState(0);
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    const {userId} = useParams();
 
     useEffect(() => {
         const fetchUserDataWithRetry = async (retryCount = 0) => {

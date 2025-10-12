@@ -9,9 +9,8 @@ import Item from "./StyledItem";
 import WishLists from "./WishLists";
 import WishListContent from "./WishListContent";
 import {useNotifications} from "./NotificationsContext";
-import {useParams} from "react-router-dom";
 
-export default function ProfilePage() {
+export default function ProfilePage({userId, wishlistId}) {
     const [selectedWishlistId, setSelectedWishlistId] = useState(null);
     const [isOwner, setIsOwner] = useState();
     const [privacyLevel, setPrivacyLevel] = useState();
@@ -22,8 +21,6 @@ export default function ProfilePage() {
     const [lists, setLists] = useState();
     const [isFriend, setIsFriend] = useState(null);
     const {fetchUnreadCount, fetchIncomingFriendsRequestCount} = useNotifications();
-
-    const { userId, wishlistId } = useParams();
 
     const onGiftCreated = (newListId) => {
         setRefreshKey(prev => prev + 1);
@@ -66,7 +63,7 @@ export default function ProfilePage() {
     };
 
     useEffect(() => {
-        if(wishlistId) {
+        if (wishlistId) {
             setSelectedWishlistId(wishlistId);
         }
     }, []);
