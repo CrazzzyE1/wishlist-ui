@@ -8,12 +8,7 @@ import GiftCreateBox from "./GiftCreateBox";
 import {httpClient} from "../http/HttpClient";
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import Grid from "@mui/material/Grid";
-import ShareLinkModal from "./ShareLinkModal";
-import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
-import {Tooltip} from "@mui/material";
-import {blue, green, grey} from "@mui/material/colors";
-import {getUserIdFromToken} from "../utils/Auth";
-import keycloak from "../keycloak/Keycloak";
+import {green} from "@mui/material/colors";
 
 const modalStyle = {
     position: 'absolute',
@@ -34,16 +29,9 @@ const modalStyle = {
     overflow: 'auto',
 };
 
-export default function GiftCreator({userId, onGiftCreated, lists, selectedWishlistId}) {
+export default function GiftCreator({onGiftCreated, lists, selectedWishlistId}) {
     const [open, setOpen] = React.useState(false);
     const [error, setError] = useState(null);
-    const [openShareModal, setOpenShareModal] = useState(false);
-
-    const ownerId = getUserIdFromToken(keycloak.token);
-
-    const handleSharedClick = () => {
-        setOpenShareModal(true);
-    };
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => {
@@ -145,41 +133,6 @@ export default function GiftCreator({userId, onGiftCreated, lists, selectedWishl
                         />
                     </Box>
                 </Modal>
-            </Grid>
-            <Grid size={{xs: 2, sm: 1}}>
-                <IconButton
-                    onClick={handleSharedClick}
-                    sx={{
-                        width: {xs: 40, sm: 48},
-                        height: {xs: 40, sm: 48},
-                        borderRadius: '50%',
-                        '&:hover': {
-                            '& .MuiSvgIcon-root': {
-                                color: {xs: grey[400], sm: blue[400]},
-                            }
-                        },
-                        '&:active': {
-                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                        }
-                    }}
-                >
-                    <Tooltip title="Поделиться" placement="top-start" arrow>
-                        <ShareOutlinedIcon sx={{
-                            color: grey[600],
-                            fontSize: {
-                                xs: 28, sm: 40
-                            },
-                            transition: 'color 0.5s ease'
-                        }}/>
-                    </Tooltip>
-                </IconButton>
-
-                <ShareLinkModal
-                    id={selectedWishlistId}
-                    sublink={`users/${ownerId}/wishlists`}
-                    open={openShareModal}
-                    onClose={() => setOpenShareModal(false)}
-                />
             </Grid>
         </Grid>
     );

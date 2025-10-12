@@ -97,30 +97,54 @@ function App() {
         return <LinearProgress color="success"/>;
     }
 
+    // return (
+    //     <NotificationsProvider>
+    //         <Router>
+    //             {/*<InfoBanner />*/}
+    //             <Routes>
+    //                 <Route path="/" element={<ProfilePage/>}/>
+    //                 <Route path="/users" element={<FriendsPage/>}/>
+    //                 <Route path="/users/:userId/friends" element={<OthersFriendsWithParams/>}/>
+    //                 <Route path="/users/:userId" element={<ProfilePageWithParams/>}/>
+    //                 <Route path="/users/:userId/wishlists/:wishlistId" element={<ProfilePageWithTwoParams/>}/>
+    //                 <Route path="/notifications" element={<NotificationsPage/>}/>
+    //             </Routes>
+    //         </Router>
+    //     </NotificationsProvider>
+    // );
+
     return (
         <NotificationsProvider>
             <Router>
-                {/*<InfoBanner />*/}
                 <Routes>
-                    <Route path="/" element={<ProfilePage/>}/>
-                    <Route path="/users" element={<FriendsPage/>}/>
-                    <Route path="/users/:userId/friends" element={<OthersFriendsWithParams/>}/>
-                    <Route path="/users/:userId" element={<ProfilePageWithParams/>}/>
-                    <Route path="/notifications" element={<NotificationsPage/>}/>
+                    <Route path="/" element={<ProfilePage />} />
+                    <Route path="/users" element={<FriendsPage />} />
+                    <Route path="/users/:userId/friends" element={<OthersFriends />} />
+                    <Route path="/users/:userId" element={<ProfilePage />} />
+                    <Route path="/users/:userId/wishlists/:wishlistId" element={<ProfilePage />} />
+                    <Route path="/notifications" element={<NotificationsPage />} />
                 </Routes>
             </Router>
         </NotificationsProvider>
     );
 }
-
-function ProfilePageWithParams() {
-    const {userId} = useParams();
-    return <ProfilePage userId={userId}/>;
-}
-
-function OthersFriendsWithParams() {
-    const {userId} = useParams();
-    return <OthersFriends userId={userId}/>;
-}
+//
+// function ProfilePageWithParams() {
+//     const {userId} = useParams();
+//     return <ProfilePage userId={userId}/>;
+// }
+//
+// function ProfilePageWithTwoParams() {
+//     const {userId, wishlistId} = useParams();
+//     return <ProfilePage
+//         userId={userId}
+//         wishlistId={wishlistId}
+//     />;
+// }
+//
+// function OthersFriendsWithParams() {
+//     const {userId} = useParams();
+//     return <OthersFriends userId={userId}/>;
+// }
 
 export default App;

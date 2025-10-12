@@ -1,5 +1,4 @@
-import * as React from 'react';
-import {useEffect} from 'react';
+import {useState, useEffect} from 'react';
 import FormControl from '@mui/material/FormControl';
 import {Box, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
@@ -8,16 +7,16 @@ import ListSelector from "./ListSelector";
 import ImageUploadAndCrop from "./ImageUploadAndCrop";
 
 export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, lists}) {
-    const [listName, setListName] = React.useState('');
-    const [errorName, setErrorName] = React.useState(false);
-    const [descriptionName, setDescriptionName] = React.useState('');
-    const [errorDescription, setErrorDescription] = React.useState(false);
-    const [price, setPrice] = React.useState('');
-    const [link, setLinkName] = React.useState('');
-    const [isSubmitting, setIsSubmitting] = React.useState(false);
-    const [image, setImage] = React.useState(null);
-    const [selectedListId, setSelectedListId] = React.useState(null);
-    const [currency, setCurrency] = React.useState(null);
+    const [listName, setListName] = useState('');
+    const [errorName, setErrorName] = useState(false);
+    const [descriptionName, setDescriptionName] = useState('');
+    const [errorDescription, setErrorDescription] = useState(false);
+    const [price, setPrice] = useState('');
+    const [link, setLinkName] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [image, setImage] = useState(null);
+    const [selectedListId, setSelectedListId] = useState(null);
+    const [currency, setCurrency] = useState(null);
 
     useEffect(() => {
         setSelectedListId('default' !== selectedWishlistId ? selectedWishlistId : null)
