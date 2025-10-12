@@ -102,7 +102,7 @@ export default function GiftVertMenuSettings({giftId, onGiftDeleted, onGiftEdit,
 
     const handleOpenConfirmDialog = () => {
         setOpenConfirmDialog(true);
-        handleClose(); // Закрываем меню
+        handleClose();
     };
 
     const handleCloseConfirmDialog = () => {

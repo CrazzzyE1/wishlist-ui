@@ -182,7 +182,6 @@ export default function AccountSettingToggle({onProfileEdit}) {
                 Редактировать
             </MenuItem>
             <MenuItem
-                // onClick={handleProfileClick}
                 disabled={true}
                 sx={{
                     py: 1,

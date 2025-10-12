@@ -83,7 +83,7 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
 
     const handleOpenConfirmDialog = () => {
         setOpenConfirmDialog(true);
-        handleClose(); // Закрываем меню
+        handleClose();
     };
 
     const handleCloseConfirmDialog = () => {

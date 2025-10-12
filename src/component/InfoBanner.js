@@ -20,7 +20,6 @@ const InfoBanner = () => {
     useEffect(() => {
         fetchBannerData();
 
-        // Опционально: периодически проверяем обновления
         const interval = setInterval(fetchBannerData, 300000);
 
         return () => clearInterval(interval);
@@ -42,7 +41,6 @@ const InfoBanner = () => {
 
     const handleClose = () => {
         setOpen(false);
-        // Опционально: сообщить бэку, что пользователь закрыл баннер
         if (bannerData?.id) {
             httpClient.post(`/api/banner/${bannerData.id}/dismiss`);
         }
@@ -51,14 +49,12 @@ const InfoBanner = () => {
     if (!bannerData || !open) return null;
 
     const renderContent = () => {
-        // Если бэк присылает готовый HTML
         if (bannerData.htmlContent) {
             return (
                 <div dangerouslySetInnerHTML={{ __html: bannerData.htmlContent }} />
             );
         }
 
-        // Если бэк присылает структурированные данные
         switch (bannerData.type) {
             case 'alert':
                 return (

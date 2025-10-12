@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 
 const StyledItem = styled(Paper)(({ theme, noshadow }) => ({
     backgroundColor: '#fff',
-    boxShadow: noshadow ? 'none' : theme.shadows[1], // Управляем тенью через проп
+    boxShadow: noshadow ? 'none' : theme.shadows[1],
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',

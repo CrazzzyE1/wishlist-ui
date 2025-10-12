@@ -22,18 +22,8 @@ export default function OthersFriends({userId}) {
             try {
                 setLoading(true);
                 console.log(userData)
-                const response = await httpClient.get( `/profiles/${userId}`);
+                const response = await httpClient.get(`/profiles/${userId}`);
                 setUserData(response.data);
-                // if (onIsOwner) {
-                //     onIsOwner(response.data.isOwner);
-                //     setIsOwner(response.data.isOwner)
-                // }
-                // if (onPrivacyLevel) {
-                //     onPrivacyLevel(response.data.privacyLevel);
-                //     setIsPrivate(response.data.privacyLevel === 'PRIVATE');
-                //     setIsFriendsOnly(response.data.privacyLevel === 'FRIENDS_ONLY');
-                //     setIsPublic(response.data.privacyLevel === 'PUBLIC');
-                // }
                 setLoading(false);
             } catch (err) {
                 if (err.response?.status === 404 && retryCount < 3) {
@@ -41,7 +31,6 @@ export default function OthersFriends({userId}) {
                         fetchUserDataWithRetry(retryCount + 1);
                     }, 2000);
                 } else {
-                    // setError(err.message);
                     setLoading(false);
                 }
             }
