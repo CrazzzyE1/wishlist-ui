@@ -9,6 +9,7 @@ import {NotificationsProvider} from "./component/NotificationsContext";
 import {LinearProgress} from "@mui/material";
 import './GlobalStyles.css';
 import InfoBanner from "./component/InfoBanner";
+import OthersFriends from "./component/OthersFriends";
 function App() {
     const [authenticated, setAuthenticated] = useState(false);
     const [isAuthorized, setIsAuthorized] = useState(false);
@@ -102,7 +103,8 @@ function App() {
                 {/*<InfoBanner />*/}
                 <Routes>
                     <Route path="/" element={<ProfilePage/>}/>
-                    <Route path="/friends" element={<FriendsPage/>}/>
+                    <Route path="/users" element={<FriendsPage/>}/>
+                    <Route path="/users/:userId/friends" element={<OthersFriendsWithParams/>}/>
                     <Route path="/users/:userId" element={<ProfilePageWithParams/>}/>
                     <Route path="/notifications" element={<NotificationsPage/>}/>
                 </Routes>
@@ -114,6 +116,11 @@ function App() {
 function ProfilePageWithParams() {
     const {userId} = useParams();
     return <ProfilePage userId={userId}/>;
+}
+
+function OthersFriendsWithParams() {
+    const {userId} = useParams();
+    return <OthersFriends userId={userId}/>;
 }
 
 export default App;

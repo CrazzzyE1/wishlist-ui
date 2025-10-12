@@ -219,7 +219,7 @@ export default function AccountSettingToggle({onProfileEdit}) {
             <Box sx={{display: {xs: 'flex', md: 'flex', justifyContent: 'flex-end', display: 'flex'}}}>
 
                 <IconButton
-                    onClick={() => navigate('/friends')}
+                    onClick={() => navigate('/users')}
                     sx={{
                         display: 'flex',
                         justifyContent: 'center',
