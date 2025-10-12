@@ -259,11 +259,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
         }
 
         if (loading || isFriend === null || isPrivate === null) {
-            return (
-                <Box sx={{ width: 48, height: 48, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                    <CircularProgress size={24} />
-                </Box>
-            );
+            return;
         }
 
         if (isFriend) {
@@ -455,48 +451,53 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                         mt: 0
                     }}>
                         {buttons()}
-                        {(!isOwner && !isFriend && userData.isPublic) && (
-                            <IconButton
-                                onClick={handleClickBookmark}
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    width: {xs: 40, sm: 48},
-                                    height: {xs: 40, sm: 48},
-                                    borderRadius: '50%',
-                                    '&:hover': {
-                                        '& .MuiSvgIcon-root': {
-                                            color: yellow[700]
+                        {(loading || isFriend === null || isPrivate === null) ?
+                            null
+                            :
+                            (
+                                (!isOwner && !isFriend && userData.isPublic) && (
+                                    <IconButton
+                                        onClick={handleClickBookmark}
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            width: {xs: 40, sm: 48},
+                                            height: {xs: 40, sm: 48},
+                                            borderRadius: '50%',
+                                            '&:hover': {
+                                                '& .MuiSvgIcon-root': {
+                                                    color: yellow[700]
+                                                }
+                                            },
+                                            '&:active': {
+                                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                            }
+                                        }}>
+                                        {isFavourites ?
+                                            <Tooltip title="Отписаться" placement="top-start" arrow>
+                                                <TurnedInOutlinedIcon sx={{
+                                                    color: yellow[400],
+                                                    fontSize: {
+                                                        xs: 28, sm: 40
+                                                    },
+                                                    transition: 'color 0.5s ease'
+                                                }}/>
+                                            </Tooltip>
+                                            :
+                                            <Tooltip title="Подписаться" placement="top-start" arrow>
+                                                <BookmarkBorderIcon sx={{
+                                                    color: yellow[400],
+                                                    fontSize: {
+                                                        xs: 28, sm: 40
+                                                    },
+                                                    transition: 'color 0.5s ease'
+                                                }}/>
+                                            </Tooltip>
                                         }
-                                    },
-                                    '&:active': {
-                                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                    }
-                                }}>
-                                {isFavourites ?
-                                    <Tooltip title="Отписаться" placement="top-start" arrow>
-                                        <TurnedInOutlinedIcon sx={{
-                                            color: yellow[400],
-                                            fontSize: {
-                                                xs: 28, sm: 40
-                                            },
-                                            transition: 'color 0.5s ease'
-                                        }}/>
-                                    </Tooltip>
-                                    :
-                                    <Tooltip title="Подписаться" placement="top-start" arrow>
-                                        <BookmarkBorderIcon sx={{
-                                            color: yellow[400],
-                                            fontSize: {
-                                                xs: 28, sm: 40
-                                            },
-                                            transition: 'color 0.5s ease'
-                                        }}/>
-                                    </Tooltip>
-                                }
-                            </IconButton>
-                        )}
+                                    </IconButton>
+                                )
+                            )}
                     </Box>
                 </Grid>
                 {isOwner || !isPrivate ? (
