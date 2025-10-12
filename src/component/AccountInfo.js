@@ -17,11 +17,13 @@ import AddTaskOutlinedIcon from '@mui/icons-material/AddTaskOutlined';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import keycloak from '../keycloak/Keycloak';
 import {getUserIdFromToken} from "../utils/Auth";
-import {green, red, yellow} from "@mui/material/colors";
+import {blue, green, red, yellow} from "@mui/material/colors";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogActions from "@mui/material/DialogActions";
+import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import Button from "@mui/material/Button";
+import ShareLinkModal from "./ShareLinkModal";
 
 function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefreshKey, onPrivacyLevel, onIsFriend}) {
     const [userData, setUserData] = useState(null);
@@ -38,6 +40,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     const [error, setError] = useState(null);
     const [open, setOpen] = React.useState(false);
     const [isDeleting, setIsDeleting] = React.useState(false);
+    const [openShareModal, setOpenShareModal] = useState(false);
 
     useEffect(() => {
         const fetchGiftCount = async () => {
@@ -128,6 +131,11 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     const handleClickOpen = (e) => {
         e.stopPropagation();
         setOpen(true);
+    };
+
+    const handleSharedClick = () => {
+        // setAnchorEl(null);
+        setOpenShareModal(true);
     };
 
     const handleClickBookmark = () => {
@@ -498,6 +506,36 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                     </IconButton>
                                 )
                             )}
+                        {isOwner && (
+                            <IconButton
+                                onClick={handleSharedClick}
+                                sx={{
+                                    display: 'flex',
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    width: {xs: 40, sm: 48},
+                                    height: {xs: 40, sm: 48},
+                                    borderRadius: '50%',
+                                    '&:hover': {
+                                        '& .MuiSvgIcon-root': {
+                                            color: blue[700]
+                                        }
+                                    },
+                                    '&:active': {
+                                        boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                    }
+                                }}>
+                                <Tooltip title="Поделиться" placement="top-start" arrow>
+                                    <ShareOutlinedIcon sx={{
+                                        color: blue[400],
+                                        fontSize: {
+                                            xs: 28, sm: 40
+                                        },
+                                        transition: 'color 0.5s ease'
+                                    }}/>
+                                </Tooltip>
+                            </IconButton>
+                        )}
                     </Box>
                 </Grid>
                 {isOwner || !isPrivate ? (
@@ -675,7 +713,14 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                     </Button>
                 </DialogActions>
             </Dialog>
+            <ShareLinkModal
+                id={userData.id}
+                sublink={'users'}
+                open={openShareModal}
+                onClose={() => setOpenShareModal(false)}
+            />
         </Grid>
+
     );
 }
 
