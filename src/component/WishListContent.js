@@ -28,6 +28,7 @@ function WishListContent({
                              refreshKey,
                          }) {
     const [wishlistData, setWishlistData] = useState(null);
+    const [isPrivate, setIsPrivate] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [openShareModal, setOpenShareModal] = useState(false);
@@ -57,6 +58,7 @@ function WishListContent({
                 response = await httpClient.get(`/wishlists/${selectedWishlistId}`);
             }
             setWishlistData(response.data);
+            setIsPrivate("PRIVATE" === response.data.privacyLevel);
             setError(null);
         } catch (err) {
             setError(err.message);
@@ -116,35 +118,38 @@ function WishListContent({
                                 gap: {xs: 0, sm: 1},
                                 mt: 0
                             }}>
-                                <IconButton
-                                    onClick={handleSharedClick}
-                                    sx={{
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        width: {xs: 40, sm: 48},
-                                        height: {xs: 40, sm: 48},
-                                        borderRadius: '50%',
-                                        '&:hover': {
-                                            '& .MuiSvgIcon-root': {
-                                                color: {xs: grey[400], sm: blue[400]},
-                                            }
-                                        },
-                                        '&:active': {
-                                            boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
-                                        }
-                                    }}
-                                >
-                                    <Tooltip title="Поделиться" placement="top-start" arrow>
-                                        <ShareOutlinedIcon sx={{
-                                            color: grey[600],
-                                            fontSize: {
-                                                xs: 28, sm: 40
+                                {isPrivate ? null : (
+                                    <IconButton
+                                        onClick={handleSharedClick}
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            width: {xs: 40, sm: 48},
+                                            height: {xs: 40, sm: 48},
+                                            borderRadius: '50%',
+                                            '&:hover': {
+                                                '& .MuiSvgIcon-root': {
+                                                    color: {xs: grey[400], sm: blue[400]},
+                                                }
                                             },
-                                            transition: 'color 0.5s ease'
-                                        }}/>
-                                    </Tooltip>
-                                </IconButton>
+                                            '&:active': {
+                                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                            }
+                                        }}
+                                    >
+                                        <Tooltip title="Поделиться" placement="top-start" arrow>
+                                            <ShareOutlinedIcon sx={{
+                                                color: grey[600],
+                                                fontSize: {
+                                                    xs: 28, sm: 40
+                                                },
+                                                transition: 'color 0.5s ease'
+                                            }}/>
+                                        </Tooltip>
+                                    </IconButton>
+                                )}
+
                             </Box>
                             <ShareLinkModal
                                 id={selectedWishlistId}
@@ -152,7 +157,6 @@ function WishListContent({
                                 open={openShareModal}
                                 onClose={() => setOpenShareModal(false)}
                             />
-
                         </Grid>
                     </Grid>
                 )
