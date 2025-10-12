@@ -92,6 +92,7 @@ function WishListContent({
                               mb: {sm: 1}
                           }}>
                         <GiftCreator
+                            userId={userId}
                             onGiftCreated={onGiftCreated}
                             lists={lists}
                             selectedWishlistId={selectedWishlistId}

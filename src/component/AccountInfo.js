@@ -134,7 +134,6 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
     };
 
     const handleSharedClick = () => {
-        // setAnchorEl(null);
         setOpenShareModal(true);
     };
 
