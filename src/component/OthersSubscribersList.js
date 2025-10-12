@@ -66,7 +66,7 @@ export default function OthersSubscribersList({userData}) {
                                 mt: 2,
                                 fontSize: {xs: '0.75rem', sm: '1rem'}
                             }}>
-                    У вас пока нет подписчиков
+                    У {userData.fullName} пока нет подписчиков
                 </Typography>
             ) : (
                 <Grid container spacing={2}>
