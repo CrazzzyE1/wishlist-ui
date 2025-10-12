@@ -14,10 +14,6 @@ export default function SubscribersList() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const handleSubscriberRemoved = useCallback((subscriberId) => {
-        setSubscribers(prev => prev.filter(f => f.id !== subscriberId));
-    }, []);
-
     const userId = getUserIdFromToken(keycloak.token);
 
     const fetchSubscribers = useCallback(async () => {

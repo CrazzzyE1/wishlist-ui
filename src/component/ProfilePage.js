@@ -10,8 +10,7 @@ import WishLists from "./WishLists";
 import WishListContent from "./WishListContent";
 import {useNotifications} from "./NotificationsContext";
 
-export default function ProfilePage({userId}) {
-
+export default function ProfilePage({userId, wishlistId}) {
     const [selectedWishlistId, setSelectedWishlistId] = useState(null);
     const [isOwner, setIsOwner] = useState();
     const [privacyLevel, setPrivacyLevel] = useState();
@@ -62,6 +61,12 @@ export default function ProfilePage({userId}) {
         setEditRefreshKey(prev => prev + 1);
         setSelectedWishlistId(newListId);
     };
+
+    useEffect(() => {
+        if (wishlistId) {
+            setSelectedWishlistId(wishlistId);
+        }
+    }, []);
 
     useEffect(() => {
         fetchUnreadCount();

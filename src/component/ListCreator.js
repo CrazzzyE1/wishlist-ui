@@ -7,6 +7,7 @@ import PostAddIcon from "@mui/icons-material/PostAdd";
 import ListCreateBox from "./ListCreateBox";
 import {httpClient} from "../http/HttpClient";
 import Grid from "@mui/material/Grid";
+import {blue} from "@mui/material/colors";
 
 const modalStyle = {
     position: 'absolute',
@@ -61,7 +62,7 @@ export default function ListCreator({onListCreated}) {
                     borderRadius: '50%',
                     '&:hover': {
                         '& .MuiSvgIcon-root': {
-                            color: '#000000'
+                            color: blue[700]
                         }
                     },
                 }}>

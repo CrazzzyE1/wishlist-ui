@@ -12,7 +12,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import OthersFriendsContent from "./OthersFriendsContent";
 
 export default function OthersFriends({userId}) {
-
     const [itemMenu, setItemMenu] = React.useState(0);
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -21,7 +20,6 @@ export default function OthersFriends({userId}) {
         const fetchUserDataWithRetry = async (retryCount = 0) => {
             try {
                 setLoading(true);
-                console.log(userData)
                 const response = await httpClient.get(`/profiles/${userId}`);
                 setUserData(response.data);
                 setLoading(false);

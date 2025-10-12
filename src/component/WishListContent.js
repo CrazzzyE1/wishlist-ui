@@ -5,8 +5,14 @@ import React, {useEffect, useState} from "react";
 import Typography from "@mui/material/Typography";
 import ListVertMenuSettings from "./ListVertMenuSettings";
 import {httpClient} from "../http/HttpClient";
-import {LinearProgress} from "@mui/material";
+import {Box, LinearProgress, Tooltip} from "@mui/material";
 import GiftCreator from "./GiftCreator";
+import IconButton from "@mui/material/IconButton";
+import {getUserIdFromToken} from "../utils/Auth";
+import keycloak from "../keycloak/Keycloak";
+import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
+import {blue, grey} from "@mui/material/colors";
+import ShareLinkModal from "./ShareLinkModal";
 
 function WishListContent({
                              selectedWishlistId,
@@ -22,8 +28,16 @@ function WishListContent({
                              refreshKey,
                          }) {
     const [wishlistData, setWishlistData] = useState(null);
+    const [isPrivate, setIsPrivate] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [openShareModal, setOpenShareModal] = useState(false);
+
+    const ownerId = getUserIdFromToken(keycloak.token);
+
+    const handleSharedClick = () => {
+        setOpenShareModal(true);
+    };
 
     useEffect(() => {
         if (selectedWishlistId) {
@@ -44,6 +58,7 @@ function WishListContent({
                 response = await httpClient.get(`/wishlists/${selectedWishlistId}`);
             }
             setWishlistData(response.data);
+            setIsPrivate("PRIVATE" === response.data.privacyLevel);
             setError(null);
         } catch (err) {
             setError(err.message);
@@ -54,7 +69,7 @@ function WishListContent({
 
     if (loading) return <LinearProgress color="success"/>;
     if (error) return <Typography color="error">Ошибка: {error}</Typography>;
-    if (!wishlistData) return <Typography>Выберите список</Typography>;
+    if (!wishlistData) return <Typography>Список доступен для просмотра только друзьям или не был выбран.</Typography>;
 
     const formatDate = (dateString) => {
         const options = {day: "numeric", month: "long", year: "numeric"};
@@ -96,6 +111,53 @@ function WishListContent({
                             lists={lists}
                             selectedWishlistId={selectedWishlistId}
                         />
+                        <Grid size={{xs: 2, sm: 1}}>
+                            <Box sx={{
+                                display: 'flex',
+                                justifyContent: 'flex-end',
+                                gap: {xs: 0, sm: 1},
+                                mt: 0
+                            }}>
+                                {isPrivate ? null : (
+                                    <IconButton
+                                        onClick={handleSharedClick}
+                                        sx={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            width: {xs: 40, sm: 48},
+                                            height: {xs: 40, sm: 48},
+                                            borderRadius: '50%',
+                                            '&:hover': {
+                                                '& .MuiSvgIcon-root': {
+                                                    color: {xs: grey[400], sm: blue[400]},
+                                                }
+                                            },
+                                            '&:active': {
+                                                boxShadow: '0px 0px 10px rgba(0,0,0,0.2)'
+                                            }
+                                        }}
+                                    >
+                                        <Tooltip title="Поделиться списком" placement="top-start" arrow>
+                                            <ShareOutlinedIcon sx={{
+                                                color: grey[600],
+                                                fontSize: {
+                                                    xs: 28, sm: 40
+                                                },
+                                                transition: 'color 0.5s ease'
+                                            }}/>
+                                        </Tooltip>
+                                    </IconButton>
+                                )}
+
+                            </Box>
+                            <ShareLinkModal
+                                id={selectedWishlistId}
+                                sublink={`users/${ownerId}/wishlists`}
+                                open={openShareModal}
+                                onClose={() => setOpenShareModal(false)}
+                            />
+                        </Grid>
                     </Grid>
                 )
                 : null

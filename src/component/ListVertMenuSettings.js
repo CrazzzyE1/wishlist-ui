@@ -14,7 +14,6 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {httpClient} from "../http/HttpClient";
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import {red} from "@mui/material/colors";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
@@ -149,7 +148,7 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                         mt: 1
                     }
                 }}
-                sx={{ zIndex: 1300 }}
+                sx={{zIndex: 1300}}
             >
                 <MenuItem
                     onClick={handleEditClick}
@@ -161,7 +160,7 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                         }
                     }}
                 >
-                    <EditOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                    <EditOutlinedIcon sx={{mr: 1, fontSize: 20}}/>
                     Редактировать
                 </MenuItem>
                 <MenuItem
@@ -173,7 +172,7 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
 
                     }}
                 >
-                    <DeleteOutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                    <DeleteOutlinedIcon sx={{mr: 1, fontSize: 20}}/>
                     Удалить
                 </MenuItem>
             </Menu>
@@ -216,10 +215,12 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                                        }}>
                         Вы уверены, что хотите удалить этот список?
                     </DialogContentText>
-                    <DialogContentText id="alert-dialog-description" sx={{mb: 1, fontSize: {xs: '0.75rem', sm: '0.875rem'},}}>
+                    <DialogContentText id="alert-dialog-description"
+                                       sx={{mb: 1, fontSize: {xs: '0.75rem', sm: '0.875rem'},}}>
                         Это так же приведет к удалению всех желаний из этого списка.
                     </DialogContentText>
-                    <DialogContentText id="alert-dialog-description" sx={{mb: 1, fontSize: {xs: '0.75rem', sm: '0.875rem'}, fontWeight: 500}}>
+                    <DialogContentText id="alert-dialog-description"
+                                       sx={{mb: 1, fontSize: {xs: '0.75rem', sm: '0.875rem'}, fontWeight: 500}}>
                         Это действие нельзя отменить.
                     </DialogContentText>
                 </DialogContent>
