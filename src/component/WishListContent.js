@@ -90,8 +90,6 @@ function WishListContent({
     };
 
     const resolveItemList = (wishlistData) => {
-        // if (wishlistData)
-        console.log(wishlistData)
         if (selectedWishlistId === "default") {
             return wishlistData;
         }

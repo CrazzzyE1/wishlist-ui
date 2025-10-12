@@ -20,7 +20,6 @@ export default function OthersFriends({userId}) {
         const fetchUserDataWithRetry = async (retryCount = 0) => {
             try {
                 setLoading(true);
-                console.log(userData)
                 const response = await httpClient.get(`/profiles/${userId}`);
                 setUserData(response.data);
                 setLoading(false);
