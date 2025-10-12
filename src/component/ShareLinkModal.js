@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
+    Alert,
     Box,
-    TextField,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
     Snackbar,
-    Alert
+    TextField
 } from '@mui/material';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 
-export default function ShareLinkModal({ wishlistId, open, onClose }) {
+export default function ShareLinkModal({id, sublink, open, onClose}) {
     const [showNotification, setShowNotification] = useState(false);
 
-    const shareLink = `${window.location.origin}/wishlist/${wishlistId}`;
+    const shareLink = `${window.location.origin}/${sublink}/${id}`;
     const handleCopyLink = async () => {
         try {
             await navigator.clipboard.writeText(shareLink);
@@ -34,26 +34,77 @@ export default function ShareLinkModal({ wishlistId, open, onClose }) {
 
     return (
         <>
-            <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
-                <DialogTitle>Поделиться списком</DialogTitle>
+            <Dialog
+                open={open}
+                onClose={onClose}
+                maxWidth="sm"
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: 3,
+                        textAlign: 'center',
+                        p: 2,
+                        minWidth: 400
+                    }
+                }}
+            >
+                <DialogTitle
+                    sx={{
+                        textAlign: 'center',
+                        fontSize: '1.25rem',
+                        pb: 2
+                    }}
+                >
+                    Поделиться ссылкой
+                </DialogTitle>
                 <DialogContent>
-                    <Box sx={{ mt: 2, mb: 2 }}>
+                    <Box sx={{mt: 2, mb: 2}}>
                         <TextField
-                            label="Ссылка на список"
+                            label="Ссылка"
                             value={shareLink}
                             fullWidth
                             InputProps={{
                                 readOnly: true,
                             }}
+                            sx={{
+                                '& .MuiOutlinedInput-root': {
+                                    borderRadius: 2,
+                                }
+                            }}
                         />
                     </Box>
                 </DialogContent>
-                <DialogActions>
-                    <Button onClick={onClose}>Закрыть</Button>
+                <DialogActions sx={{
+                    justifyContent: 'center',
+                    gap: 2,
+                    pt: 1
+                }}>
+                    <Button
+                        onClick={onClose}
+                        variant="outlined"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            minWidth: 120
+                        }}
+                    >
+                        Закрыть
+                    </Button>
                     <Button
                         onClick={handleCopyLink}
-                        startIcon={<ContentCopyIcon />}
+                        startIcon={<ContentCopyIcon/>}
                         variant="contained"
+                        sx={{
+                            borderRadius: 2,
+                            textTransform: 'none',
+                            fontWeight: 500,
+                            minWidth: 160,
+                            backgroundColor: 'primary.main',
+                            '&:hover': {
+                                backgroundColor: 'primary.dark'
+                            }
+                        }}
                     >
                         Копировать ссылку
                     </Button>
@@ -64,8 +115,15 @@ export default function ShareLinkModal({ wishlistId, open, onClose }) {
                 open={showNotification}
                 autoHideDuration={3000}
                 onClose={() => setShowNotification(false)}
+                anchorOrigin={{vertical: 'bottom', horizontal: 'center'}}
             >
-                <Alert severity="success">
+                <Alert
+                    severity="success"
+                    sx={{
+                        borderRadius: 2,
+                        fontWeight: 500
+                    }}
+                >
                     Ссылка скопирована в буфер обмена!
                 </Alert>
             </Snackbar>
