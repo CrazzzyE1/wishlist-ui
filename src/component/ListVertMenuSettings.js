@@ -14,11 +14,12 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import {httpClient} from "../http/HttpClient";
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
-import {red} from "@mui/material/colors";
+import QrCode2OutlinedIcon from '@mui/icons-material/QrCode2Outlined';
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ListEditBox from "./ListEditBox";
+import ShareLinkModal from "./ShareLinkModal";
 
 const ITEM_HEIGHT = 48;
 
@@ -46,6 +47,12 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
     const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
     const [openModal, setOpenModal] = useState(false);
+    const [openShareModal, setOpenShareModal] = useState(false);
+
+    const handleSharedClick = () => {
+        setAnchorEl(null);
+        setOpenShareModal(true);
+    };
 
     const handleCloseModal = () => setOpenModal(false);
 
@@ -151,6 +158,19 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                 }}
                 sx={{ zIndex: 1300 }}
             >
+                <MenuItem
+                    onClick={handleSharedClick}
+                    sx={{
+                        py: 1,
+                        fontSize: '0.9rem',
+                        '&:hover': {
+                            backgroundColor: 'action.hover'
+                        }
+                    }}
+                >
+                    <QrCode2OutlinedIcon sx={{ mr: 1, fontSize: 20 }} />
+                    Поделиться
+                </MenuItem>
                 <MenuItem
                     onClick={handleEditClick}
                     sx={{
@@ -279,6 +299,11 @@ export default function ListVertMenuSettings({selectedWishlistId, onListDeleted,
                     />
                 </Box>
             </Modal>
+            <ShareLinkModal
+                wishlistId={selectedWishlistId}
+                open={openShareModal}
+                onClose={() => setOpenShareModal(false)}
+            />
         </div>
     );
 }
