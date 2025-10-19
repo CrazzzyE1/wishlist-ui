@@ -1,22 +1,31 @@
-import {useState, useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import FormControl from '@mui/material/FormControl';
-import {Box, TextField} from "@mui/material";
+import {Box, TextField, Tooltip} from "@mui/material";
 import Button from "@mui/material/Button";
 import SelectTextFields from "./CurrencySelect";
 import ListSelector from "./ListSelector";
 import ImageUploadAndCrop from "./ImageUploadAndCrop";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
+import {httpClient} from "../http/HttpClient";
+import {red} from "@mui/material/colors";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, lists}) {
-    const [listName, setListName] = useState('');
+    const [giftName, setGiftName] = useState('');
     const [errorName, setErrorName] = useState(false);
     const [descriptionName, setDescriptionName] = useState('');
     const [errorDescription, setErrorDescription] = useState(false);
+    const [errorAutoFill, setErrorAutoFill] = useState(null);
     const [price, setPrice] = useState('');
     const [link, setLinkName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [image, setImage] = useState(null);
     const [selectedListId, setSelectedListId] = useState(null);
     const [currency, setCurrency] = useState(null);
+    const [isAutoFill, setIsAutoFill] = useState(true);
+    const [externalImage, setExternalImage] = useState(null);
+    const [isCardLoading, setIsCardLoading] = useState(false);
 
     useEffect(() => {
         setSelectedListId('default' !== selectedWishlistId ? selectedWishlistId : null)
@@ -36,10 +45,9 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
         setErrorDescription(value.length > 500);
     };
 
-    const handleListNameChange = (event) => {
+    const handleNameChange = (event) => {
         const value = event.target.value;
-        setListName(value);
-
+        setGiftName(value);
         const isValid = value.trim().length >= 3;
         setErrorName(!isValid);
     };
@@ -49,6 +57,36 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
         setLinkName(value);
     };
 
+    const handleAutoLinkNameChange = async (event) => {
+        const value = event.target.value.trim();
+        setLinkName(value);
+
+        try {
+            setIsCardLoading(true);
+            const response = await httpClient.post(`/parse`, {
+                // const response = await httpClient.post(`http://192.168.1.141:7777/api/v1/parse`, {
+                link: value
+            });
+            setPrice(response.data.price);
+            setGiftName(response.data.title);
+            setDescriptionName(response.data.description);
+            if (response.data.img) {
+                setExternalImage(response.data.img);
+            }
+        } catch (error) {
+            console.error('Ошибка автозаполнения', error);
+            setErrorAutoFill(true)
+
+        } finally {
+            setIsCardLoading(false);
+            setIsAutoFill(false);
+        }
+    };
+
+    const handleManualMode = () => {
+        setIsAutoFill(false);
+    };
+
     const handlePriceChange = (event) => {
         const value = event.target.value.replace(/[^\d]/g, '');
         event.target.value = value;
@@ -56,7 +94,7 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
     };
 
     const handleSubmit = async () => {
-        const trimmedName = listName.trim();
+        const trimmedName = giftName.trim();
 
         if (trimmedName.length < 3) {
             setErrorName(true);
@@ -83,103 +121,155 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
     };
 
     const isSubmitDisabled = isSubmitting ||
-        listName.trim().length < 3 ||
+        giftName.trim().length < 3 ||
         errorDescription;
 
-    return (
-        <FormControl sx={{gap: 2, width: '100%'}}>
-            <ImageUploadAndCrop
-                onImageCropped={setImage}
-                aspectRatio={400 / 400}
-            />
+    if (isCardLoading) {
+        return (
+            <Box sx={{display: 'flex', justifyContent: 'center', p: 4}}>
+                <CircularProgress/>
+            </Box>)
+    }
 
-            <Box sx={{mt: 0}}>
-                <TextField
-                    id="gift-name"
-                    label="Название желания (обязательное поле)"
-                    variant="standard"
-                    value={listName}
-                    onChange={handleListNameChange}
-                    error={errorName}
-                    helperText={errorName ? "Название должно быть не короче 3 символов" : ""}
-                    fullWidth
-                />
-            </Box>
-
-            <Box sx={{mt: 0}}>
-                <ListSelector
-                    selectedListId={selectedWishlistId}
-                    label="Выберите список для желания"
-                    data={lists}
-                    onSelect={handleSelectedListId}
-                />
-            </Box>
-
-            <Box sx={{
-                mt: 1,
-                display: 'flex',
-                alignItems: 'flex-end',
-                gap: 1
-            }}>
-                <TextField
-                    id="gift-price"
-                    label="Цена"
-                    variant="standard"
-                    value={price}
-                    onChange={handlePriceChange}
-                    sx={{flex: 1}}
-                />
-                <SelectTextFields onCurrency={handleCurrency}/>
-            </Box>
-
-            <Box sx={{mt: 0}}>
-                <TextField
-                    id="gift-link"
-                    label="Ссылка"
-                    variant="standard"
-                    value={link}
-                    onChange={handleLinkNameChange}
-                    fullWidth
-                    multiline
-                    maxRows={2}
-                />
-            </Box>
-
-            <Box sx={{mt: 0}}>
-                <TextField
-                    id="gift-description"
-                    label="Описание"
-                    variant="standard"
-                    value={descriptionName}
-                    onChange={handleDescriptionChange}
-                    error={errorDescription}
-                    helperText={errorDescription ? "Описание должно быть не более 500 символов" : ""}
-                    fullWidth
-                    multiline
-                    maxRows={5}
-                />
-            </Box>
-
-            <Box sx={{mt: 2}}>
-                <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
-                    <Button
-                        variant="outlined"
-                        color="black"
-                        onClick={onCancel}
-                        disabled={isSubmitting}
-                    >
-                        Отмена
-                    </Button>
-                    <Button
-                        variant="contained"
-                        color="success"
-                        onClick={handleSubmit}
-                        disabled={isSubmitDisabled}
-                    >
-                        {isSubmitting ? 'Сохранение...' : 'Создать желание'}
-                    </Button>
+    if (!isCardLoading && isAutoFill) {
+        return (
+            <FormControl sx={{gap: 2, width: '100%'}}>
+                <Box sx={{mt: 0}}>
+                    <Typography variant="body1" sx={{mb: 1, fontWeight: 500}}>
+                        Автозаполнения карточки желания по ссылке:
+                    </Typography>
+                    <Tooltip title="Вставьте ссылку для автозаполения карточки желания" placement="top-start" arrow>
+                        <TextField
+                            id="gift-link"
+                            label="Вставьте ссылку"
+                            variant="standard"
+                            value={link}
+                            onChange={handleAutoLinkNameChange}
+                            fullWidth
+                            multiline
+                            maxRows={2}
+                        />
+                    </Tooltip>
                 </Box>
-            </Box>
-        </FormControl>
-    );
+                <Box sx={{mt: 2}}>
+                    <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
+                        <Button
+                            variant="contained"
+                            color='grey[500]'
+                            onClick={handleManualMode}
+                        >
+                            Нет ссылки
+                        </Button>
+                    </Box>
+                </Box>
+            </FormControl>
+        )
+    } else {
+        return (
+            <FormControl sx={{gap: 2, width: '100%'}}>
+                {errorAutoFill ? (
+                    <Box sx={{mt: 0}}>
+                        <Typography variant="body1"
+                                    sx={{
+                                        mb: 1,
+                                        fontWeight: 500,
+                                        color: red[500]
+                                    }}>
+                            Ошибка автозаполнения карточки, заполните в ручном режиме
+                        </Typography>
+                    </Box>
+                ) : null}
+                <ImageUploadAndCrop
+                    onImageCropped={setImage}
+                    aspectRatio={400 / 400}
+                    externalImage={externalImage}
+                />
+                <Box sx={{mt: 0}}>
+                    <TextField
+                        id="gift-name"
+                        label="Название желания (обязательное поле)"
+                        variant="standard"
+                        value={giftName}
+                        onChange={handleNameChange}
+                        error={errorName}
+                        helperText={errorName ? "Название должно быть не короче 3 символов" : ""}
+                        fullWidth
+                    />
+                </Box>
+                <Box sx={{mt: 0}}>
+                    <ListSelector
+                        selectedListId={selectedWishlistId}
+                        label="Выберите список для желания"
+                        data={lists}
+                        onSelect={handleSelectedListId}
+                    />
+                </Box>
+                <Box sx={{
+                    mt: 1,
+                    display: 'flex',
+                    alignItems: 'flex-end',
+                    gap: 1
+                }}>
+                    <TextField
+                        id="gift-price"
+                        label="Цена"
+                        variant="standard"
+                        value={price}
+                        onChange={handlePriceChange}
+                        sx={{flex: 1}}
+                    />
+                    <SelectTextFields onCurrency={handleCurrency}/>
+                </Box>
+
+                <Box sx={{mt: 0}}>
+                    <TextField
+                        id="gift-link"
+                        label="Ссылка"
+                        variant="standard"
+                        value={link}
+                        onChange={handleLinkNameChange}
+                        fullWidth
+                        multiline
+                        maxRows={2}
+                    />
+                </Box>
+
+                <Box sx={{mt: 0}}>
+                    <TextField
+                        id="gift-description"
+                        label="Описание"
+                        variant="standard"
+                        value={descriptionName}
+                        onChange={handleDescriptionChange}
+                        error={errorDescription}
+                        helperText={errorDescription ? "Описание должно быть не более 500 символов" : ""}
+                        fullWidth
+                        multiline
+                        maxRows={5}
+                    />
+                </Box>
+
+                <Box sx={{mt: 2}}>
+                    <Box sx={{display: 'flex', justifyContent: 'space-between', mt: 2}}>
+                        <Button
+                            variant="outlined"
+                            color="black"
+                            onClick={onCancel}
+                            disabled={isSubmitting}
+                        >
+                            Отмена
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="success"
+                            onClick={handleSubmit}
+                            disabled={isSubmitDisabled}
+                        >
+                            {isSubmitting ? 'Сохранение...' : 'Создать желание'}
+                        </Button>
+                    </Box>
+                </Box>
+            </FormControl>
+        )
+    }
 }

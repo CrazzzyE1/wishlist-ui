@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Cropper from 'react-easy-crop';
@@ -8,7 +8,7 @@ import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import {CircularProgress, LinearProgress, Typography} from "@mui/material";
 import heic2any from "heic2any";
 
-export default function ImageUploadAndCrop({onImageCropped, aspectRatio}) {
+export default function ImageUploadAndCrop({onImageCropped, aspectRatio, externalImage}) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({x: 0, y: 0});
     const [cropSize, setCropSize] = useState({width: 250, height: 250});
@@ -16,6 +16,48 @@ export default function ImageUploadAndCrop({onImageCropped, aspectRatio}) {
     const [isLoading, setIsLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const inputRef = useRef();
+
+    useEffect(() => {
+        if (externalImage && !imageSrc) {
+            setImageFromBase64(externalImage);
+        }
+    }, [externalImage]);
+
+    const setImageFromBase64 = async (base64String) => {
+        if (!base64String) return;
+
+        setIsLoading(true);
+        try {
+            // Проверяем, есть ли уже префикс data URL
+            let imageDataUrl = base64String;
+            if (!base64String.startsWith('data:')) {
+                imageDataUrl = `data:image/jpeg;base64,${base64String}`;
+            }
+
+            setImageSrc(imageDataUrl);
+
+            // Автоматически вызываем обрезку с областью по умолчанию
+            setTimeout(async () => {
+                try {
+                    const defaultCroppedArea = {
+                        width: 250,
+                        height: 250,
+                        x: 0,
+                        y: 0
+                    };
+                    const croppedImage = await getCroppedImg(imageDataUrl, defaultCroppedArea);
+                    onImageCropped(croppedImage);
+                } catch (e) {
+                    console.error('Ошибка при автоматической обрезке', e);
+                }
+            }, 100);
+
+        } catch (error) {
+            console.error('Ошибка загрузки base64 изображения:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleFileChange = async (e) => {
         if (e.target.files && e.target.files.length > 0) {
