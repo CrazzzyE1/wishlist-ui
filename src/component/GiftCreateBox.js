@@ -16,7 +16,7 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
     const [errorName, setErrorName] = useState(false);
     const [descriptionName, setDescriptionName] = useState('');
     const [errorDescription, setErrorDescription] = useState(false);
-    const [errorAutoFill, setErrorAutoFill] = useState(null);
+    const [errorAutoFill, setErrorAutoFill] = useState(null); // теперь храним объект ошибки или null
     const [price, setPrice] = useState('');
     const [link, setLinkName] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -60,11 +60,12 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
     const handleAutoLinkNameChange = async (event) => {
         const value = event.target.value.trim();
         setLinkName(value);
+        setErrorAutoFill(null);
 
         try {
             setIsCardLoading(true);
-            const response = await httpClient.post(`/parse`, {
-                // const response = await httpClient.post(`http://192.168.1.141:7777/api/v1/parse`, {
+            // const response = await httpClient.post(`/parse`, {
+            const response = await httpClient.post(`http://192.168.1.141:7777/api/v1/parse`, {
                 link: value
             });
             setPrice(response.data.price);
@@ -75,8 +76,24 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
             }
         } catch (error) {
             console.error('Ошибка автозаполнения', error);
-            setErrorAutoFill(true)
+            let errorMessage = 'Ошибка автозаполнения карточки, заполните в ручном режиме';
 
+            if (error.response) {
+                if (error.response.data && error.response.data.fields) {
+                    errorMessage = error.response.data.fields[0].message;
+                } else if (error.response.status === 400) {
+                    errorMessage = 'Неверный запрос';
+                } else if (error.response.status === 500) {
+                    errorMessage = 'Ошибка сервера';
+                }
+            } else if (error.request) {
+                errorMessage = 'Не удалось соединиться с сервером';
+            }
+
+            setErrorAutoFill({
+                message: errorMessage,
+                status: error.response?.status
+            });
         } finally {
             setIsCardLoading(false);
             setIsAutoFill(false);
@@ -85,6 +102,7 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
 
     const handleManualMode = () => {
         setIsAutoFill(false);
+        setErrorAutoFill(null);
     };
 
     const handlePriceChange = (event) => {
@@ -135,8 +153,19 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
         return (
             <FormControl sx={{gap: 2, width: '100%'}}>
                 <Box sx={{mt: 0}}>
-                    <Typography variant="body1" sx={{mb: 1, fontWeight: 500}}>
+                    <Typography variant="body1"
+                                sx={{
+                                    mb: 1,
+                                    fontSize: {xs: '0.7rem', sm: '0.875rem'},
+                                    fontWeight: 500}}>
                         Автозаполнения карточки желания по ссылке:
+                    </Typography>
+                    <Typography variant="body1"
+                                sx={{
+                                    mb: 1,
+                                    fontSize: {xs: '0.575rem', sm: '0.875rem'},
+                                    fontWeight: 500}}>
+                        Поддерживаемые магазины: https://market.yandex.ru/
                     </Typography>
                     <Tooltip title="Вставьте ссылку для автозаполения карточки желания" placement="top-start" arrow>
                         <TextField
@@ -172,10 +201,11 @@ export default function GiftCreateBox({selectedWishlistId, onCreate, onCancel, l
                         <Typography variant="body1"
                                     sx={{
                                         mb: 1,
+                                        fontSize: {xs: '0.7rem', sm: '0.875rem'},
                                         fontWeight: 500,
                                         color: red[500]
                                     }}>
-                            Ошибка автозаполнения карточки, заполните в ручном режиме
+                            {errorAutoFill.message}
                         </Typography>
                     </Box>
                 ) : null}
