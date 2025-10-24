@@ -20,7 +20,6 @@ export default function NotificationsList({isUnread}) {
         try {
             setMarkAsReadLoading(true);
             const response = await httpClient.patch(`/notifications/${id}`);
-
             setNotifications(prev => prev.map(n =>
                 n.id === id ? {...n, isRead: response.data.isRead} : n
             ));
