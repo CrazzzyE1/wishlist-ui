@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {useRef, useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Cropper from 'react-easy-crop';
@@ -8,14 +8,76 @@ import AddAPhotoOutlinedIcon from '@mui/icons-material/AddAPhotoOutlined';
 import {CircularProgress, LinearProgress, Typography} from "@mui/material";
 import heic2any from "heic2any";
 
-export default function ImageUploadAndCrop({onImageCropped, aspectRatio}) {
+export default function ImageUploadAndCrop({onImageCropped, aspectRatio, externalImage}) {
     const [imageSrc, setImageSrc] = useState(null);
     const [crop, setCrop] = useState({x: 0, y: 0});
     const [cropSize, setCropSize] = useState({width: 250, height: 250});
     const [zoom, setZoom] = useState(1);
     const [isLoading, setIsLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
+    const [imageSize, setImageSize] = useState({width: 0, height: 0});
     const inputRef = useRef();
+
+    useEffect(() => {
+        if (externalImage && !imageSrc) {
+            setImageFromBase64(externalImage);
+        }
+    }, [externalImage]);
+
+    const getDefaultCropArea = (imgWidth, imgHeight) => {
+        // Рассчитываем обрезку по центру изображения
+        const minDimension = Math.min(imgWidth, imgHeight);
+        const cropWidth = minDimension;
+        const cropHeight = minDimension;
+
+        const x = (imgWidth - cropWidth) / 2;
+        const y = (imgHeight - cropHeight) / 2;
+
+        return {
+            x,
+            y,
+            width: cropWidth,
+            height: cropHeight
+        };
+    };
+
+    const setImageFromBase64 = async (base64String) => {
+        if (!base64String) return;
+
+        setIsLoading(true);
+        try {
+            let imageDataUrl = base64String;
+            if (!base64String.startsWith('data:')) {
+                imageDataUrl = `data:image/jpeg;base64,${base64String}`;
+            }
+
+            // Получаем размеры изображения перед установкой
+            const img = new Image();
+            img.onload = async () => {
+                setImageSize({width: img.width, height: img.height});
+                setImageSrc(imageDataUrl);
+
+                // Рассчитываем область обрезки по центру
+                const defaultCroppedArea = getDefaultCropArea(img.width, img.height);
+
+                // Ждем немного чтобы Cropper успел инициализироваться
+                setTimeout(async () => {
+                    try {
+                        const croppedImage = await getCroppedImg(imageDataUrl, defaultCroppedArea);
+                        onImageCropped(croppedImage);
+                    } catch (e) {
+                        console.error('Ошибка при автоматической обрезке', e);
+                    }
+                }, 100);
+            };
+            img.src = imageDataUrl;
+
+        } catch (error) {
+            console.error('Ошибка загрузки base64 изображения:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handleFileChange = async (e) => {
         if (e.target.files && e.target.files.length > 0) {
@@ -40,7 +102,15 @@ export default function ImageUploadAndCrop({onImageCropped, aspectRatio}) {
 
                 setUploadProgress(70);
                 const imageDataUrl = await readFile(file);
-                setImageSrc(imageDataUrl);
+
+                // Получаем размеры изображения
+                const img = new Image();
+                img.onload = () => {
+                    setImageSize({width: img.width, height: img.height});
+                    setImageSrc(imageDataUrl);
+                };
+                img.src = imageDataUrl;
+
                 setUploadProgress(100);
 
             } catch (error) {

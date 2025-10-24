@@ -33,14 +33,15 @@ export const NotificationCard = ({notification, onMarkAsRead}) => {
             size={{xs: 12, sm: 12}}
             key={notification.id}
         >
+            {notification.isRead}
             <Card
                 sx={{
                     padding: 0,
                     borderLeft: notification.isRead ? 'none' : `4px solid ${deepPurple[500]}`,
                     opacity: notification.isRead ? 0.8 : 1,
-                    cursor: 'pointer'
+                    cursor: notification.isRead ? 'default' : 'pointer'
                 }}
-                onClick={handleMarkAsRead}
+                onClick={notification.isRead ? undefined : handleMarkAsRead}
             >
                 <CardContent
                     sx={{

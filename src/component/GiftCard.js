@@ -446,7 +446,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                         borderRadius: 3,
                         boxShadow: "0 8px 24px rgba(0,0,0,0.2)",
                         p: 3,
-                        maxWidth: {xs: 348, sm: 548, md: 848},
+                        maxWidth: {xs: 348, sm: 548, md: 648},
                         width: "90%",
                         bgcolor: "background.paper",
                     }}
@@ -481,7 +481,7 @@ export default function GiftCard({data, isOwner, onGiftDeleted, onGiftEdit, list
                                 image={largeImageUrl || imageUrl}
                                 alt="Gift image"
                                 sx={{
-                                    height: {xs: 300, sm: 500,  md: 800},
+                                    height: {xs: 300, sm: 500,  md: 600},
                                     borderRadius: 2,
                                     objectFit: "cover",
                                     boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
