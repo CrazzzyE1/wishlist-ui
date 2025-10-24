@@ -11,7 +11,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
-import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import {yellow} from '@mui/material/colors';
 import {httpClient} from "../http/HttpClient";
 import {useSnackbar} from 'notistack';
@@ -156,7 +156,7 @@ export function FavouriteCard({favourite, onFavouriteRemoved}) {
                             disabled={isDeleting}
                         >
                             <Tooltip title="Отписаться" placement="top-start" arrow>
-                                <TurnedInOutlinedIcon
+                                <BookmarkAddedIcon
                                     sx={{
                                         fontSize: {
                                             xs: '28px', sm: '40px',

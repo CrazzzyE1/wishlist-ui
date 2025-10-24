@@ -8,8 +8,8 @@ import Grid from "@mui/material/Grid";
 import EventsInfoList from "./EventsInfoList";
 import {Tooltip, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
-import TurnedInOutlinedIcon from '@mui/icons-material/TurnedInOutlined';
+import BookmarkAddOutlinedIcon from '@mui/icons-material/BookmarkAddOutlined';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import CircularProgress from '@mui/material/CircularProgress';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 import PersonRemoveOutlinedIcon from '@mui/icons-material/PersonRemoveOutlined';
@@ -483,7 +483,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                         }}>
                                         {isFavourites ?
                                             <Tooltip title="Отписаться" placement="top-start" arrow>
-                                                <TurnedInOutlinedIcon sx={{
+                                                <BookmarkAddedIcon sx={{
                                                     color: yellow[400],
                                                     fontSize: {
                                                         xs: 28, sm: 40
@@ -493,7 +493,7 @@ function AccountInfo({onIsOwner, events, userId, refreshCounterKey, profileRefre
                                             </Tooltip>
                                             :
                                             <Tooltip title="Подписаться" placement="top-start" arrow>
-                                                <BookmarkBorderIcon sx={{
+                                                <BookmarkAddOutlinedIcon sx={{
                                                     color: yellow[400],
                                                     fontSize: {
                                                         xs: 28, sm: 40
